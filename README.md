@@ -67,6 +67,10 @@ ln -s /path/to/agent-skills/skills/wave-analytics ~/.codex/skills/wave-analytics
 
 所有 Skill 均依赖 **Wave MCP Server** 提供的工具集。确保目标项目或 IDE 已配置 Wave MCP 连接。
 
+## License
+
+本项目采用 [MIT License](LICENSE)。
+
 ## 目录结构
 
 ```
