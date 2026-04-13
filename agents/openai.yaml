@@ -1,0 +1,6 @@
+interface:
+  display_name: "Wave Skills"
+  short_description: "Sensors Wave 埋点方案设计与数据分析"
+  default_prompt: "$wave-skills"
+policy:
+  allow_implicit_invocation: true

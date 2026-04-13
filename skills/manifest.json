@@ -1,0 +1,23 @@
+{
+  "name": "wave-agent-skills",
+  "version": "1.0.0",
+  "description": "Sensors Wave 平台 AI Agent Skills：埋点方案设计与数据分析",
+  "repository": "sensorswave/agent-skills",
+  "skills": [
+    {
+      "name": "wave-tracking",
+      "dir": "wave-tracking",
+      "skillFile": "SKILL.md",
+      "description": "埋点方案设计：事件命名规范、服务端/客户端选型、MCP 交互式流程",
+      "tags": ["tracking", "instrumentation", "埋点", "sdk"],
+      "references": ["prompts.md"]
+    },
+    {
+      "name": "wave-analytics",
+      "dir": "wave-analytics",
+      "skillFile": "SKILL.md",
+      "description": "数据分析：事件分析、漏斗、留存、用户列表、行为序列、自定义 SQL",
+      "tags": ["analytics", "数据分析", "funnel", "retention", "sql"]
+    }
+  ]
+}
