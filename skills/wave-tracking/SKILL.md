@@ -68,58 +68,92 @@ String、Numeric、Boolean、Datetime、List。同属性全事件类型一致。
 
 输出可研发落地的表格：事件名、中文含义、触发时机、端、属性（名/类型/必填/枚举/说明）、服务端 vs 客户端标注、是否与预置重复。
 
-## 12. MCP 完整闭环流程
+## 12. SDK 安装与文档
+
+用户确定技术栈后，引导其参考对应 SDK 文档完成安装。
+
+**官方文档入口**：https://sensorswave.com/docs/data-integration/
+
+### SDK 索引
+
+| 端 | SDK | 安装方式 | 文档 |
+|----|-----|--------|------|
+| Web | JavaScript SDK | `npm install @sensorswave/js-sdk` 或 `<script>` 引入 | [JS SDK 文档](https://sensorswave.com/docs/data-integration/javascript-sdk/) |
+| Android | Android SDK | Gradle 依赖 | [Android SDK 文档](https://sensorswave.com/docs/data-integration/android-sdk/) |
+| iOS | iOS SDK | CocoaPods / SPM | [iOS SDK 文档](https://sensorswave.com/docs/data-integration/ios-sdk/) |
+| Flutter | Flutter SDK | `pubspec.yaml` 依赖 | [Flutter SDK 文档](https://sensorswave.com/docs/data-integration/flutter-sdk/) |
+| React Native | RN SDK | npm 依赖 | [RN SDK 文档](https://sensorswave.com/docs/data-integration/react-native-sdk/) |
+| 鸿蒙 | Harmony SDK | ohpm 依赖 | [Harmony SDK 文档](https://sensorswave.com/docs/data-integration/harmony-sdk/) |
+| 小程序 | 微信小程序 SDK | npm 依赖 | [小程序 SDK 文档](https://sensorswave.com/docs/data-integration/wechat-miniprogram-sdk/) |
+| 服务端 Go | Go SDK | `go get` | [Go SDK 文档](https://sensorswave.com/docs/data-integration/go-sdk/) |
+
+### 相关文档
+
+- [埋点方案选择](https://sensorswave.com/docs/data-integration/tracking-strategy/) — 服务端/客户端选型详细指南
+- [如何正确标识用户](https://sensorswave.com/docs/data-integration/identify/) — 匿名 ID 与登录 ID
+- [数据模型](https://sensorswave.com/docs/data-integration/data-model/) — 事件、用户、属性的关系
+- [事件和属性](https://sensorswave.com/docs/data-integration/events-and-properties/) — 命名规范与设计指南
+- [预置事件和预置属性](https://sensorswave.com/docs/data-integration/preset-events-and-properties/) — SDK 自动采集的内容
+
+### AI 引导要点
+
+- 用户不确定选哪个 SDK 时，询问技术栈后**直接给出对应文档链接**
+- 初始化代码中需要的 `server_url` 和 `source_token` 通过 MCP 工具获取（见 §13.4）
+- 引导用户先阅读官方文档完成 SDK 安装，再回来继续生成埋点代码
+
+## 13. MCP 完整闭环流程
 
 按顺序推进，每步结合 §0 与 [prompts.md](prompts.md) 模板确认。
 
-### 12.1 选择项目
+### 13.1 选择项目
 
 `list_projects` → 用户选定 `project_id`。
 
-### 12.2 接入 Pipeline
+### 13.2 接入 Pipeline
 
 1. `list_pipelines` → 用户选择复用或新建。
 2. 复用：`get_pipeline_detail`（获取 `source_token`）。
 3. 新建：确认后 `create_pipeline`（返回 `source_token`）。
 
-### 12.3 创建 Tracking Plan
+### 13.3 创建 Tracking Plan
 
 1. `list_tracking_plans` → 用户选择扩展已有或新建。
 2. 可选 `list_tracking_plan_templates` 使用模板。
 3. 确认后 `create_tracking_plan` / `add_tracking_plan_events`。
 4. 确认后 `publish_tracking_plan`。
 
-### 12.4 获取 SDK 初始化信息
+### 13.4 获取 SDK 初始化信息
 
-1. `get_server_info` → 获取 `data_collection_url`（SDK server_url 参数）和 `dashboard_url_base`。
+1. `get_server_info` → 获取 `data_collection_url`（SDK `server_url` 参数）和 `dashboard_url_base`。
 2. 结合 `source_token`，生成 SDK 初始化代码片段。
+3. **引导用户参考 §12 安装对应 SDK**。
 
-### 12.5 生成 SDK 埋点代码
+### 13.5 生成 SDK 埋点代码
 
 1. 确认**服务端 vs 客户端**方案。
 2. **autoCapture**：SDK 自动采集预置事件，不等于业务事件齐全。
-3. 根据栈选择 SDK 文档（JavaScript / Android / iOS / Go / Flutter / Harmony），用 `source_token` + `data_collection_url` 初始化。
+3. 根据栈选择 SDK（见 §12），用 `source_token` + `data_collection_url` 初始化。
 4. 按 Tracking Plan 中的事件和属性生成 `trackEvent` 调用代码。
 
-### 12.6 校验埋点
+### 13.6 校验埋点
 
 1. 等待数据上报后，`get_tracking_plan_quality_check` 对照计划与实际数据。
 2. 可选 `list_events` / `list_event_properties` 交叉验证。
 
-### 12.7 创建 Dashboard
+### 13.7 创建 Dashboard
 
 1. 根据 Tracking Plan 中的核心事件，用 `create_chart_for_dashboard` 创建分析图表并关联概览。
 2. 可选 `set_dashboard_chart_layouts` 调整布局。
 3. 构造概览链接：`{dashboard_url_base}/{dashboard_id}` 返回给用户。
 
-### 12.8 分工
+### 13.8 分工
 
-- **AI**：按 §0 交互；编排 MCP 工具；输出埋点表与 SDK 代码；创建概览。
-- **用户/研发**：选择项目、确认各步；合入 SDK 代码、发版；敏感环境与合规由团队负责。
+- **AI**：按 §0 交互；编排 MCP 工具；输出埋点表与 SDK 代码；创建概览；引导用户查阅 SDK 文档。
+- **用户/研发**：选择项目、确认各步；按 §12 安装 SDK；合入埋点代码、发版。
 
-## 13. 与「数据分析」的边界
+## 14. 与「数据分析」的边界
 
-- 本 Skill：采集设计、命名、选型、MCP 落地、SDK 策略、Dashboard 创建。
+- 本 Skill：采集设计、命名、选型、SDK 安装引导、MCP 落地、Dashboard 创建。
 - 深度分析（漏斗 SQL、`query_*` 系列）：使用 `wave-analytics` Skill。
 
 ---
