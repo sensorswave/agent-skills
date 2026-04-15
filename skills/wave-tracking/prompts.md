@@ -19,7 +19,7 @@
 > 当前项目下的 **数据接入（Pipeline）**如下：
 > **[摘要：id、名称、work 类型、状态]**
 > 请选择下一步：
-> **A.** 复用其中一条 → 请回复 **pipeline 的 id**，并说明用于哪个应用/端。（AI 将调用 `get_pipeline_detail` 获取 source_token）
+> **A.** 复用其中一条 → 请回复 **pipeline 的 id**，并说明用于哪个应用/端。（AI 将调用 `get_pipeline_detail` 获取 `source_token` 和 SDK `endpoint`）
 > **B.** 新建一条 → 请回复 **「新建」**，并补充：**展示名称**、**技术端**（js / android / ios / golang / flutter / reactnative / harmony 之一）、**用途一句话**。
 > 若列表为空，默认走新建；是否继续？请回复 **「继续新建」** 或先补充需求。
 

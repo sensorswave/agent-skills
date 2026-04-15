@@ -112,8 +112,8 @@ String、Numeric、Boolean、Datetime、List。同属性全事件类型一致。
 ### 13.2 接入 Pipeline
 
 1. `list_pipelines` → 用户选择复用或新建。
-2. 复用：`get_pipeline_detail`（获取 `source_token`）。
-3. 新建：确认后 `create_pipeline`（返回 `source_token`）。
+2. 复用：`get_pipeline_detail`（获取 `source_token` 与 SDK `endpoint`）。
+3. 新建：确认后 `create_pipeline`（返回 `source_token` 与 SDK `endpoint`）。
 
 ### 13.3 创建 Tracking Plan
 
@@ -122,31 +122,26 @@ String、Numeric、Boolean、Datetime、List。同属性全事件类型一致。
 3. 确认后 `create_tracking_plan` / `add_tracking_plan_events`。
 4. 确认后 `publish_tracking_plan`。
 
-### 13.4 获取 SDK 初始化信息
-
-1. `get_server_info` → 获取 `data_collection_url`（SDK `server_url` 参数）和 `dashboard_url_base`。
-2. 结合 `source_token`，生成 SDK 初始化代码片段。
-3. **引导用户参考 §12 安装对应 SDK**。
-
-### 13.5 生成 SDK 埋点代码
+### 13.4 生成 SDK 埋点代码
 
 1. 确认**服务端 vs 客户端**方案。
 2. **autoCapture**：SDK 自动采集预置事件，不等于业务事件齐全。
-3. 根据栈选择 SDK（见 §12），用 `source_token` + `data_collection_url` 初始化。
+3. 根据栈选择 SDK（见 §12），用 Pipeline 返回的 `source_token` + `endpoint` 初始化。
 4. 按 Tracking Plan 中的事件和属性生成 `trackEvent` 调用代码。
+5. **引导用户参考 §12 安装对应 SDK**。
 
-### 13.6 校验埋点
+### 13.5 校验埋点
 
 1. 等待数据上报后，`get_tracking_plan_quality_check` 对照计划与实际数据。
 2. 可选 `list_events` / `list_event_properties` 交叉验证。
 
-### 13.7 创建 Dashboard
+### 13.6 创建 Dashboard
 
 1. 根据 Tracking Plan 中的核心事件，用 `create_chart_for_dashboard` 创建分析图表并关联概览。
 2. 可选 `set_dashboard_chart_layouts` 调整布局。
-3. 构造概览链接：`{dashboard_url_base}/{dashboard_id}` 返回给用户。
+3. 返回创建结果中的 `dashboard_id` / 图表信息，供用户在 Wave 中继续查看。
 
-### 13.8 分工
+### 13.7 分工
 
 - **AI**：按 §0 交互；编排 MCP 工具；输出埋点表与 SDK 代码；创建概览；引导用户查阅 SDK 文档。
 - **用户/研发**：选择项目、确认各步；按 §12 安装 SDK；合入埋点代码、发版。
