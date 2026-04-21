@@ -5,12 +5,47 @@
   "repository": "sensorswave/agent-skills",
   "skills": [
     {
+      "name": "wave-tracking-design",
+      "dir": "wave-tracking-design",
+      "skillFile": "SKILL.md",
+      "description": "埋点方案设计：代码/需求分析、事件模型、identify 方案、Tracking Plan draft",
+      "tags": ["tracking-design", "instrumentation", "埋点设计", "identify", "plan-draft"],
+      "references": [
+        "playbooks/code-discovery.md",
+        "playbooks/draft-output.md"
+      ]
+    },
+    {
       "name": "wave-tracking",
       "dir": "wave-tracking",
       "skillFile": "SKILL.md",
-      "description": "埋点方案设计：事件命名规范、服务端/客户端选型、MCP 交互式流程",
-      "tags": ["tracking", "instrumentation", "埋点", "sdk"],
-      "references": ["prompts.md"]
+      "description": "Tracking Plan 执行与验证：写入、发布、看板创建、质检",
+      "tags": ["tracking", "tracking-plan", "publish", "dashboard", "qc"],
+      "references": [
+        "playbooks/tracking-plan.md",
+        "playbooks/tracking-qc.md",
+        "playbooks/dashboard-bootstrap.md"
+      ]
+    },
+    {
+      "name": "wave-sdk-integration",
+      "dir": "wave-sdk-integration",
+      "skillFile": "SKILL.md",
+      "description": "SDK 与 Pipeline 接入：endpoint/source_token、identify/reset、埋点代码接入",
+      "tags": ["sdk", "pipeline", "identify", "integration", "埋点接入"]
+    },
+    {
+      "name": "wave-tracking-common",
+      "dir": "wave-tracking-common",
+      "skillFile": "SKILL.md",
+      "description": "内部共享 references：埋点规则、用户标识、SDK 文档、统一提示词（非直接用户入口）",
+      "tags": ["internal", "reference", "tracking-common"],
+      "references": [
+        "prompts.md",
+        "references/tracking-principles.md",
+        "references/user-identification.md",
+        "references/sdk-matrix.md"
+      ]
     },
     {
       "name": "wave-analytics",

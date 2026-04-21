@@ -1,0 +1,6 @@
+interface:
+  display_name: "Wave SDK Integration"
+  short_description: "SDK、Pipeline、identify、埋点代码接入"
+  default_prompt: "$wave-sdk-integration"
+policy:
+  allow_implicit_invocation: false

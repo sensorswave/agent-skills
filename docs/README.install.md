@@ -12,7 +12,8 @@ cd agent-skills
 ./install.sh --all
 ```
 
-仅安装伞型入口 skill 即可，AI 会自动路由到子 skill。
+安装脚本会同时安装埋点设计、Tracking Plan 执行、SDK 接入与共享 references。
+这是必需的，因为这些 tracking 相关 skill 会跨目录读取 `wave-tracking-common` 中的共享资料。
 
 ## 安装目标
 
@@ -29,17 +30,23 @@ cd agent-skills
 如果你的 agent 运行时使用自定义 skills 目录，可手动创建符号链接：
 
 ```bash
+ln -sf /path/to/agent-skills/skills/wave-tracking-design /your/agent/skills/wave-tracking-design
 ln -sf /path/to/agent-skills/skills/wave-tracking /your/agent/skills/wave-tracking
+ln -sf /path/to/agent-skills/skills/wave-sdk-integration /your/agent/skills/wave-sdk-integration
+ln -sf /path/to/agent-skills/skills/wave-tracking-common /your/agent/skills/wave-tracking-common
 ln -sf /path/to/agent-skills/skills/wave-analytics /your/agent/skills/wave-analytics
 ```
 
 ## 安装的 Skills
 
-默认安装以下两个 skill：
+默认安装以下五个 skill：
 
 | Skill | 功能 |
 |-------|------|
-| `wave-tracking` | 埋点方案设计：命名规范、选型、MCP 交互式流程 |
+| `wave-tracking-design` | 代码/需求分析，输出埋点方案与 plan draft |
+| `wave-tracking` | Tracking Plan 写入、发布、看板与质检 |
+| `wave-sdk-integration` | SDK、Pipeline、identify、埋点代码接入 |
+| `wave-tracking-common` | 共享 references 与统一提示词（内部支撑） |
 | `wave-analytics` | 数据分析：事件、漏斗、留存、用户列表、SQL |
 
 ## 常用操作
@@ -91,7 +98,16 @@ git pull
 
 ```
 ~/.cursor/skills/          # 或 ~/.claude/skills/ 或 ~/.codex/skills/
+├── wave-tracking-design/
+│   ├── SKILL.md
+│   └── agents/openai.yaml
 ├── wave-tracking/
+│   ├── SKILL.md
+│   └── agents/openai.yaml
+├── wave-sdk-integration/
+│   ├── SKILL.md
+│   └── agents/openai.yaml
+├── wave-tracking-common/
 │   ├── SKILL.md
 │   ├── prompts.md
 │   └── agents/openai.yaml
@@ -103,7 +119,10 @@ git pull
 验证符号链接是否正确：
 
 ```bash
+ls -la ~/.cursor/skills/wave-tracking-design
 ls -la ~/.cursor/skills/wave-tracking
+ls -la ~/.cursor/skills/wave-sdk-integration
+ls -la ~/.cursor/skills/wave-tracking-common
 ls -la ~/.cursor/skills/wave-analytics
 ```
 

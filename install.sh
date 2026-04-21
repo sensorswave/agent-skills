@@ -3,7 +3,7 @@ set -euo pipefail
 
 SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
 SKILLS_DIR="$SCRIPT_DIR/skills"
-SKILLS=(wave-tracking wave-analytics)
+SKILLS=(wave-tracking-design wave-tracking wave-sdk-integration wave-tracking-common wave-analytics)
 
 usage() {
   cat <<EOF

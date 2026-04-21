@@ -1,156 +1,69 @@
 ---
 name: wave-tracking
 description: >-
-  Guide end-to-end Sensors Wave tracking instrumentation via MCP tools:
-  event naming conventions, server-vs-client strategy, interactive workflow
-  with user confirmation gates (project → pipeline → tracking plan → SDK
-  code generation → quality check → dashboard). Use when working on
-  埋点方案, Tracking Plan, SDK 集成, 埋点规范, event tracking setup,
-  or data collection instrumentation.
+  Execute Sensors Wave tracking rollout steps after the design is ready. Use
+  when writing or publishing a Tracking Plan, creating a dashboard, running
+  tracking QC, or handling rollout checkpoints. For design work, route to
+  wave-tracking-design. For SDK / Pipeline integration, route to
+  wave-sdk-integration.
 ---
 
-# Sensors Wave 埋点规范（AI 执行说明）
+# Wave Tracking
 
-遵循 Sensors Wave 官方文档站 data-integration 分类下的推荐。向用户解释时用业务语言；技术规则以下文为准。
+这是 `wave-tracking` 的执行与验证入口。它默认承接“方案已经基本确定”之后的步骤：写入 / 发布 Tracking Plan、可选 Dashboard、以及后续质检。
+如果用户还在做事件设计、代码盘点、identify 方案，先切到 `wave-tracking-design`。涉及接入代码、`endpoint` / `source_token`、identify / reset 落点实现时，改为读取 `wave-sdk-integration`。
 
-## 0. 交互式原则（全局）
+## 全局交互原则
 
 - **项目必须由用户选定**：任何项目级 MCP 调用前，先 `list_projects`，展示结果，让用户明确选择 `project_id`。禁止静默假定。
 - **列选项 → 用户拍板 → 再调工具**：每一步先说明选项与推荐，收到确认后再执行；**写**工具须二次确认。
 - **先展示将提交的参数**：创建/更新前列出将写入的字段，避免误操作。
 - **用户要求「全自动」时**：仍须至少完成项目选择与首次写操作确认。
+- 交互式提示词统一复用 [../wave-tracking-common/prompts.md](../wave-tracking-common/prompts.md)，不要在各个 playbook 中重复发明问法。
 
-提示词模板见 [prompts.md](prompts.md)。
+## 按阶段读取文件
 
-## 1. 埋点方式选型（优先服务端）
+- **埋点方案设计 / 代码盘点 / 事件命名 / identify 方案**：
+  读取 [../wave-tracking-design/SKILL.md](../wave-tracking-design/SKILL.md)
+- **SDK / Pipeline 接入、初始化代码、示例埋点代码**：
+  读取 [../wave-sdk-integration/SKILL.md](../wave-sdk-integration/SKILL.md)
+- **Tracking Plan 草稿、模板、发布**：
+  读取 [playbooks/tracking-plan.md](playbooks/tracking-plan.md)
+- **埋点验收 / 计划对照 / 质量检查**：
+  读取 [playbooks/tracking-qc.md](playbooks/tracking-qc.md)
+- **基于埋点计划顺手创建看板**：
+  仅在用户明确提出时读取 [playbooks/dashboard-bootstrap.md](playbooks/dashboard-bootstrap.md)
 
-- **只要业务上能在服务端产生可靠事实，优先服务端埋点**。
-- 客户端易受广告拦截、隐私设置影响，可能丢失 30%–50% 请求；服务端易维护、跨端一致。
-- **客户端更适合**：必须依赖 UI 的行为（点击、滑动、停留、浏览路径）。
-- **决策顺序**：关键业务结果 → 服务端；必须 UI 行为 → 客户端；不能容忍丢失 → 改服务端或说明风险。
+## 执行顺序
 
-## 2. 事件设计
+1. 先识别用户当前阶段，不要默认跑完整闭环。
+2. 只读取当前阶段需要的 reference / playbook。
+3. 当前阶段完成后，如果用户继续推进，再加载下一阶段文件。
+4. 若用户同时提到多个阶段，优先顺序通常是：
+   埋点方案设计（转到 `wave-tracking-design`）→ Tracking Plan 写入 / 发布 → SDK / Pipeline 接入（转到 `wave-sdk-integration`）→ 发布后询问是否创建 Dashboard → 用户自行重启并验证 → 质检。
 
-- 与分析层级匹配；**通用事件名 + 属性区分细节**，避免每按钮一事件或 `Click` 总桶。
-- 示例：`PageView` + `page_name`；`ButtonClick` + `button_name`；`VideoPlay` + `video_id`。
+## 常见停点
 
-## 3. 命名规范
+- **只想接 SDK / 只想拿初始化代码**：
+  直接转到 `wave-sdk-integration`，不在当前 Skill 里展开。
+- **只想出埋点方案**：
+  直接转到 `wave-tracking-design`，停在方案草稿，不自动发布。
+- **发布了计划**：
+  发布完成后先问用户是否要创建 Dashboard，不默认继续。
+- **创建了 Dashboard**：
+  先让用户自己重启 / 部署并验证事件确实触发，再询问是否进入质检。
 
-**事件名**：PascalCase，对象 + 动作（`PageView`、`AddToCart`、`OrderCreate`）。已有 snake_case 的项目可统一沿用，但同应用内必须风格一致。预置事件以 `$` 开头。
+## 运行边界
 
-**属性名**：snake_case（`order_id`、`total_amount`）。禁止 `$` 前缀。布尔用 `is_`/`has_`。
+- 不要尝试替用户重启本地项目、前端 Dev Server、移动端 App、后端服务或部署环境。
+- 如果为了让埋点代码生效需要重启 / 重新部署，只能明确告诉用户由其自行完成，并等待用户确认。
+- “看到事件已正常触发”是进入质检前的推荐前置条件，不要默认跳过。
 
-## 4. 事件属性 vs 用户属性
+## 输出边界
 
-- **事件属性**：描述这一次行为的上下文，随事件写入。
-- **用户属性**：描述用户当前/长期状态，可更新。
-- 口诀：随动作变 → 事件属性；描述人、跨事件复用 → 用户属性。
+- 本 Skill 负责 Tracking Plan 写入 / 发布、埋点质检、可选的 Dashboard 启动版。
+- 事件设计和用户标识设计不在本 Skill 内展开，统一交给 `wave-tracking-design`。
+- 深度数据分析、漏斗/留存解读、用户查询、SQL 探查，切换到 `wave-analytics`。
+- 如果用户既要埋点又要分析，先把埋点流程收敛到可实施状态，再切换分析。
 
-## 5. 类型与取值
-
-String、Numeric、Boolean、Datetime、List。同属性全事件类型一致。枚举统一小写 snake 风格。禁止动态属性名。
-
-## 6–8. 全局属性、预置能力、数量限制
-
-- 80%+ 事件都需要的上下文用**全局属性**注册。
-- SDK 自动采集 `$…` 预置事件/属性，勿重复造轮子。自定义属性禁止 `$` 前缀。
-- 事件种类上限 ~1000，单事件属性建议 5–20 个，总属性各 ~500。
-
-## 9. 隐私与安全
-
-勿上报密码、Token、完整卡号/证件/手机/邮箱；优先 ID、哈希、后四位等脱敏形态。
-
-## 10. 用户属性更新方式
-
-按语义选用：**set** 覆盖、**set_once** 首次、**increment** 累加、**append** 列表追加。
-
-## 11. AI 交付物
-
-输出可研发落地的表格：事件名、中文含义、触发时机、端、属性（名/类型/必填/枚举/说明）、服务端 vs 客户端标注、是否与预置重复。
-
-## 12. SDK 安装与文档
-
-用户确定技术栈后，引导其参考对应 SDK 文档完成安装。
-
-**官方文档入口**：https://sensorswave.com/docs/data-integration/
-
-### SDK 索引
-
-| 端 | SDK | 安装方式 | 文档 |
-|----|-----|--------|------|
-| Web | JavaScript SDK | `npm install @sensorswave/js-sdk` 或 `<script>` 引入 | [JS SDK 文档](https://sensorswave.com/docs/data-integration/javascript-sdk/) |
-| Android | Android SDK | Gradle 依赖 | [Android SDK 文档](https://sensorswave.com/docs/data-integration/android-sdk/) |
-| iOS | iOS SDK | CocoaPods / SPM | [iOS SDK 文档](https://sensorswave.com/docs/data-integration/ios-sdk/) |
-| Flutter | Flutter SDK | `pubspec.yaml` 依赖 | [Flutter SDK 文档](https://sensorswave.com/docs/data-integration/flutter-sdk/) |
-| React Native | RN SDK | npm 依赖 | [RN SDK 文档](https://sensorswave.com/docs/data-integration/react-native-sdk/) |
-| 鸿蒙 | Harmony SDK | ohpm 依赖 | [Harmony SDK 文档](https://sensorswave.com/docs/data-integration/harmony-sdk/) |
-| 小程序 | 微信小程序 SDK | npm 依赖 | [小程序 SDK 文档](https://sensorswave.com/docs/data-integration/wechat-miniprogram-sdk/) |
-| 服务端 Go | Go SDK | `go get` | [Go SDK 文档](https://sensorswave.com/docs/data-integration/go-sdk/) |
-
-### 相关文档
-
-- [埋点方案选择](https://sensorswave.com/docs/data-integration/tracking-strategy/) — 服务端/客户端选型详细指南
-- [如何正确标识用户](https://sensorswave.com/docs/data-integration/identify/) — 匿名 ID 与登录 ID
-- [数据模型](https://sensorswave.com/docs/data-integration/data-model/) — 事件、用户、属性的关系
-- [事件和属性](https://sensorswave.com/docs/data-integration/events-and-properties/) — 命名规范与设计指南
-- [预置事件和预置属性](https://sensorswave.com/docs/data-integration/preset-events-and-properties/) — SDK 自动采集的内容
-
-### AI 引导要点
-
-- 用户不确定选哪个 SDK 时，询问技术栈后**直接给出对应文档链接**
-- 初始化代码中需要的 `server_url` 和 `source_token` 通过 MCP 工具获取（见 §13.4）
-- 引导用户先阅读官方文档完成 SDK 安装，再回来继续生成埋点代码
-
-## 13. MCP 完整闭环流程
-
-按顺序推进，每步结合 §0 与 [prompts.md](prompts.md) 模板确认。
-
-### 13.1 选择项目
-
-`list_projects` → 用户选定 `project_id`。
-
-### 13.2 接入 Pipeline
-
-1. `list_pipelines` → 用户选择复用或新建。
-2. 复用：`get_pipeline_detail`（获取 `source_token` 与 SDK `endpoint`）。
-3. 新建：确认后 `create_pipeline`（返回 `source_token` 与 SDK `endpoint`）。
-
-### 13.3 创建 Tracking Plan
-
-1. `list_tracking_plans` → 用户选择扩展已有或新建。
-2. 可选 `list_tracking_plan_templates` 使用模板。
-3. 确认后 `create_tracking_plan` / `add_tracking_plan_events`。
-4. 确认后 `publish_tracking_plan`。
-
-### 13.4 生成 SDK 埋点代码
-
-1. 确认**服务端 vs 客户端**方案。
-2. **autoCapture**：SDK 自动采集预置事件，不等于业务事件齐全。
-3. 根据栈选择 SDK（见 §12），用 Pipeline 返回的 `source_token` + `endpoint` 初始化。
-4. 按 Tracking Plan 中的事件和属性生成 `trackEvent` 调用代码。
-5. **引导用户参考 §12 安装对应 SDK**。
-
-### 13.5 校验埋点
-
-1. 等待数据上报后，`get_tracking_plan_quality_check` 对照计划与实际数据。
-2. 可选 `list_events` / `list_event_properties` 交叉验证。
-
-### 13.6 创建 Dashboard
-
-1. 根据 Tracking Plan 中的核心事件，用 `create_chart_for_dashboard` 创建分析图表并关联概览。
-2. 可选 `set_dashboard_chart_layouts` 调整布局。
-3. 返回创建结果中的 `dashboard_id` / 图表信息，供用户在 Wave 中继续查看。
-
-### 13.7 分工
-
-- **AI**：按 §0 交互；编排 MCP 工具；输出埋点表与 SDK 代码；创建概览；引导用户查阅 SDK 文档。
-- **用户/研发**：选择项目、确认各步；按 §12 安装 SDK；合入埋点代码、发版。
-
-## 14. 与「数据分析」的边界
-
-- 本 Skill：采集设计、命名、选型、SDK 安装引导、MCP 落地、Dashboard 创建。
-- 深度分析（漏斗 SQL、`query_*` 系列）：使用 `wave-analytics` Skill。
-
----
-
-> 若官方文档或 MCP 工具后续变更，以 Sensors Wave 文档站与当前 MCP 工具描述为准。
+若产品能力或工具边界后续变更，以当前可用工具和现行产品行为为准。
