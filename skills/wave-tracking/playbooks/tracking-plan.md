@@ -8,13 +8,13 @@
 - 用户要创建 / 更新 / 发布 Tracking Plan
 - 用户已经有事件草案，想落到 Wave 平台
 
-如果用户还没有事件草案，或明确要求“根据当前代码 / 需求先设计埋点方案”，先切到 [../../wave-tracking-design/SKILL.md](../../wave-tracking-design/SKILL.md)。
+如果用户还没有事件草案，或明确要求“根据当前代码 / 需求先设计埋点方案”，先切到 [../../wave-tracking-plan/SKILL.md](../../wave-tracking-plan/SKILL.md)。
 
 ## 执行步骤
 
 1. 选择项目
    使用 `list_projects`，让用户明确选择 `project_id`。
-   交互模板见 [../../wave-tracking-common/prompts.md](../../wave-tracking-common/prompts.md) 的 `P-项目`。
+   交互模板见 [../../wave-tracking-shared/prompts/interaction.md](../../wave-tracking-shared/prompts/interaction.md) 的 `P-项目`。
 
 2. 盘点现有计划
    使用 `list_tracking_plans`。

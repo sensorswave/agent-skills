@@ -26,7 +26,7 @@
    若用户尚未完成，不进入质检，先引导用户完成这些动作。
 
 4. 确认检查范围
-   使用 [../../wave-tracking-common/prompts.md](../../wave-tracking-common/prompts.md) 中的 `P-质检·范围`。
+   使用 [../../wave-tracking-shared/prompts/interaction.md](../../wave-tracking-shared/prompts/interaction.md) 中的 `P-质检·范围`。
    再调用 `get_tracking_plan_quality_check`。
 
 5. 解释结果

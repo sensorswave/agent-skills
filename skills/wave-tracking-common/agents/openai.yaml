@@ -1,6 +1,0 @@
-interface:
-  display_name: "Wave Tracking Common"
-  short_description: "内部共享 references（不建议直接调用）"
-  default_prompt: "$wave-tracking-common"
-policy:
-  allow_implicit_invocation: false

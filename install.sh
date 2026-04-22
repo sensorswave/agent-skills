@@ -3,7 +3,59 @@ set -euo pipefail
 
 SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
 SKILLS_DIR="$SCRIPT_DIR/skills"
-SKILLS=(wave-tracking-design wave-tracking wave-sdk-integration wave-tracking-common wave-analytics)
+MANIFEST_PATH="$SKILLS_DIR/manifest.json"
+SKILLS=()
+
+find_python() {
+  if command -v python3 >/dev/null 2>&1; then
+    echo "python3"
+    return
+  fi
+  if command -v python >/dev/null 2>&1; then
+    echo "python"
+    return
+  fi
+  echo ""
+}
+
+load_skills_from_manifest() {
+  local python_bin
+  local skill
+
+  python_bin="$(find_python)"
+  if [ -z "$python_bin" ]; then
+    echo "未找到 python3 或 python，无法解析 manifest: $MANIFEST_PATH" >&2
+    exit 1
+  fi
+
+  while IFS= read -r skill; do
+    [ -n "$skill" ] || continue
+    SKILLS+=("$skill")
+  done < <("$python_bin" - "$MANIFEST_PATH" <<'PY'
+import json
+import sys
+
+with open(sys.argv[1], encoding="utf-8") as f:
+    data = json.load(f)
+
+for item in data.get("skills", []):
+    if item.get("install", True):
+        print(item["dir"])
+PY
+)
+
+  if [ "${#SKILLS[@]}" -eq 0 ]; then
+    echo "manifest 中未声明可安装的 skills: $MANIFEST_PATH" >&2
+    exit 1
+  fi
+
+  for skill in "${SKILLS[@]}"; do
+    if [ ! -f "$SKILLS_DIR/$skill/SKILL.md" ] || [ ! -f "$SKILLS_DIR/$skill/agents/openai.yaml" ]; then
+      echo "skill 目录缺少必需文件: $SKILLS_DIR/$skill" >&2
+      exit 1
+    fi
+  done
+}
 
 usage() {
   cat <<EOF
@@ -15,7 +67,7 @@ Options:
   --cursor          安装到 Cursor（用户级 ~/.cursor/skills/）
   --claude          安装到 Claude Code（用户级 ~/.claude/skills/）
   --codex           安装到 Codex（用户级 ~/.codex/skills/）
-  --project         安装到当前项目（自动检测 .cursor/.claude/.codex 目录）
+  --project         安装到当前项目（默认 .cursor/skills/，如存在则追加 .claude/.codex）
   --all             安装到所有已安装的平台（用户级）
   --uninstall       卸载已安装的符号链接
   -h, --help        显示帮助
@@ -66,6 +118,8 @@ if [ $# -eq 0 ]; then
   exit 0
 fi
 
+load_skills_from_manifest
+
 TARGETS=()
 UNINSTALL=false
 PROJECT=false
@@ -98,14 +152,16 @@ if $PROJECT; then
   done
 fi
 
-for target in "${TARGETS[@]}"; do
-  home_dir="$HOME/.${target}/skills"
-  echo ""
-  if $UNINSTALL; then
-    echo "从 $target 卸载..."
-    unlink_skills "$home_dir" "$target"
-  else
-    echo "安装到 $target..."
-    link_skills "$home_dir" "$target"
-  fi
-done
+if [ "${#TARGETS[@]}" -gt 0 ]; then
+  for target in "${TARGETS[@]}"; do
+    home_dir="$HOME/.${target}/skills"
+    echo ""
+    if $UNINSTALL; then
+      echo "从 $target 卸载..."
+      unlink_skills "$home_dir" "$target"
+    else
+      echo "安装到 $target..."
+      link_skills "$home_dir" "$target"
+    fi
+  done
+fi

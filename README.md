@@ -4,18 +4,23 @@
 
 Sensors Wave 平台的 AI Agent Skills 集合，提供埋点方案设计与数据分析能力。兼容 **Cursor**、**Claude Code** 和 **Codex**。
 
-## Skills 一览
+## 公开 Skills
 
 | Skill | 说明 |
 |-------|------|
-| [wave-tracking-design](skills/wave-tracking-design/) | 埋点方案设计：代码/需求分析、事件模型、用户标识方案、Tracking Plan draft |
+| [wave](skills/wave/) | 总入口路由：自动分发到埋点规划、Tracking Plan 执行、SDK 接入或数据分析 |
+| [wave-tracking-plan](skills/wave-tracking-plan/) | 埋点方案规划：代码/需求分析、事件模型、用户标识方案、Tracking Plan draft |
 | [wave-tracking](skills/wave-tracking/) | Tracking Plan 执行与验证：写入、发布、Dashboard 启动版、质检 |
 | [wave-sdk-integration](skills/wave-sdk-integration/) | SDK 与 Pipeline 接入：`endpoint` / `source_token`、identify / reset、初始化与埋点代码接入 |
-| [wave-tracking-common](skills/wave-tracking-common/) | 内部共享 references：埋点规则、用户标识、SDK 文档、统一提示词 |
 | [wave-analytics](skills/wave-analytics/) | 数据分析：事件分析、漏斗、留存、用户列表、行为序列、自定义 SQL，基于 Wave MCP 工具 |
 
-根目录 [SKILL.md](SKILL.md) 为伞型路由入口，AI 会根据用户意图自动分发到 `wave-tracking-design`、`wave-tracking`、`wave-sdk-integration` 或 `wave-analytics`。`wave-tracking-common` 仅作为共享资料目录使用。
-安装时仍需一并链接 `wave-tracking-common`，因为前三个 tracking 相关 skill 都会读取其中的共享提示词与 reference。
+## 内部 Shared 包
+
+| Package | 说明 |
+|---------|------|
+| [wave-tracking-shared](skills/wave-tracking-shared/) | 内部共享 prompts / policies / references：供 `wave-tracking-plan`、`wave-tracking`、`wave-sdk-integration` 按需读取 |
+
+默认安装会包含 [wave](skills/wave/) 这个总入口，以及 `wave-tracking-shared` 内部共享包。根目录 [SKILL.md](SKILL.md) 保留为仓库内兼容入口。
 
 ## 一键安装
 
@@ -39,30 +44,41 @@ cd agent-skills
 ./install.sh --uninstall --all
 ```
 
+## 校验
+
+修改 skill 结构、manifest 或共享文件后，建议运行：
+
+```bash
+python3 scripts/validate_skills.py
+```
+
 ### 手动安装
 
 也可以手动创建符号链接：
 
 ```bash
 # Cursor（用户级）
-ln -s /path/to/agent-skills/skills/wave-tracking-design ~/.cursor/skills/wave-tracking-design
+ln -s /path/to/agent-skills/skills/wave ~/.cursor/skills/wave
+ln -s /path/to/agent-skills/skills/wave-tracking-plan ~/.cursor/skills/wave-tracking-plan
 ln -s /path/to/agent-skills/skills/wave-tracking ~/.cursor/skills/wave-tracking
 ln -s /path/to/agent-skills/skills/wave-sdk-integration ~/.cursor/skills/wave-sdk-integration
-ln -s /path/to/agent-skills/skills/wave-tracking-common ~/.cursor/skills/wave-tracking-common
+ln -s /path/to/agent-skills/skills/wave-tracking-shared ~/.cursor/skills/wave-tracking-shared
 ln -s /path/to/agent-skills/skills/wave-analytics ~/.cursor/skills/wave-analytics
 
 # Claude Code（用户级）
-ln -s /path/to/agent-skills/skills/wave-tracking-design ~/.claude/skills/wave-tracking-design
+ln -s /path/to/agent-skills/skills/wave ~/.claude/skills/wave
+ln -s /path/to/agent-skills/skills/wave-tracking-plan ~/.claude/skills/wave-tracking-plan
 ln -s /path/to/agent-skills/skills/wave-tracking ~/.claude/skills/wave-tracking
 ln -s /path/to/agent-skills/skills/wave-sdk-integration ~/.claude/skills/wave-sdk-integration
-ln -s /path/to/agent-skills/skills/wave-tracking-common ~/.claude/skills/wave-tracking-common
+ln -s /path/to/agent-skills/skills/wave-tracking-shared ~/.claude/skills/wave-tracking-shared
 ln -s /path/to/agent-skills/skills/wave-analytics ~/.claude/skills/wave-analytics
 
 # Codex（用户级）
-ln -s /path/to/agent-skills/skills/wave-tracking-design ~/.codex/skills/wave-tracking-design
+ln -s /path/to/agent-skills/skills/wave ~/.codex/skills/wave
+ln -s /path/to/agent-skills/skills/wave-tracking-plan ~/.codex/skills/wave-tracking-plan
 ln -s /path/to/agent-skills/skills/wave-tracking ~/.codex/skills/wave-tracking
 ln -s /path/to/agent-skills/skills/wave-sdk-integration ~/.codex/skills/wave-sdk-integration
-ln -s /path/to/agent-skills/skills/wave-tracking-common ~/.codex/skills/wave-tracking-common
+ln -s /path/to/agent-skills/skills/wave-tracking-shared ~/.codex/skills/wave-tracking-shared
 ln -s /path/to/agent-skills/skills/wave-analytics ~/.codex/skills/wave-analytics
 ```
 
@@ -88,17 +104,21 @@ ln -s /path/to/agent-skills/skills/wave-analytics ~/.codex/skills/wave-analytics
 
 ```
 agent-skills/
-├── SKILL.md                    # 伞型路由入口
+├── SKILL.md                    # 仓库根目录兼容入口
 ├── README.md
 ├── install.sh                  # 安装脚本
 ├── .gitignore
 ├── agents/
-│   └── openai.yaml             # Codex agent 配置（伞型）
+│   └── openai.yaml             # 仓库根目录兼容入口配置
 ├── docs/
 │   └── README.install.md       # 详细安装指南
 └── skills/
     ├── manifest.json            # Skill 注册清单
-    ├── wave-tracking-design/
+    ├── wave/
+    │   ├── SKILL.md
+    │   └── agents/
+    │       └── openai.yaml
+    ├── wave-tracking-plan/
     │   ├── SKILL.md
     │   ├── playbooks/
     │   └── agents/
@@ -111,9 +131,10 @@ agent-skills/
     │   ├── SKILL.md
     │   └── agents/
     │       └── openai.yaml
-    ├── wave-tracking-common/
+    ├── wave-tracking-shared/
     │   ├── SKILL.md
-    │   ├── prompts.md
+    │   ├── policies/
+    │   ├── prompts/
     │   ├── references/
     │   └── agents/
     │       └── openai.yaml

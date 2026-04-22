@@ -11,22 +11,27 @@ description: >-
 
 这是 SDK / Pipeline 接入专用 Skill。只处理“怎么接入并让代码具备上报能力”，不负责完整 Tracking Plan 生命周期。
 
-## 全局原则
+## 职责边界
 
-- 项目必须由用户明确选择，先用 `list_projects`。
-- 写操作前必须展示参数并二次确认。
-- 统一复用共享提示词 [../wave-tracking-common/prompts.md](../wave-tracking-common/prompts.md)。
-- 不要替用户重启本地项目、移动端 App、前端 Dev Server、后端服务或部署环境。
-- 如果代码要靠重启 / 编译 / 发布后才会生效，只能让用户自行完成。
+- 本 Skill 只负责“代码怎么接进去”。
+- 事件模型、identify 策略和 Tracking Plan 草稿不在本 Skill 内展开，必要时切到 `wave-tracking-plan`。
+- 是否真的已经生效，要等用户自行重启 / 编译 / 发布并确认。
+
+## 先读取的共享文件
+
+- **通用交互与安全约束**：
+  先读取 [../wave-tracking-shared/policies/operating-rules.md](../wave-tracking-shared/policies/operating-rules.md)
+- **交互式提问模板**：
+  需要复用确认话术时读取 [../wave-tracking-shared/prompts/interaction.md](../wave-tracking-shared/prompts/interaction.md)
 
 ## 按需读取共享参考
 
 - 事件设计、客户端 / 服务端边界：
-  读取 [../wave-tracking-common/references/tracking-principles.md](../wave-tracking-common/references/tracking-principles.md)
+  读取 [../wave-tracking-shared/references/tracking-principles.md](../wave-tracking-shared/references/tracking-principles.md)
 - 登录态、identify、reset、匿名转登录：
-  读取 [../wave-tracking-common/references/user-identification.md](../wave-tracking-common/references/user-identification.md)
+  读取 [../wave-tracking-shared/references/user-identification.md](../wave-tracking-shared/references/user-identification.md)
 - 不同 SDK 的安装方式和文档入口：
-  读取 [../wave-tracking-common/references/sdk-matrix.md](../wave-tracking-common/references/sdk-matrix.md)
+  读取 [../wave-tracking-shared/references/sdk-matrix.md](../wave-tracking-shared/references/sdk-matrix.md)
 
 ## 工作流
 
@@ -65,11 +70,10 @@ description: >-
 - 用户只要 `endpoint` / `source_token`：返回参数即可
 - 用户只要最小初始化代码：返回初始化片段即可
 - 用户还没准备好发布或重启：停在代码草稿，不继续假设事件已生效
-- 用户其实还在定事件模型 / identify 方案：切到 `wave-tracking-design`
+- 用户其实还在定事件模型 / identify 方案：切到 `wave-tracking-plan`
 - 用户要做 Tracking Plan 起草 / 发布：切到 `wave-tracking`
 
-## 结果边界
+## 交接规则
 
-- 本 Skill 只负责“代码怎么接进去”。
-- 是否真的已经生效，要等用户自行重启 / 编译 / 发布并确认。
 - 用户确认事件已开始正常触发后，如需质检，再回到 `wave-tracking` 流程。
+- 如果用户后续回到事件命名、上报归属或 identify 策略问题，切回 `wave-tracking-plan`。

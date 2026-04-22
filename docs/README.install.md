@@ -12,8 +12,9 @@ cd agent-skills
 ./install.sh --all
 ```
 
-安装脚本会同时安装埋点设计、Tracking Plan 执行、SDK 接入与共享 references。
-这是必需的，因为这些 tracking 相关 skill 会跨目录读取 `wave-tracking-common` 中的共享资料。
+安装脚本会同时安装埋点规划、Tracking Plan 执行、SDK 接入与共享资料包。
+同时也会安装 `wave` 这个伞型路由入口，方便用户直接从总入口触发。
+这是必需的，因为这些 tracking 相关 skill 会跨目录读取 `wave-tracking-shared` 中的共享资料。
 
 ## 安装目标
 
@@ -25,29 +26,31 @@ cd agent-skills
 | `--claude` | `~/.claude/skills/` | Claude Code 用户级 |
 | `--codex` | `~/.codex/skills/` | Codex 用户级 |
 | `--all` | 以上全部 | 安装到所有平台 |
-| `--project` | `.cursor/skills/` 等 | 当前项目级 |
+| `--project` | `.cursor/skills/`，以及已存在的 `.claude/.codex` 项目目录 | 当前项目级 |
 
 如果你的 agent 运行时使用自定义 skills 目录，可手动创建符号链接：
 
 ```bash
-ln -sf /path/to/agent-skills/skills/wave-tracking-design /your/agent/skills/wave-tracking-design
+ln -sf /path/to/agent-skills/skills/wave /your/agent/skills/wave
+ln -sf /path/to/agent-skills/skills/wave-tracking-plan /your/agent/skills/wave-tracking-plan
 ln -sf /path/to/agent-skills/skills/wave-tracking /your/agent/skills/wave-tracking
 ln -sf /path/to/agent-skills/skills/wave-sdk-integration /your/agent/skills/wave-sdk-integration
-ln -sf /path/to/agent-skills/skills/wave-tracking-common /your/agent/skills/wave-tracking-common
+ln -sf /path/to/agent-skills/skills/wave-tracking-shared /your/agent/skills/wave-tracking-shared
 ln -sf /path/to/agent-skills/skills/wave-analytics /your/agent/skills/wave-analytics
 ```
 
-## 安装的 Skills
+## 安装的包
 
-默认安装以下五个 skill：
+默认安装以下 6 个包，其中 5 个公开 skill、1 个内部 shared 包：
 
 | Skill | 功能 |
 |-------|------|
-| `wave-tracking-design` | 代码/需求分析，输出埋点方案与 plan draft |
+| `wave` | 总入口路由：自动分发到埋点规划、接入、执行或分析 |
+| `wave-tracking-plan` | 代码/需求分析，输出埋点方案与 plan draft |
 | `wave-tracking` | Tracking Plan 写入、发布、看板与质检 |
 | `wave-sdk-integration` | SDK、Pipeline、identify、埋点代码接入 |
-| `wave-tracking-common` | 共享 references 与统一提示词（内部支撑） |
 | `wave-analytics` | 数据分析：事件、漏斗、留存、用户列表、SQL |
+| `wave-tracking-shared` | 内部共享 prompts / policies / references（自动随 tracking 相关 skill 一起安装） |
 
 ## 常用操作
 
@@ -69,6 +72,8 @@ ln -sf /path/to/agent-skills/skills/wave-analytics /your/agent/skills/wave-analy
 ./install.sh --project
 ```
 
+说明：`--project` 默认会安装到当前仓库的 `.cursor/skills/`，并在检测到已有 `.claude/`、`.codex/` 目录时同步安装到对应项目级目录。
+
 查看帮助：
 
 ```bash
@@ -79,6 +84,12 @@ ln -sf /path/to/agent-skills/skills/wave-analytics /your/agent/skills/wave-analy
 
 ```bash
 ./install.sh --uninstall --all
+```
+
+校验 manifest 与目录结构：
+
+```bash
+python3 scripts/validate_skills.py
 ```
 
 ## 更新
@@ -98,7 +109,10 @@ git pull
 
 ```
 ~/.cursor/skills/          # 或 ~/.claude/skills/ 或 ~/.codex/skills/
-├── wave-tracking-design/
+├── wave/
+│   ├── SKILL.md
+│   └── agents/openai.yaml
+├── wave-tracking-plan/
 │   ├── SKILL.md
 │   └── agents/openai.yaml
 ├── wave-tracking/
@@ -107,9 +121,10 @@ git pull
 ├── wave-sdk-integration/
 │   ├── SKILL.md
 │   └── agents/openai.yaml
-├── wave-tracking-common/
+├── wave-tracking-shared/
 │   ├── SKILL.md
-│   ├── prompts.md
+│   ├── policies/
+│   ├── prompts/
 │   └── agents/openai.yaml
 └── wave-analytics/
     ├── SKILL.md
@@ -119,10 +134,11 @@ git pull
 验证符号链接是否正确：
 
 ```bash
-ls -la ~/.cursor/skills/wave-tracking-design
+ls -la ~/.cursor/skills/wave
+ls -la ~/.cursor/skills/wave-tracking-plan
 ls -la ~/.cursor/skills/wave-tracking
 ls -la ~/.cursor/skills/wave-sdk-integration
-ls -la ~/.cursor/skills/wave-tracking-common
+ls -la ~/.cursor/skills/wave-tracking-shared
 ls -la ~/.cursor/skills/wave-analytics
 ```
 
