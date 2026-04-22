@@ -64,7 +64,7 @@
       "tags": ["internal", "shared", "reference", "prompt", "policy"],
       "type": "shared",
       "visibility": "internal",
-      "install": true,
+      "install": false,
       "references": [
         "policies/operating-rules.md",
         "prompts/interaction.md",

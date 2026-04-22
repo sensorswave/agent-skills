@@ -1,0 +1,27 @@
+{
+  "name": "@sensorswave/agent-skills",
+  "version": "1.1.0",
+  "description": "Sensors Wave 平台 AI Agent Skills：埋点方案设计与数据分析",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/sensorswave/agent-skills.git"
+  },
+  "homepage": "https://github.com/sensorswave/agent-skills#readme",
+  "bugs": {
+    "url": "https://github.com/sensorswave/agent-skills/issues"
+  },
+  "type": "module",
+  "bin": {
+    "wave-agent-skills": "./scripts/install.mjs"
+  },
+  "files": [
+    "skills",
+    "scripts/install.mjs",
+    "README.md",
+    "LICENSE"
+  ],
+  "engines": {
+    "node": ">=18.17.0"
+  }
+}

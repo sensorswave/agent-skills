@@ -1,78 +1,36 @@
 # Tracking Principles
 
-在用户还没进入具体 MCP 操作前，先用这些规则收敛方案。
+这是本地精简摘要，用于在 `wave-tracking-plan`、`wave-tracking`、`wave-sdk-integration` 中快速收敛埋点方案。
 
-## 1. 服务端优先
+## 本地必须规则
 
-- 只要业务上能在服务端产生可靠事实，优先服务端埋点。
-- 客户端更适合必须依赖 UI 的行为：点击、曝光、滑动、停留、浏览路径。
-- 如果某个关键结果既可客户端上报也可服务端上报，优先服务端，客户端只补充上下文。
+- 优先记录业务事实而不是 UI 碎片；能在服务端稳定产生的关键结果，优先服务端上报。
+- 事件命名要稳定、可长期维护；优先“通用事件名 + 属性区分细节”，不要为每个按钮单独造事件。
+- 事件名在同一应用内保持统一风格；属性名统一 snake_case，布尔值优先 `is_` / `has_`。
+- 事件属性描述本次行为上下文；用户属性描述用户长期或跨事件状态，不要混用。
+- 同一属性跨事件保持类型一致；枚举值统一小写 snake_case；禁止动态属性名。
+- SDK 已自动采集的预置事件和预置属性不要重复设计；单事件属性通常控制在 5–20 个。
+- 登录、注册、跨设备、共享设备等场景不要只谈事件设计，必须同时补充用户标识方案。
 
-## 2. 事件设计
+## 官网权威入口
 
-- 事件要和分析层级匹配，避免“每个按钮一个事件”。
-- 优先用“通用事件名 + 属性区分细节”的模式。
-- 例子：
-  - `PageView` + `page_name`
-  - `ButtonClick` + `button_name`
-  - `OrderCreate` + `order_id`, `total_amount`
+- 官方文档页 URL：
+  [埋点方案选择](https://sensorswave.cn/docs/data-integration/tracking-strategy/)
+- 对应 `llm.txt` URL：
+  [tracking-strategy llm.txt](https://sensorswave.cn/docs/data-integration/tracking-strategy/llm.txt)
 
-## 3. 命名规范
+## 相关补充文档
 
-- 事件名：PascalCase，对象 + 动作，如 `PageView`、`AddToCart`、`OrderCreate`
-- 属性名：snake_case，如 `order_id`、`total_amount`
-- 自定义属性不要使用 `$` 前缀
-- 布尔属性优先 `is_` / `has_`
-- 如果项目已有 snake_case 事件名，也可以沿用，但同一应用内必须统一风格
+- [数据模型](https://sensorswave.cn/docs/data-integration/data-model/)
+  [llm.txt](https://sensorswave.cn/docs/data-integration/data-model/llm.txt)
+- [事件和属性](https://sensorswave.cn/docs/data-integration/events-and-properties/)
+  [llm.txt](https://sensorswave.cn/docs/data-integration/events-and-properties/llm.txt)
+- [预置事件和预置属性](https://sensorswave.cn/docs/data-integration/preset-events-and-properties/)
+  [llm.txt](https://sensorswave.cn/docs/data-integration/preset-events-and-properties/llm.txt)
+- 用户标识专题：
+  读取 [user-identification.md](user-identification.md)
 
-## 4. 事件属性 vs 用户属性
+## 使用说明
 
-- 事件属性：描述本次行为上下文，随事件写入
-- 用户属性：描述用户当前或长期状态，可跨事件复用
-- 快速判断：
-  - 随动作变化，用事件属性
-  - 描述“这个人是谁/长期处于什么状态”，用用户属性
-
-## 5. 类型与取值
-
-- 常见类型：string、number、boolean、datetime、list
-- 同一属性在所有事件中的类型要一致
-- 枚举值统一小写 snake_case
-- 禁止动态属性名
-
-## 6. 全局属性、预置能力、数量控制
-
-- 80% 以上事件都需要的上下文，考虑做成全局属性
-- SDK 已自动采集的预置事件 / 属性不要重复设计
-- 单事件属性建议控制在 5–20 个
-- 事件名和属性名都要追求可长期维护，不要为了一个页面临时起名
-
-## 7. 隐私与安全
-
-- 不上报密码、token、完整卡号、证件号、手机号、邮箱
-- 优先使用业务 ID、哈希、脱敏值或后四位
-
-## 8. 用户属性更新语义
-
-- `set`：覆盖
-- `set_once`：只写首次值
-- `increment`：累加
-- `append`：列表追加
-
-## 9. 交付物建议
-
-输出给研发或业务方的埋点表至少包含：
-
-- 事件名
-- 中文含义
-- 触发时机
-- 端
-- 属性：名称、类型、是否必填、枚举或说明
-- 服务端 / 客户端归属
-- 是否与预置事件或已有元数据重复
-
-## 10. 用户标识提醒
-
-- 只要涉及登录、注册、跨设备、共享设备，就不要只谈事件设计，必须同时检查用户标识方案。
-- 这类场景单独读取 [user-identification.md](user-identification.md)。
-- 漏斗、留存、用户数统计是否准确，很大程度取决于 `anon_id` / `login_id` / `ssid` 是否配置正确。
+- 联网时，长文知识和细节口径优先参考官网文档页及对应 `llm.txt`。
+- 无法联网时，退回本文件中的本地摘要规则继续推进。

@@ -11,6 +11,12 @@ description: >-
 这是 `wave-tracking-plan`、`wave-tracking` 与 `wave-sdk-integration` 的内部共享资料目录。
 它不是面向终端用户直接触发的 workflow Skill。
 
+## 知识分层
+
+- **本地 shared**：负责 workflow、安全边界、确认话术和精简规则摘要。
+- **官网 docs + `llm.txt`**：负责长文知识和权威产品口径。
+- 如果本地摘要与官网长文出现冲突，以官网文档页和对应 `llm.txt` 为准。
+
 当其他 Skill 明确引用时，按需读取下列文件：
 
 - [policies/operating-rules.md](policies/operating-rules.md)

@@ -38,9 +38,38 @@ import sys
 with open(sys.argv[1], encoding="utf-8") as f:
     data = json.load(f)
 
-for item in data.get("skills", []):
+skills = data.get("skills", [])
+skills_by_name = {item["name"]: item for item in skills}
+resolved = []
+visited = set()
+visiting = set()
+
+
+def visit(name):
+    if name in visited:
+        return
+    if name in visiting:
+        raise SystemExit(f"manifest 依赖存在循环: {name}")
+
+    item = skills_by_name.get(name)
+    if not item:
+        raise SystemExit(f"manifest 依赖未声明: {name}")
+
+    visiting.add(name)
+    for dep in item.get("dependsOn", []):
+        visit(dep)
+    visiting.remove(name)
+
+    visited.add(name)
+    resolved.append(item["dir"])
+
+
+for item in skills:
     if item.get("install", True):
-        print(item["dir"])
+        visit(item["name"])
+
+for directory in resolved:
+    print(directory)
 PY
 )
 
