@@ -42,6 +42,7 @@ description: >-
    先调用 `list_pipelines`，让用户决定：
    - 复用已有 Pipeline：调用 `get_pipeline_detail`
    - 新建 Pipeline：确认参数后调用 `create_pipeline`
+   除技术端等关键必填项外，名称、说明等参数优先按当前项目与场景自动生成默认值，再在写入前统一给用户确认。
 
 3. 获取初始化参数
    Pipeline 相关工具返回的 `source_token` 与 `endpoint` 是 SDK 初始化的权威来源。
@@ -64,16 +65,18 @@ description: >-
    - SDK 初始化代码
    - identify / reset 代码
    - 关键事件的 `trackEvent` 或对应 SDK 调用示例
+   代码草稿给出后就停止，不替用户手动重启、编译或重新部署项目。
 
 ## 停止条件
 
 - 用户只要 `endpoint` / `source_token`：返回参数即可
 - 用户只要最小初始化代码：返回初始化片段即可
-- 用户还没准备好发布或重启：停在代码草稿，不继续假设事件已生效
+- 用户还没准备好手动重启 / 编译 / 重新部署：停在代码草稿，不继续假设事件已生效
 - 用户其实还在定事件模型 / identify 方案：切到 `wave-tracking-plan`
 - 用户要做 Tracking Plan 起草 / 发布：切到 `wave-tracking`
 
 ## 交接规则
 
-- 用户确认事件已开始正常触发后，如需质检，再回到 `wave-tracking` 流程。
+- 改完埋点代码后，要明确提醒用户手动重启 / 编译 / 重新部署项目；不要替用户执行这些动作。
+- 用户确认事件已开始正常触发后，如需质检，再回到 `wave-tracking` 流程；若用户未明确要求，默认不发起质检。
 - 如果用户后续回到事件命名、上报归属或 identify 策略问题，切回 `wave-tracking-plan`。
