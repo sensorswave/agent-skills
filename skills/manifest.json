@@ -8,7 +8,7 @@
       "name": "wave",
       "dir": "wave",
       "skillFile": "SKILL.md",
-      "description": "总入口路由：根据用户意图分发到埋点规划、Tracking Plan 执行、SDK 接入或数据分析",
+      "description": "总入口路由：根据用户意图分发到埋点规划、Tracking Plan 执行、质检、SDK 接入或数据分析",
       "tags": ["router", "wave", "tracking", "analytics"],
       "type": "router",
       "visibility": "public",
@@ -23,7 +23,6 @@
       "type": "workflow",
       "visibility": "public",
       "install": true,
-      "dependsOn": ["wave-tracking-shared"],
       "references": [
         "playbooks/code-discovery.md",
         "playbooks/draft-output.md"
@@ -38,7 +37,6 @@
       "type": "workflow",
       "visibility": "public",
       "install": true,
-      "dependsOn": ["wave-tracking-shared"],
       "references": [
         "playbooks/tracking-plan.md",
         "playbooks/dashboard-bootstrap.md"
@@ -53,7 +51,6 @@
       "type": "workflow",
       "visibility": "public",
       "install": true,
-      "dependsOn": ["wave-tracking-shared"],
       "references": [
         "playbooks/tracking-qc.md"
       ]
@@ -66,25 +63,7 @@
       "tags": ["sdk", "pipeline", "identify", "integration", "埋点接入"],
       "type": "workflow",
       "visibility": "public",
-      "install": true,
-      "dependsOn": ["wave-tracking-shared"]
-    },
-    {
-      "name": "wave-tracking-shared",
-      "dir": "wave-tracking-shared",
-      "skillFile": "SKILL.md",
-      "description": "内部共享 prompts / policies / references：埋点规则、用户标识、SDK 文档与统一交互模板",
-      "tags": ["internal", "shared", "reference", "prompt", "policy"],
-      "type": "shared",
-      "visibility": "internal",
-      "install": false,
-      "references": [
-        "policies/operating-rules.md",
-        "prompts/interaction.md",
-        "references/tracking-principles.md",
-        "references/user-identification.md",
-        "references/sdk-matrix.md"
-      ]
+      "install": true
     },
     {
       "name": "wave-analytics",

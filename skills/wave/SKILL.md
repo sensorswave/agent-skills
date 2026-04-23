@@ -73,7 +73,7 @@ description: >-
 - 如果用户同时涉及埋点和分析，优先完成埋点方案/接入，再切换到分析（wave-analytics）。
 - 如果不确定，询问用户："你现在是要定埋点方案，还是已经开始接 SDK / 改代码了？"
 
-## 共享依赖
+## 安装前提
 
-Tracking 相关 workflow 共享资料位于 [../wave-tracking-shared/SKILL.md](../wave-tracking-shared/SKILL.md)。
-所有子 Skill 均依赖 **Wave MCP Server** 提供的工具集。如当前环境未配置 Wave MCP 连接，请先提示用户完成配置。
+- 这组 `wave-*` skill 设计为一起安装，路由、执行、质检与 SDK 接入会互相切换。
+- 所有子 Skill 均依赖 **Wave MCP Server** 提供的工具集。如当前环境未配置 Wave MCP 连接，请先提示用户完成配置。

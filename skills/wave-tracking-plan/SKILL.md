@@ -20,14 +20,14 @@ description: >-
 ## 按需读取文件
 
 - **通用交互与安全约束**：
-  先读取 [../wave-tracking-shared/policies/operating-rules.md](../wave-tracking-shared/policies/operating-rules.md)
+  先读取 [policies/operating-rules.md](policies/operating-rules.md)
 - **交互式提问模板**：
-  需要复用确认话术时读取 [../wave-tracking-shared/prompts/interaction.md](../wave-tracking-shared/prompts/interaction.md)
+  需要复用确认话术时读取 [prompts/interaction.md](prompts/interaction.md)
 
 - **事件命名、客户端 / 服务端归属、事件属性边界**：
-  读取 [../wave-tracking-shared/references/tracking-principles.md](../wave-tracking-shared/references/tracking-principles.md)
+  读取 [references/tracking-principles.md](references/tracking-principles.md)
 - **登录、注册、登出、匿名转登录、跨设备**：
-  读取 [../wave-tracking-shared/references/user-identification.md](../wave-tracking-shared/references/user-identification.md)
+  读取 [references/user-identification.md](references/user-identification.md)
 - **根据代码盘点页面、模块、关键动作**：
   读取 [playbooks/code-discovery.md](playbooks/code-discovery.md)
 - **整理最终交付格式与 handoff**：

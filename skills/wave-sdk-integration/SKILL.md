@@ -17,21 +17,21 @@ description: >-
 - 事件模型、identify 策略和 Tracking Plan 草稿不在本 Skill 内展开，必要时切到 `wave-tracking-plan`。
 - 是否真的已经生效，要等用户自行重启 / 编译 / 发布并确认。
 
-## 先读取的共享文件
+## 先读取的本地文件
 
 - **通用交互与安全约束**：
-  先读取 [../wave-tracking-shared/policies/operating-rules.md](../wave-tracking-shared/policies/operating-rules.md)
+  先读取 [policies/operating-rules.md](policies/operating-rules.md)
 - **交互式提问模板**：
-  需要复用确认话术时读取 [../wave-tracking-shared/prompts/interaction.md](../wave-tracking-shared/prompts/interaction.md)
+  需要复用确认话术时读取 [prompts/interaction.md](prompts/interaction.md)
 
-## 按需读取共享参考
+## 按需读取本地参考
 
 - 事件设计、客户端 / 服务端边界：
-  读取 [../wave-tracking-shared/references/tracking-principles.md](../wave-tracking-shared/references/tracking-principles.md)
+  读取 [references/tracking-principles.md](references/tracking-principles.md)
 - 登录态、identify、reset、匿名转登录：
-  读取 [../wave-tracking-shared/references/user-identification.md](../wave-tracking-shared/references/user-identification.md)
+  读取 [references/user-identification.md](references/user-identification.md)
 - 不同 SDK 的安装方式和文档入口：
-  读取 [../wave-tracking-shared/references/sdk-matrix.md](../wave-tracking-shared/references/sdk-matrix.md)
+  读取 [references/sdk-matrix.md](references/sdk-matrix.md)
 
 ## 工作流
 

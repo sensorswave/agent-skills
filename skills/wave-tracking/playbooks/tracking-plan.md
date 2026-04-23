@@ -14,7 +14,7 @@
 
 1. 选择项目
    使用 `list_projects`，让用户明确选择 `project_id`。
-   交互模板见 [../../wave-tracking-shared/prompts/interaction.md](../../wave-tracking-shared/prompts/interaction.md) 的 `P-项目`。
+   交互模板见 [../prompts/interaction.md](../prompts/interaction.md) 的 `P-项目`。
 
 2. 盘点现有计划
    使用 `list_tracking_plans`。

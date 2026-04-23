@@ -1,6 +1,0 @@
-interface:
-  display_name: "Wave Tracking Shared"
-  short_description: "内部共享 prompts / policies / references"
-  default_prompt: "$wave-tracking-shared"
-policy:
-  allow_implicit_invocation: false

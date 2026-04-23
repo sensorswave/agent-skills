@@ -20,12 +20,12 @@ description: >-
 - 埋点质检、计划对照、上线验收，统一交给 `wave-tracking-qc`。
 - 深度数据分析、漏斗/留存解读、用户查询、SQL 探查，切换到 `wave-analytics`。
 
-## 先读取的共享文件
+## 先读取的本地文件
 
 - **通用交互与安全约束**：
-  先读取 [../wave-tracking-shared/policies/operating-rules.md](../wave-tracking-shared/policies/operating-rules.md)
+  先读取 [policies/operating-rules.md](policies/operating-rules.md)
 - **交互式提问模板**：
-  需要复用确认话术时读取 [../wave-tracking-shared/prompts/interaction.md](../wave-tracking-shared/prompts/interaction.md)
+  需要复用确认话术时读取 [prompts/interaction.md](prompts/interaction.md)
 
 ## 按需读取文件
 

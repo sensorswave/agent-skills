@@ -28,11 +28,11 @@
    若用户尚未完成，不进入质检，先引导用户完成这些动作。
 
 4. 确认用户明确要开始质检
-   先用 [../../wave-tracking-shared/prompts/interaction.md](../../wave-tracking-shared/prompts/interaction.md) 中的 `P-质检·是否继续`。
+   先用 [../prompts/interaction.md](../prompts/interaction.md) 中的 `P-质检·是否继续`。
    只有用户明确回复“开始质检”或选择 A，才继续。
 
 5. 确认检查范围
-   使用 [../../wave-tracking-shared/prompts/interaction.md](../../wave-tracking-shared/prompts/interaction.md) 中的 `P-质检·范围`。
+   使用 [../prompts/interaction.md](../prompts/interaction.md) 中的 `P-质检·范围`。
    再调用 `get_tracking_plan_quality_check`。
 
 6. 解释结果
