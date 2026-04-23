@@ -8,7 +8,7 @@ description: >-
 
 # Wave Tracking Shared
 
-这是 `wave-tracking-plan`、`wave-tracking` 与 `wave-sdk-integration` 的内部共享资料目录。
+这是 `wave-tracking-plan`、`wave-tracking`、`wave-tracking-qc` 与 `wave-sdk-integration` 的内部共享资料目录。
 它不是面向终端用户直接触发的 workflow Skill。
 
 ## 知识分层
@@ -28,5 +28,6 @@ description: >-
 如果用户直接命中这个 Skill，不要在这里展开执行，改为将任务导向：
 
 - 埋点方案规划 / 代码盘点 / identify 方案：`wave-tracking-plan`
-- Tracking Plan / 发布后质检：`wave-tracking`
+- Tracking Plan 写入 / 发布 / Dashboard：`wave-tracking`
+- 发布后质检 / 计划对照 / 上线验收：`wave-tracking-qc`
 - SDK / Pipeline / 代码接入：`wave-sdk-integration`

@@ -33,16 +33,29 @@
       "name": "wave-tracking",
       "dir": "wave-tracking",
       "skillFile": "SKILL.md",
-      "description": "Tracking Plan 执行与验证：写入、发布、看板创建、质检",
-      "tags": ["tracking", "tracking-plan", "publish", "dashboard", "qc"],
+      "description": "Tracking Plan 执行：写入、发布与 Dashboard 启动版",
+      "tags": ["tracking", "tracking-plan", "publish", "dashboard"],
       "type": "workflow",
       "visibility": "public",
       "install": true,
       "dependsOn": ["wave-tracking-shared"],
       "references": [
         "playbooks/tracking-plan.md",
-        "playbooks/tracking-qc.md",
         "playbooks/dashboard-bootstrap.md"
+      ]
+    },
+    {
+      "name": "wave-tracking-qc",
+      "dir": "wave-tracking-qc",
+      "skillFile": "SKILL.md",
+      "description": "Tracking Plan 质检：计划对照、上线验收、缺失事件与属性排查",
+      "tags": ["tracking", "qc", "quality-check", "validation", "验收"],
+      "type": "workflow",
+      "visibility": "public",
+      "install": true,
+      "dependsOn": ["wave-tracking-shared"],
+      "references": [
+        "playbooks/tracking-qc.md"
       ]
     },
     {

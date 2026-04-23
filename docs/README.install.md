@@ -23,7 +23,7 @@ cd agent-skills
 ./install.sh --all
 ```
 
-无论是 `npx` CLI 还是仓库内安装脚本，都会同时安装埋点规划、Tracking Plan 执行、SDK 接入与共享资料包。
+无论是 `npx` CLI 还是仓库内安装脚本，都会同时安装埋点规划、Tracking Plan 执行、Tracking Plan 质检、SDK 接入与共享资料包。
 同时也会安装 `wave` 这个伞型路由入口，方便用户直接从总入口触发。
 这是必需的，因为这些 tracking 相关 skill 会跨目录读取 `wave-tracking-shared` 中的共享资料。
 `wave-tracking-shared` 在 manifest 中作为 internal dependency 存在，由安装器自动随依赖一起安装，而不是作为独立公开入口让用户单独选择。
@@ -50,13 +50,14 @@ npx github:sensorswave/agent-skills --target /your/agent/skills
 
 ## 安装的包
 
-默认安装以下 6 个包，其中 5 个公开 skill、1 个内部 shared 包：
+默认安装以下 7 个包，其中 6 个公开 skill、1 个内部 shared 包：
 
 | Skill | 功能 |
 |-------|------|
-| `wave` | 总入口路由：自动分发到埋点规划、接入、执行或分析 |
+| `wave` | 总入口路由：自动分发到埋点规划、接入、执行、质检或分析 |
 | `wave-tracking-plan` | 代码/需求分析，输出埋点方案与 plan draft |
-| `wave-tracking` | Tracking Plan 写入、发布、看板与质检 |
+| `wave-tracking` | Tracking Plan 写入、发布与 Dashboard |
+| `wave-tracking-qc` | Tracking Plan 质检、计划对照、上线验收 |
 | `wave-sdk-integration` | SDK、Pipeline、identify、埋点代码接入 |
 | `wave-analytics` | 数据分析：事件、漏斗、留存、用户列表、SQL |
 | `wave-tracking-shared` | 内部共享 prompts / policies / references（自动随 tracking 相关 skill 一起安装） |
@@ -145,6 +146,9 @@ GitHub `npx` 复制安装方式则需要重新执行一次安装命令来更新�
 ├── wave-tracking/
 │   ├── SKILL.md
 │   └── agents/openai.yaml
+├── wave-tracking-qc/
+│   ├── SKILL.md
+│   └── agents/openai.yaml
 ├── wave-sdk-integration/
 │   ├── SKILL.md
 │   └── agents/openai.yaml
@@ -164,6 +168,7 @@ GitHub `npx` 复制安装方式则需要重新执行一次安装命令来更新�
 ls -la ~/.cursor/skills/wave
 ls -la ~/.cursor/skills/wave-tracking-plan
 ls -la ~/.cursor/skills/wave-tracking
+ls -la ~/.cursor/skills/wave-tracking-qc
 ls -la ~/.cursor/skills/wave-sdk-integration
 ls -la ~/.cursor/skills/wave-tracking-shared
 ls -la ~/.cursor/skills/wave-analytics

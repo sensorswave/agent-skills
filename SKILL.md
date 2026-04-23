@@ -2,8 +2,8 @@
 name: wave
 description: >-
   Sensors Wave 平台总入口兼容层。自动分发到埋点规划（wave-tracking-plan）、
-  Tracking Plan 执行（wave-tracking）、SDK 接入（wave-sdk-integration）或数据分析
-  （wave-analytics）子 Skill。
+  Tracking Plan 执行（wave-tracking）、Tracking Plan 质检（wave-tracking-qc）、
+  SDK 接入（wave-sdk-integration）或数据分析（wave-analytics）子 Skill。
 ---
 
 # Wave

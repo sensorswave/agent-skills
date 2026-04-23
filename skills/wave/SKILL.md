@@ -2,8 +2,8 @@
 name: wave
 description: >-
   Sensors Wave 平台总入口。根据用户请求路由到埋点方案规划（wave-tracking-plan）、
-  Tracking Plan 执行与质检（wave-tracking）、SDK 接入（wave-sdk-integration）
-  或数据分析（wave-analytics）。
+  Tracking Plan 执行（wave-tracking）、Tracking Plan 质检（wave-tracking-qc）、
+  SDK 接入（wave-sdk-integration）或数据分析（wave-analytics）。
 ---
 
 # Wave
@@ -30,8 +30,16 @@ description: >-
 
 - 把已有草稿写入 Tracking Plan
 - 发布 Tracking Plan
-- 埋点质检 / 校验
 - 创建概览 Dashboard（基于埋点计划）
+
+### → wave-tracking-qc
+
+当用户涉及以下场景时，读取并遵循 [../wave-tracking-qc/SKILL.md](../wave-tracking-qc/SKILL.md)：
+
+- 埋点质检 / 校验
+- 按已发布 Tracking Plan 做上线验收
+- 核对缺失事件、缺失属性或值不符合计划
+- 用户已经确认事件开始触发，下一步要做质量检查
 
 ### → wave-sdk-integration
 
@@ -60,6 +68,7 @@ description: >-
 - 如果用户同时涉及方案与 SDK 接入，先判断当前卡点：
   - 还在定事件、代码盘点、identify 方案 → `wave-tracking-plan`
   - 已有草稿，准备写入 / 发布 Tracking Plan → `wave-tracking`
+  - 已经开始对照计划检查线上数据质量 → `wave-tracking-qc`
   - 已经在改代码或接 SDK → `wave-sdk-integration`
 - 如果用户同时涉及埋点和分析，优先完成埋点方案/接入，再切换到分析（wave-analytics）。
 - 如果不确定，询问用户："你现在是要定埋点方案，还是已经开始接 SDK / 改代码了？"

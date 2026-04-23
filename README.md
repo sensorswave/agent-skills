@@ -9,6 +9,7 @@
 - 根据代码、PRD、页面流程设计埋点方案
 - 生成 SDK 接入思路和初始化代码
 - 补 identify / reset / 用户标识方案
+- 按已发布 Tracking Plan 做埋点质检
 - 做事件分析、漏斗、留存和 SQL 查询
 
 ## 快速安装
@@ -47,7 +48,7 @@ npx github:sensorswave/agent-skills --check --codex
 - “我现在要接 JavaScript SDK，给我初始化代码和 identify 方案”
 - “帮我分析最近 30 天新用户的 7 日留存，并解释原因”
 
-你通常不需要手动挑具体 skill，`wave` 会按当前阶段自动路由到埋点规划、SDK 接入或数据分析流程。
+你通常不需要手动挑具体 skill，`wave` 会按当前阶段自动路由到埋点规划、Tracking Plan 执行、质检、SDK 接入或数据分析流程。
 
 ## 前置条件
 

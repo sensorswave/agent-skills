@@ -1,6 +1,6 @@
 interface:
   display_name: "Wave Tracking"
-  short_description: "Tracking Plan 写入、发布、Dashboard、质检"
+  short_description: "Tracking Plan 写入、发布、Dashboard"
   default_prompt: "$wave-tracking"
 policy:
   allow_implicit_invocation: false
