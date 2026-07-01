@@ -33,4 +33,4 @@
 
 - 方案要能直接交给研发实现，不要只给抽象建议。
 - 事件与属性命名尽量统一，不要同一流程里混多种风格。
-- 如果用户下一步要落到平台，明确说明可切到 [../../wave-tracking/SKILL.md](../../wave-tracking/SKILL.md)。
+- 如果用户下一步要落到平台，继续读取 [tracking-plan.md](tracking-plan.md)。

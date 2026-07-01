@@ -1,6 +1,6 @@
 # Tracking Principles
 
-这是本地精简摘要，用于在 `wave-tracking-plan`、`wave-tracking`、`wave-sdk-integration` 中快速收敛埋点方案。
+这是本地精简摘要，用于在 `wave-tracking` 中快速收敛埋点方案。
 
 ## 本地必须规则
 
@@ -16,21 +16,16 @@
 
 - 官方文档页 URL：
   [埋点方案选择](https://sensorswave.cn/docs/data-integration/tracking-strategy/)
-- 对应 `llm.txt` URL：
-  [tracking-strategy llm.txt](https://sensorswave.cn/docs/data-integration/tracking-strategy/llm.txt)
 
 ## 相关补充文档
 
 - [数据模型](https://sensorswave.cn/docs/data-integration/data-model/)
-  [llm.txt](https://sensorswave.cn/docs/data-integration/data-model/llm.txt)
 - [事件和属性](https://sensorswave.cn/docs/data-integration/events-and-properties/)
-  [llm.txt](https://sensorswave.cn/docs/data-integration/events-and-properties/llm.txt)
 - [预置事件和预置属性](https://sensorswave.cn/docs/data-integration/preset-events-and-properties/)
-  [llm.txt](https://sensorswave.cn/docs/data-integration/preset-events-and-properties/llm.txt)
 - 用户标识专题：
   读取 [user-identification.md](user-identification.md)
 
 ## 使用说明
 
-- 联网时，长文知识和细节口径优先参考官网文档页及对应 `llm.txt`。
+- 联网时，长文知识和细节口径优先参考官网文档页。
 - 无法联网时，退回本文件中的本地摘要规则继续推进。

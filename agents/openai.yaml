@@ -1,6 +1,6 @@
 interface:
   display_name: "Wave"
-  short_description: "Sensors Wave 埋点规划、接入与数据分析"
+  short_description: "Sensors Wave 埋点、质检、分析、看板和 Catalog"
   default_prompt: "$wave"
 policy:
   allow_implicit_invocation: true

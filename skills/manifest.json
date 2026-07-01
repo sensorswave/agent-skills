@@ -1,45 +1,45 @@
 {
   "name": "wave-agent-skills",
-  "version": "1.1.0",
-  "description": "Sensors Wave 平台 AI Agent Skills：埋点方案设计与数据分析",
+  "version": "1.3.0",
+  "description": "Sensors Wave 平台 AI Agent Skills：埋点落地、质检、分析、看板构建、产品帮助与 Catalog 治理",
   "repository": "sensorswave/agent-skills",
   "skills": [
     {
       "name": "wave",
       "dir": "wave",
       "skillFile": "SKILL.md",
-      "description": "总入口路由：根据用户意图分发到埋点规划、Tracking Plan 执行、质检、SDK 接入或数据分析",
-      "tags": ["router", "wave", "tracking", "analytics"],
+      "description": "总入口路由：根据用户意图分发到埋点落地、质检、数据分析、看板构建、产品帮助或 Catalog 治理",
+      "tags": ["router", "wave", "tracking", "analytics", "dashboard", "catalog"],
       "type": "router",
       "visibility": "public",
       "install": true
     },
     {
-      "name": "wave-tracking-plan",
-      "dir": "wave-tracking-plan",
+      "name": "wave-product-help",
+      "dir": "wave-product-help",
       "skillFile": "SKILL.md",
-      "description": "埋点方案规划：代码/需求分析、事件模型、identify 方案、Tracking Plan draft",
-      "tags": ["tracking-plan", "instrumentation", "埋点规划", "identify", "plan-draft"],
+      "description": "产品帮助：Wave 功能用法、配置步骤、概念说明、FAQ 与常见排障",
+      "tags": ["product-help", "docs", "faq", "帮助", "文档"],
       "type": "workflow",
       "visibility": "public",
-      "install": true,
-      "references": [
-        "playbooks/code-discovery.md",
-        "playbooks/draft-output.md"
-      ]
+      "install": true
     },
     {
       "name": "wave-tracking",
       "dir": "wave-tracking",
       "skillFile": "SKILL.md",
-      "description": "Tracking Plan 执行：写入、发布与 Dashboard 启动版",
-      "tags": ["tracking", "tracking-plan", "publish", "dashboard"],
+      "description": "埋点落地：代码/需求盘点、事件方案、Tracking Plan 写入/发布、Pipeline 与 SDK 接入",
+      "tags": ["tracking", "tracking-plan", "sdk", "pipeline", "identify"],
       "type": "workflow",
       "visibility": "public",
       "install": true,
       "references": [
+        "playbooks/code-discovery.md",
+        "playbooks/draft-output.md",
         "playbooks/tracking-plan.md",
-        "playbooks/dashboard-bootstrap.md"
+        "references/tracking-principles.md",
+        "references/user-identification.md",
+        "references/sdk-matrix.md"
       ]
     },
     {
@@ -56,21 +56,34 @@
       ]
     },
     {
-      "name": "wave-sdk-integration",
-      "dir": "wave-sdk-integration",
-      "skillFile": "SKILL.md",
-      "description": "SDK 与 Pipeline 接入：endpoint/source_token、identify/reset、埋点代码接入",
-      "tags": ["sdk", "pipeline", "identify", "integration", "埋点接入"],
-      "type": "workflow",
-      "visibility": "public",
-      "install": true
-    },
-    {
       "name": "wave-analytics",
       "dir": "wave-analytics",
       "skillFile": "SKILL.md",
       "description": "数据分析：事件分析、漏斗、留存、用户列表、行为序列、自定义 SQL",
       "tags": ["analytics", "数据分析", "funnel", "retention", "sql"],
+      "type": "workflow",
+      "visibility": "public",
+      "install": true,
+      "references": [
+        "references/analysis-models.md"
+      ]
+    },
+    {
+      "name": "wave-dashboard-builder",
+      "dir": "wave-dashboard-builder",
+      "skillFile": "SKILL.md",
+      "description": "看板构建：创建和更新 Wave 图表、Dashboard、布局与分析资产",
+      "tags": ["dashboard", "chart", "overview", "asset", "看板", "图表"],
+      "type": "workflow",
+      "visibility": "public",
+      "install": true
+    },
+    {
+      "name": "wave-catalog-governance",
+      "dir": "wave-catalog-governance",
+      "skillFile": "SKILL.md",
+      "description": "Catalog 治理：维护已有事件、事件属性和用户属性的显示名、描述、触发时机、平台标签和示例值",
+      "tags": ["catalog", "governance", "metadata", "display-name", "description"],
       "type": "workflow",
       "visibility": "public",
       "install": true

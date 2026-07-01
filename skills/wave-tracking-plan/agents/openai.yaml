@@ -1,6 +1,0 @@
-interface:
-  display_name: "Wave Tracking Plan"
-  short_description: "代码/需求分析，产出埋点方案与 plan draft"
-  default_prompt: "$wave-tracking-plan"
-policy:
-  allow_implicit_invocation: false

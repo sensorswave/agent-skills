@@ -1,0 +1,6 @@
+interface:
+  display_name: "Wave Product Help"
+  short_description: "产品用法、配置步骤、FAQ、排障"
+  default_prompt: "$wave-product-help"
+policy:
+  allow_implicit_invocation: false

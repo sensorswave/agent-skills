@@ -16,17 +16,13 @@
 
 - 官方文档页 URL：
   [如何正确的标识用户](https://sensorswave.cn/docs/data-integration/user-identification/)
-- 对应 `llm.txt` URL：
-  [user-identification llm.txt](https://sensorswave.cn/docs/data-integration/user-identification/llm.txt)
 
 ## 相关补充文档
 
 - [埋点方案选择](https://sensorswave.cn/docs/data-integration/tracking-strategy/)
-  [llm.txt](https://sensorswave.cn/docs/data-integration/tracking-strategy/llm.txt)
 - [事件和属性](https://sensorswave.cn/docs/data-integration/events-and-properties/)
-  [llm.txt](https://sensorswave.cn/docs/data-integration/events-and-properties/llm.txt)
 
 ## 使用说明
 
-- 联网时，身份合并、客户端/服务端差异和边界条件以官网文档页及对应 `llm.txt` 为准。
+- 联网时，身份合并、客户端/服务端差异和边界条件以官网文档页为准。
 - 无法联网时，退回本文件中的本地摘要规则继续推进。

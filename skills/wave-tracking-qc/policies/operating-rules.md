@@ -1,6 +1,6 @@
 # Operating Rules
 
-用于 `wave-tracking-plan`、`wave-tracking`、`wave-tracking-qc` 与 `wave-sdk-integration` 的统一交互与安全约束。
+用于 `wave-tracking`、`wave-tracking-qc` 与 `wave-catalog-governance` 的统一交互与安全约束。
 
 ## 必守规则
 

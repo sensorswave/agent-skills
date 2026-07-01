@@ -47,7 +47,7 @@
 
 ---
 
-## P-Plan·模板选择（调用 `list_tracking_plan_templates` 之后）
+## P-Plan·模板选择（调用 `list_templates` 之后）
 
 > 可用 **内置模板**摘要：
 > **[列表：template_id + 标题/用途一句话]**
@@ -55,11 +55,12 @@
 
 ---
 
-## P-Plan·草案确认（调用 `create_tracking_plan` / `add_tracking_plan_events` / `update_tracking_plan` 之前）
+## P-Plan·草案确认（调用 `save_tracking_plan` 之前）
 
 > 将把以下 **Tracking Plan 变更**写入平台（草稿或更新）：
 > **[事件与属性摘要表，或字段级说明]**
 > 其中未单独指定的非关键字段已按默认值补齐。
+> 注意：更新已有草稿时会提交完整快照，未包含的事件/属性可能从草稿中移除。
 > 请回复 **「确认写入」** 再执行；需要增删改请逐条说明。
 
 ---

@@ -15,40 +15,29 @@
 
 - 官方文档页 URL：
   [SDK 数据接入](https://sensorswave.cn/docs/data-center/pipeline/sources/sdk/)
-- 对应 `llm.txt` URL：
-  [sdk source llm.txt](https://sensorswave.cn/docs/data-center/pipeline/sources/sdk/llm.txt)
 
 ## 常用 SDK 文档
 
 - JavaScript SDK：
   [页面](https://sensorswave.cn/docs/data-integration/client-sdks/javascript/)
-  [llm.txt](https://sensorswave.cn/docs/data-integration/client-sdks/javascript/llm.txt)
 - Android SDK：
   [页面](https://sensorswave.cn/docs/data-integration/client-sdks/android/)
-  [llm.txt](https://sensorswave.cn/docs/data-integration/client-sdks/android/llm.txt)
 - iOS SDK：
   [页面](https://sensorswave.cn/docs/data-integration/client-sdks/ios/)
-  [llm.txt](https://sensorswave.cn/docs/data-integration/client-sdks/ios/llm.txt)
 - React Native SDK：
   [页面](https://sensorswave.cn/docs/data-integration/client-sdks/reactnative/)
-  [llm.txt](https://sensorswave.cn/docs/data-integration/client-sdks/reactnative/llm.txt)
 - Flutter SDK：
   [页面](https://sensorswave.cn/docs/data-integration/client-sdks/flutter/)
-  [llm.txt](https://sensorswave.cn/docs/data-integration/client-sdks/flutter/llm.txt)
 - Harmony SDK：
   [页面](https://sensorswave.cn/docs/data-integration/client-sdks/harmony/)
-  [llm.txt](https://sensorswave.cn/docs/data-integration/client-sdks/harmony/llm.txt)
 - 微信小程序 SDK：
   [页面](https://sensorswave.cn/docs/data-integration/client-sdks/wechatMini/)
-  [llm.txt](https://sensorswave.cn/docs/data-integration/client-sdks/wechatMini/llm.txt)
 - Go SDK：
   [页面](https://sensorswave.cn/docs/data-integration/server-sdks/go/)
-  [llm.txt](https://sensorswave.cn/docs/data-integration/server-sdks/go/llm.txt)
 - PHP SDK：
   [页面](https://sensorswave.cn/docs/data-integration/server-sdks/php/)
-  [llm.txt](https://sensorswave.cn/docs/data-integration/server-sdks/php/llm.txt)
 
 ## 使用说明
 
-- 联网时，SDK 安装、初始化参数和平台差异以官网文档页及对应 `llm.txt` 为准。
+- 联网时，SDK 安装、初始化参数和平台差异以官网文档页为准。
 - 无法联网时，退回本文件中的本地摘要规则继续推进。
