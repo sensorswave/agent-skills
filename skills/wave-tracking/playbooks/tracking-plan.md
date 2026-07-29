@@ -19,6 +19,10 @@
 2. 盘点现有计划
    使用 `list_tracking_plans`。
    用户决定是在已有计划上扩展，还是新建。
+   若用户要继续 Pipeline、SDK、代码改造或 Dashboard 等后续流程：
+   - 已发布且本次不修改的计划：读取详情并作为本次实施基线
+   - 草稿计划：必须先完成并发布
+   - 新建或本次更新的计划：必须在本次流程发布后才能继续
 
 3. 需要模板时再看模板
    使用 `list_templates`，必要时再看 `get_template_detail`。
@@ -30,16 +34,20 @@
    使用 `save_tracking_plan` 写入完整草稿快照：
    - 不传 `plan_id`：创建新草稿
    - 传 `plan_id`：替换保存已有草稿
-   - `publish=true`：保存并发布
+   - 初次草稿写入不要设置 `publish=true`；草稿保存成功后按步骤 5 单独展示发布摘要并取得发布确认
    - 更新已有草稿前先调用 `get_tracking_plan_detail`，本地合并后再提交完整事件/属性快照，避免遗漏项被移除
 
 5. 发布前再确认一次
    若用户只是要方案草稿，到草稿态即可停止。
-   只有明确要作为质检基线时，才调用 `publish_tracking_plan`。
+   若用户要继续 Pipeline、SDK、埋点代码或 Dashboard，已发布的 Tracking Plan 是强制前置条件：
+   - 本次新建或更新计划后，立即展示待发布计划摘要，并要求用户明确回复“确认发布”
+   - 收到明确确认后调用 `publish_tracking_plan`
+   - 发布成功前禁止执行任何后续流程；用户拒绝或推迟发布时停在草稿态
+   - 已有计划若已发布且本次未修改，可以直接作为基线，无需重复发布
 
 6. 发布后不要自动继续
-   发布成功后，先停下来，明确问用户下一步是否要创建 Dashboard。
-   如果用户不想建看板，就停在这里；不要自动切到 Dashboard 或质检。
+   发布成功后，先停下来，明确让用户选择停止、创建 Dashboard，或继续 Pipeline / SDK / 代码改造。
+   不要仅凭发布成功自动切到任何后续流程，也不要自动进入质检。
 
 ## 辅助规则
 
@@ -50,6 +58,7 @@
 ## 停止条件
 
 - 用户只需要一版可讨论的草稿：停止在 draft
-- 用户明确确认发布：执行 publish
-- 发布完成后：先询问是否创建 Dashboard
-- 用户转去做 SDK 接入：读取 [../references/sdk-matrix.md](../references/sdk-matrix.md)
+- 用户还要继续实施但计划未发布：请求确认发布，并在获得确认前停止
+- 用户明确确认发布：执行 publish；只有发布成功后才解除后续流程门禁
+- 发布完成后：先让用户选择停止、Dashboard 或 Pipeline / SDK / 代码改造
+- 用户在计划发布后转去做 SDK 接入：读取 [../references/sdk-matrix.md](../references/sdk-matrix.md)

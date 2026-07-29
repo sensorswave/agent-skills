@@ -17,7 +17,7 @@ Route the user to exactly one concrete Wave skill, then read that skill and foll
 ## Routing
 
 - Tracking implementation -> read [../wave-tracking/SKILL.md](../wave-tracking/SKILL.md)
-  Use for event design, code/PRD discovery, client/server ownership, identify/reset strategy, Tracking Plan draft/write/publish, Pipeline selection/creation, SDK integration, and preparing tracking context for dashboard handoff.
+  Use for event design, code/PRD discovery, client/server ownership, identify/reset strategy, Tracking Plan draft/write/publish, Pipeline selection/creation, SDK integration, and preparing tracking context for dashboard handoff. Treat the published Tracking Plan as the required baseline before implementation or other downstream stages.
 - Tracking QC -> read [../wave-tracking-qc/SKILL.md](../wave-tracking-qc/SKILL.md)
   Use only after events are firing and the user wants Tracking Plan validation, rollout acceptance, or missing event/property checks.
 - Analytics -> read [../wave-analytics/SKILL.md](../wave-analytics/SKILL.md)

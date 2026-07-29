@@ -13,7 +13,7 @@ description: >-
 
 ## Goal
 
-Produce or execute a tracking rollout that a product/engineering team can use: event design, Tracking Plan draft/write/publish, and Pipeline/SDK integration guidance.
+Produce or execute a tracking rollout that a product/engineering team can use, with the Tracking Plan as the mainline and a published plan as the required baseline before Pipeline/SDK integration, code changes, or dashboard handoff.
 
 ## Load First
 
@@ -37,14 +37,16 @@ Produce or execute a tracking rollout that a product/engineering team can use: e
 
 ## Workflow
 
-1. Classify the stage: design only, Tracking Plan write/publish, Pipeline/SDK integration, or mixed rollout.
+1. Classify the request as design-only or rollout. Treat Pipeline/SDK integration, code changes, and dashboard handoff as rollout stages downstream of the Tracking Plan.
 2. Confirm project before project-level MCP operations unless the user explicitly says the current project is fixed.
 3. Discover existing Catalog and Tracking Plans before inventing names or creating a new plan.
 4. For design work, produce a draft with events, trigger timing, platform/client/server ownership, properties, required flags, and identify/reset handling.
 5. For Tracking Plan writes, present the complete draft snapshot before calling `save_tracking_plan`; include a warning that omitted events/properties may be removed when replacing an existing draft.
-6. Publish only after explicit user confirmation.
-7. For SDK/Pipeline work, use MCP-returned `endpoint` and `source_token`; do not construct them manually.
-8. If the user asks for charts or a dashboard, hand off to `wave-dashboard-builder` with the relevant events, properties, and intended metrics.
+6. Use a published Tracking Plan as a hard gate for every downstream rollout stage. If an existing published plan is selected unchanged, read its detail and use it as the baseline. If the selected plan is a draft, or this flow creates or updates a plan, save the complete draft, immediately request explicit publish confirmation, and publish it in this flow before proceeding.
+7. Never call Pipeline tools, provide project-specific SDK integration or tracking code, edit tracking code, or hand off to dashboard building while the baseline plan is unpublished. If the user declines or postpones publication, stop at the draft and explain that downstream work is blocked by the unpublished plan.
+8. Publish only after explicit user confirmation. Do not infer confirmation from a request to continue with implementation.
+9. For SDK/Pipeline work after publication, use MCP-returned `endpoint` and `source_token`; do not construct them manually.
+10. If the user asks for charts or a dashboard after publication, hand off to `wave-dashboard-builder` with the relevant events, properties, and intended metrics.
 
 ## Boundaries
 
@@ -63,4 +65,4 @@ Produce or execute a tracking rollout that a product/engineering team can use: e
 
 ## Stop
 
-Stop after the requested stage is complete. After code/SDK changes, ask the user to manually restart/redeploy and verify events are firing before any QC handoff.
+Stop at an unpublished draft unless the user explicitly confirms publication and publication succeeds. After code/SDK changes, ask the user to manually restart/redeploy and verify events are firing before any QC handoff.
