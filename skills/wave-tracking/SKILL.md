@@ -5,7 +5,7 @@ description: >-
   Use when designing events and properties, deciding client/server ownership,
   defining identify/reset strategy, writing or publishing Tracking Plans,
   creating/using Pipelines, or generating SDK integration guidance. For
-  quality checks, route to wave-tracking-qc. For saved charts or dashboards,
+  live tracking validation, route to wave-tracking-validation. For saved charts or dashboards,
   route to wave-dashboard-builder.
 ---
 
@@ -50,7 +50,7 @@ Produce or execute a tracking rollout that a product/engineering team can use, w
 
 ## Boundaries
 
-- Do not run tracking QC from this skill. Hand off to `wave-tracking-qc` only after the user confirms events are firing and asks to check.
+- Do not run live tracking validation from this skill. Hand off to `wave-tracking-validation` only after the user confirms events are firing and asks to check.
 - Do not maintain existing Catalog documentation fields here. Hand off to `wave-catalog-governance`.
 - Do not perform deep data interpretation here. Hand off to `wave-analytics`.
 - Do not create saved charts or dashboards here. Hand off to `wave-dashboard-builder`.
@@ -65,4 +65,4 @@ Produce or execute a tracking rollout that a product/engineering team can use, w
 
 ## Stop
 
-Stop at an unpublished draft unless the user explicitly confirms publication and publication succeeds. After code/SDK changes, ask the user to manually restart/redeploy and verify events are firing before any QC handoff.
+Stop at an unpublished draft unless the user explicitly confirms publication and publication succeeds. After code/SDK changes, ask the user to manually restart/redeploy and verify events are firing before any validation handoff.

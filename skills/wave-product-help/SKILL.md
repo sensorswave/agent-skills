@@ -27,7 +27,7 @@ Answer product usage and troubleshooting questions with official documentation e
 ## Boundaries
 
 - Do not design or implement tracking here; hand off to `wave-tracking`.
-- Do not validate live tracking data here; hand off to `wave-tracking-qc`.
+- Do not validate live tracking data here; hand off to `wave-tracking-validation`.
 - Do not analyze metrics, funnels, retention, or SQL here; hand off to `wave-analytics`.
 - Do not create, update, or arrange saved charts/dashboards here; hand off to `wave-dashboard-builder`.
 - Do not modify Catalog metadata here; hand off to `wave-catalog-governance`.

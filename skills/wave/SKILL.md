@@ -3,7 +3,7 @@ name: wave
 description: >-
   Sensors Wave platform router skill. Use when the user asks a broad or
   ambiguous Wave question and you need to route to tracking implementation
-  (wave-tracking), tracking quality checks (wave-tracking-qc), analytics
+  (wave-tracking), tracking validation (wave-tracking-validation), analytics
   (wave-analytics), dashboard building (wave-dashboard-builder), product help
   (wave-product-help), or Catalog governance (wave-catalog-governance).
 ---
@@ -18,7 +18,7 @@ Route the user to exactly one concrete Wave skill, then read that skill and foll
 
 - Tracking implementation -> read [../wave-tracking/SKILL.md](../wave-tracking/SKILL.md)
   Use for event design, code/PRD discovery, client/server ownership, identify/reset strategy, Tracking Plan draft/write/publish, Pipeline selection/creation, SDK integration, and preparing tracking context for dashboard handoff. Treat the published Tracking Plan as the required baseline before implementation or other downstream stages.
-- Tracking QC -> read [../wave-tracking-qc/SKILL.md](../wave-tracking-qc/SKILL.md)
+- Tracking validation -> read [../wave-tracking-validation/SKILL.md](../wave-tracking-validation/SKILL.md)
   Use only after events are firing and the user wants Tracking Plan validation, rollout acceptance, or missing event/property checks.
 - Analytics -> read [../wave-analytics/SKILL.md](../wave-analytics/SKILL.md)
   Use for event metrics, funnel, retention, user list, user sequence, user profile, and custom SQL.
@@ -32,7 +32,7 @@ Route the user to exactly one concrete Wave skill, then read that skill and foll
 ## Disambiguation
 
 - If the request mixes tracking and analytics, finish the tracking design or implementation path first, then hand off to analytics.
-- If the request mixes tracking implementation and QC, do implementation in `wave-tracking`; only run QC after the user confirms events are already firing and explicitly asks to check.
+- If the request mixes tracking implementation and validation, do implementation in `wave-tracking`; only run validation after the user confirms events are already firing and explicitly asks to check.
 - If the request asks to analyze data and then save the result as charts or dashboards, run analytics first for the metric/query shape, then hand off to `wave-dashboard-builder`.
 - If the request asks to change technical names, data types, delete metadata, or merge duplicates, route to `wave-catalog-governance` only to explain the current MCP boundary; do not imply those operations are currently available.
 - If the user asks "Wave 怎么用 / 在哪配置 / 为什么看不到", prefer `wave-product-help` over analytics or tracking.

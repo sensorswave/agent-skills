@@ -44,7 +44,7 @@ Turn a user question into the right Wave analysis query, execute it with MCP too
 ## Boundaries
 
 - Do not design or implement new tracking here; hand off to `wave-tracking`.
-- Do not run Tracking Plan QC here; hand off to `wave-tracking-qc`.
+- Do not run Tracking Plan validation here; hand off to `wave-tracking-validation`.
 - Do not modify Catalog metadata here; hand off to `wave-catalog-governance`.
 - Do not create saved charts or dashboards here; hand off to `wave-dashboard-builder`.
 - For custom SQL, only use read-only SELECT queries and include a limit unless the user explicitly asks for an aggregate-only query.

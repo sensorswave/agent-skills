@@ -52,7 +52,7 @@ Create or update saved Wave analysis assets: charts, dashboards, and dashboard l
 ## Boundaries
 
 - Do not invent analysis meaning when the metric definition is unclear; validate with `wave-analytics`.
-- Do not run Tracking Plan QC here; hand off to `wave-tracking-qc`.
+- Do not run Tracking Plan validation here; hand off to `wave-tracking-validation`.
 - Do not design new tracking events here; hand off to `wave-tracking`.
 - Do not delete charts or dashboards unless the user explicitly asks and confirms the exact asset name. Prefer create/update/layout operations.
 

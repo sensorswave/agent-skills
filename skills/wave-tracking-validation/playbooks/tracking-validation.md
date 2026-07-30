@@ -1,4 +1,4 @@
-# Tracking QC Playbook
+# Tracking Validation Playbook
 
 用于上线后或联调阶段，检查 Tracking Plan 与实际上报数据是否一致。
 

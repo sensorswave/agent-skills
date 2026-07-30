@@ -46,7 +46,7 @@ npx skills add sensorswave/agent-skills --skill wave-catalog-governance
 |-------|------|
 | `wave` | 总入口路由：自动分发到埋点落地、质检、分析、看板构建、产品帮助或 Catalog 治理 |
 | `wave-tracking` | 埋点方案、Tracking Plan、Pipeline/SDK 接入 |
-| `wave-tracking-qc` | Tracking Plan 质检、计划对照、上线验收 |
+| `wave-tracking-validation` | Tracking Plan 质检、计划对照、上线验收 |
 | `wave-analytics` | 数据分析：事件、漏斗、留存、用户列表、SQL |
 | `wave-dashboard-builder` | 图表、KPI 卡片、Dashboard 和布局 |
 | `wave-product-help` | 产品用法、配置步骤、FAQ、排障 |

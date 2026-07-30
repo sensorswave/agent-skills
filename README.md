@@ -48,7 +48,7 @@ npx skills add sensorswave/agent-skills --skill wave-analytics
   总入口。根据你当前阶段，把任务路由到埋点落地、质检、分析、看板构建、产品帮助或 Catalog 治理。
 - `wave-tracking`
   用于埋点方案设计、Tracking Plan 写入/发布、Pipeline/SDK 接入。
-- `wave-tracking-qc`
+- `wave-tracking-validation`
   用于对照已发布 Tracking Plan 做埋点质检、计划对照和上线验收。
 - `wave-analytics`
   用于做事件、漏斗、留存、用户列表和 SQL 分析。

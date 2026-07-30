@@ -1,6 +1,6 @@
 {
   "name": "wave-agent-skills",
-  "version": "1.3.0",
+  "version": "1.4.0",
   "description": "Sensors Wave 平台 AI Agent Skills：埋点落地、质检、分析、看板构建、产品帮助与 Catalog 治理",
   "repository": "sensorswave/agent-skills",
   "skills": [
@@ -43,16 +43,16 @@
       ]
     },
     {
-      "name": "wave-tracking-qc",
-      "dir": "wave-tracking-qc",
+      "name": "wave-tracking-validation",
+      "dir": "wave-tracking-validation",
       "skillFile": "SKILL.md",
       "description": "Tracking Plan 质检：计划对照、上线验收、缺失事件与属性排查",
-      "tags": ["tracking", "qc", "quality-check", "validation", "验收"],
+      "tags": ["tracking", "quality-check", "validation", "verification", "验收"],
       "type": "workflow",
       "visibility": "public",
       "install": true,
       "references": [
-        "playbooks/tracking-qc.md"
+        "playbooks/tracking-validation.md"
       ]
     },
     {
