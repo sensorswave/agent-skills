@@ -27,10 +27,11 @@ Choose time unit by range: 1-3 days `hour`, 4-30 days `day`, 1-3 months `week`, 
 Use `query_funnel` for ordered or unordered conversion across at least two steps.
 
 - Default `funnel_mode`: `in_order`
-- Default `measure_type`: `rate`
+- Default `measure_type`: `conversion`
 - Default window: 7 days
-- Use `measure_type=time` with `time_agg` when the user asks conversion duration.
+- Use `measure_type=time_to_convert` when the user asks conversion duration; response cells include average/median/p25/p75/minimum/maximum in milliseconds.
 - Explain both overall conversion and the largest adjacent drop-off.
+- Object cells use stable keys `overall` / `step_N`. Do not emit removed values `rate` / `users` / `time` / `count`, and never send a separate duration aggregation selector.
 
 ## Retention
 

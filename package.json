@@ -1,7 +1,7 @@
 {
   "name": "@sensorswave/agent-skills",
   "version": "1.3.0",
-  "description": "Sensors Wave 平台 AI Agent Skills：埋点落地、质检、分析、看板构建、产品帮助与 Catalog 治理",
+  "description": "Sensors Wave 平台 AI Agent Skills：埋点落地、质检、分析、营销自动化、看板构建、产品帮助与 Catalog 治理",
   "license": "MIT",
   "repository": {
     "type": "git",

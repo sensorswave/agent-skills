@@ -1,6 +1,6 @@
 # Sensors Wave Skills
 
-把 Sensors Wave 的埋点落地、Tracking Plan 质检、数据分析、图表看板、产品帮助和 Catalog 治理流程，整理成一组可直接安装到 **Cursor**、**Claude Code**、**Codex** 的 Skills。
+把 Sensors Wave 的埋点落地、Tracking Plan 质检、数据分析、营销自动化、图表看板、产品帮助和 Catalog 治理流程，整理成一组可直接安装到 **Cursor**、**Claude Code**、**Codex** 的 Skills。
 
 装好之后，你可以直接让工具围绕 Sensors Wave 项目工作，而不是每次都从零解释流程、命名规范和执行顺序。
 
@@ -9,6 +9,7 @@
 - 根据代码、PRD、页面流程整理埋点方案和事件表
 - 在项目里创建或更新 Pipeline、Tracking Plan
 - 创建事件图表、漏斗图、留存图、SQL 图表和 Dashboard
+- 基于真实项目能力设计和编排 MA Campaign，复用已有 SMS/Webhook 通道
 - 做埋点验收、计划对照和上线质检
 - 生成 JavaScript、Android、iOS、服务端等 SDK 接入思路
 - 做事件分析、漏斗分析、留存分析和 SQL 查询
@@ -52,6 +53,8 @@ npx skills add sensorswave/agent-skills --skill wave-analytics
   用于对照已发布 Tracking Plan 做埋点质检、计划对照和上线验收。
 - `wave-analytics`
   用于做事件、漏斗、留存、用户列表和 SQL 分析。
+- `wave-marketing-automation`
+  用于 5W1H 营销简报、真实项目资产发现、已有通道复用、Campaign 规划与校验、Draft 创建、测试、启停和效果复盘。
 - `wave-dashboard-builder`
   用于创建和更新 Wave 图表、KPI 卡片、Dashboard 和布局。
 - `wave-product-help`
@@ -68,6 +71,8 @@ npx skills add sensorswave/agent-skills --skill wave-analytics
 - “我已经确认事件开始触发，帮我按计划做一轮质检”
 - “我要接 JavaScript SDK，给我初始化代码和 identify 方案”
 - “分析最近 30 天新用户的 7 日留存，并解释原因”
+- “基于当前项目真实客群和已有通道，设计一个注册唤醒 Campaign，先给我 5W1H 简报并校验后保存 Draft”
+- “复盘 Campaign 251 的发送、送达和目标转化，不要直接启动活动”
 - “把这些核心指标做成一个增长看板”
 - “帮我把这些事件的中文名、描述和触发时机补完整”
 - “Wave 里 Pipeline 应该在哪里配置？”

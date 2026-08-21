@@ -34,6 +34,7 @@ npx skills add sensorswave/agent-skills --skill '*' -g
 
 ```bash
 npx skills add sensorswave/agent-skills --skill wave-analytics
+npx skills add sensorswave/agent-skills --skill wave-marketing-automation
 npx skills add sensorswave/agent-skills --skill wave-dashboard-builder
 npx skills add sensorswave/agent-skills --skill wave-catalog-governance
 ```
@@ -48,6 +49,7 @@ npx skills add sensorswave/agent-skills --skill wave-catalog-governance
 | `wave-tracking` | 埋点方案、Tracking Plan、Pipeline/SDK 接入 |
 | `wave-tracking-validation` | Tracking Plan 质检、计划对照、上线验收 |
 | `wave-analytics` | 数据分析：事件、漏斗、留存、用户列表、SQL |
+| `wave-marketing-automation` | 5W1H Campaign、通道复用和管理、Campaign 校验与生命周期 |
 | `wave-dashboard-builder` | 图表、KPI 卡片、Dashboard 和布局 |
 | `wave-product-help` | 产品用法、配置步骤、FAQ、排障 |
 | `wave-catalog-governance` | Catalog 显示名、描述、触发时机、平台标签和示例值维护 |

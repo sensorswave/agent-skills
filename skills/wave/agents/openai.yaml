@@ -1,6 +1,6 @@
 interface:
   display_name: "Wave"
-  short_description: "埋点、质检、分析、看板、产品帮助、Catalog"
+  short_description: "埋点、分析、营销、看板、产品帮助、Catalog"
   default_prompt: "$wave"
 policy:
   allow_implicit_invocation: true

@@ -1,0 +1,6 @@
+interface:
+  display_name: "Wave Marketing Automation"
+  short_description: "5W1H 营销方案、通道复用与 Campaign 编排"
+  default_prompt: "Use $wave-marketing-automation to plan a data-backed Campaign with a 5W1H brief and validated reusable channel."
+policy:
+  allow_implicit_invocation: false

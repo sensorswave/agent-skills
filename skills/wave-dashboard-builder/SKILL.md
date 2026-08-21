@@ -48,6 +48,7 @@ Create or update saved Wave analysis assets: charts, dashboards, and dashboard l
 - High-priority trend, table, funnel graph: `w=12 h=6`.
 - Pie or compact composition chart: `w=4 h=5` or `w=6 h=5`.
 - Put KPI cards at `y=0`; put diagnostic/detail charts below.
+- Layouts are validated server-side: `x+w` must fit the 12-column grid, and rectangles must not overlap each other or charts not listed in the call. On an overlap error, resend one call covering every affected chart.
 
 ## Boundaries
 

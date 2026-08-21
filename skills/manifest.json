@@ -1,15 +1,15 @@
 {
   "name": "wave-agent-skills",
   "version": "1.4.0",
-  "description": "Sensors Wave 平台 AI Agent Skills：埋点落地、质检、分析、看板构建、产品帮助与 Catalog 治理",
+  "description": "Sensors Wave 平台 AI Agent Skills：埋点落地、质检、分析、营销自动化、看板构建、产品帮助与 Catalog 治理",
   "repository": "sensorswave/agent-skills",
   "skills": [
     {
       "name": "wave",
       "dir": "wave",
       "skillFile": "SKILL.md",
-      "description": "总入口路由：根据用户意图分发到埋点落地、质检、数据分析、看板构建、产品帮助或 Catalog 治理",
-      "tags": ["router", "wave", "tracking", "analytics", "dashboard", "catalog"],
+      "description": "总入口路由：根据用户意图分发到埋点落地、质检、数据分析、营销自动化、看板构建、产品帮助或 Catalog 治理",
+      "tags": ["router", "wave", "tracking", "analytics", "marketing", "dashboard", "catalog"],
       "type": "router",
       "visibility": "public",
       "install": true
@@ -66,6 +66,21 @@
       "install": true,
       "references": [
         "references/analysis-models.md"
+      ]
+    },
+    {
+      "name": "wave-marketing-automation",
+      "dir": "wave-marketing-automation",
+      "skillFile": "SKILL.md",
+      "description": "营销自动化：5W1H Campaign 设计、真实项目资产、通道复用、校验、Draft 与生命周期编排",
+      "tags": ["marketing", "ma", "campaign", "5w1h", "connection", "营销自动化"],
+      "type": "workflow",
+      "visibility": "public",
+      "install": true,
+      "references": [
+        "references/5w1h-brief.md",
+        "references/channel-reuse.md",
+        "references/campaign-workflow.md"
       ]
     },
     {

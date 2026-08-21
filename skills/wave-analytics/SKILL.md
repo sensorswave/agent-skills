@@ -23,6 +23,7 @@ Turn a user question into the right Wave analysis query, execute it with MCP too
 
 - Metadata: `list_events`, `list_event_properties`, `list_user_properties`, `list_metrics`, `list_cohorts`
 - Analysis: `query_event_analysis`, `query_funnel`, `query_retention`, `query_user_list`, `query_user_sequence`, `get_user_profile`, `query_cohort_user_count`
+- Cohort lifecycle: `get_cohort_detail`, `validate_cohort_definition`, `sample_cohort_users`, `create_cohort`, `update_cohort`, `recalculate_cohort`, `get_cohort_run_status`, `prepare_delete_cohort`, `delete_cohort`
 - SQL: `get_sql_schema`, `query_custom_sql`
 
 ## Workflow
@@ -40,6 +41,8 @@ Turn a user question into the right Wave analysis query, execute it with MCP too
 4. Run the query tool. If it fails, fix concrete parameter issues first: event name, property name, operator, filter structure, or date range.
 5. Explain the result with conclusion first, then supporting numbers, trend/comparison, caveats, and suggested next analysis.
 6. If the user asks to save charts or build a dashboard, summarize the validated query shape and hand off to `wave-dashboard-builder`.
+
+For cohort lifecycle requests, discover the saved cohort first, validate a complete rule definition before any create/update, use `cohort_id` for reusable audiences, and inspect deletion references before deleting. Behavior and sequence predicates belong in the cohort definition; MA should consume the resulting cohort ID.
 
 ## Boundaries
 
