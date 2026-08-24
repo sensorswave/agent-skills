@@ -21,14 +21,25 @@ Turn a user question into the right Wave analysis query, execute it with MCP too
 
 ## Tools
 
+- Project: `list_projects`
 - Metadata: `list_events`, `list_event_properties`, `list_user_properties`, `list_metrics`, `list_cohorts`
 - Analysis: `query_event_analysis`, `query_funnel`, `query_retention`, `query_user_list`, `query_user_sequence`, `get_user_profile`, `query_cohort_user_count`
 - Cohort lifecycle: `get_cohort_detail`, `validate_cohort_definition`, `sample_cohort_users`, `create_cohort`, `update_cohort`, `recalculate_cohort`, `get_cohort_run_status`, `prepare_delete_cohort`, `delete_cohort`
 - SQL: `get_sql_schema`, `query_custom_sql`
 
+## Project gate
+
+Before any other project-level MCP call:
+
+1. Call `list_projects` and show a table of `project_id | name`.
+2. Wait for the user to reply with a numeric `project_id`.
+3. Only skip a new selection if the user already fixed this conversation to one project, or explicitly says to keep the current project without switching.
+
+Never silently pick a project, and never start metadata, analysis, cohort, or SQL tools before this step.
+
 ## Workflow
 
-1. Classify the request:
+1. Pass the project gate first. Then classify the request:
    - Metric/trend/breakdown -> event analysis
    - Step conversion/drop-off -> funnel
    - Return behavior after first action -> retention
@@ -46,6 +57,7 @@ For cohort lifecycle requests, discover the saved cohort first, validate a compl
 
 ## Boundaries
 
+- Do not query or mutate project data before the user selects a `project_id`.
 - Do not design or implement new tracking here; hand off to `wave-tracking`.
 - Do not run Tracking Plan validation here; hand off to `wave-tracking-validation`.
 - Do not modify Catalog metadata here; hand off to `wave-catalog-governance`.

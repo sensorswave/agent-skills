@@ -1,6 +1,6 @@
 # Operating Rules
 
-用于 `wave-tracking`、`wave-tracking-validation` 与 `wave-catalog-governance` 的统一交互与安全约束。
+用于 `wave-tracking` 与 `wave-tracking-validation` 的统一交互与安全约束。项目选择门禁与分析、看板、营销、Catalog 技能一致：先选 `project_id`。
 
 ## 必守规则
 

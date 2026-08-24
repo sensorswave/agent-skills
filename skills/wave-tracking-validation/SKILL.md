@@ -35,7 +35,7 @@ Validate actual event data against a published Tracking Plan and return an accep
 
 ## Workflow
 
-1. Confirm project and plan. If the user does not provide a plan id, list plans and ask them to choose.
+1. Pass the project gate first: `list_projects`, show `project_id | name`, and wait for a numeric `project_id` unless the user already fixed this conversation to one project or explicitly says to keep the current project without switching. Then confirm the plan. If the user does not provide a plan id, list plans and ask them to choose.
 2. Confirm the plan status and explain limitations if it is not published.
 3. Confirm runtime verification and explicit consent to start validation.
 4. Call `get_tracking_plan_quality_check`.
@@ -44,6 +44,7 @@ Validate actual event data against a published Tracking Plan and return an accep
 
 ## Boundaries
 
+- Do not call quality-check or other project-level tools before the user selects a `project_id`.
 - Do not modify Tracking Plans, SDK code, Pipeline settings, or Catalog metadata from this skill.
 - Do not infer that missing data is fixed until a later validation run confirms it.
 - Do not run analytics interpretation here; hand off to `wave-analytics` for trend, funnel, retention, or SQL investigation.

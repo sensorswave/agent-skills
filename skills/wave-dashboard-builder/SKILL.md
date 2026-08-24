@@ -24,9 +24,19 @@ Create or update saved Wave analysis assets: charts, dashboards, and dashboard l
 - Polish layout: `set_dashboard_chart_layouts`
 - Update existing assets: `update_dashboard`, `update_chart`
 
+## Project gate
+
+Before any other project-level MCP call:
+
+1. Call `list_projects` and show a table of `project_id | name`.
+2. Wait for the user to reply with a numeric `project_id`.
+3. Only skip a new selection if the user already fixed this conversation to one project, or explicitly says to keep the current project without switching.
+
+Never silently pick a project, and never list, create, update, or layout charts/dashboards before this step.
+
 ## Workflow
 
-1. Clarify the asset target: standalone chart, new dashboard, existing dashboard, or dashboard refresh.
+1. Pass the project gate first. Then clarify the asset target: standalone chart, new dashboard, existing dashboard, or dashboard refresh.
 2. Discover existing dashboards/charts before creating duplicates when the user names an asset or asks to update.
 3. Confirm the metric/query shape. If the user has not specified metrics clearly, hand off to `wave-analytics` or run a lightweight validation query before creating assets.
 4. Choose chart types deliberately:
@@ -52,6 +62,7 @@ Create or update saved Wave analysis assets: charts, dashboards, and dashboard l
 
 ## Boundaries
 
+- Do not discover or write project assets before the user selects a `project_id`.
 - Do not invent analysis meaning when the metric definition is unclear; validate with `wave-analytics`.
 - Do not run Tracking Plan validation here; hand off to `wave-tracking-validation`.
 - Do not design new tracking events here; hand off to `wave-tracking`.

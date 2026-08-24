@@ -46,7 +46,12 @@ with generic marketing advice or invented configuration.
 
 ## Workflow
 
-1. Classify the request as one of the following:
+1. Pass the project gate before any other project-level MCP call: `list_projects`,
+   show `project_id | name`, and wait for a numeric `project_id`. Only skip a
+   new selection if the user already fixed this conversation to one project, or
+   explicitly says to keep the current project without switching. Never silently
+   choose a project.
+2. Classify the request as one of the following:
    - design/create/copy-with-changes/update: use the 5W1H planning flow;
    - read/list/detail/status: inspect the requested asset without forcing a
      new brief;
@@ -54,8 +59,6 @@ with generic marketing advice or invented configuration.
      explain the side effect, then use the lifecycle flow;
    - performance review: use the Campaign dashboard and, when needed, hand
      the validated metric shape to `wave-analytics`.
-2. Confirm the project before project-level MCP calls unless the user has
-   explicitly fixed the current project. Never silently choose a project.
 3. For Campaign design, call `get_ma_design_context` first. Discover real
    events, properties, metrics, cohorts, Campaigns, existing connections,
    governance, and the returned `context_id` before proposing configuration.
@@ -74,8 +77,10 @@ with generic marketing advice or invented configuration.
 6. Build the Campaign plan with `plan_ma_campaign`, then validate the complete
    plan with `validate_ma_campaign`. Write webhook `body` or SMS
    `sign_name`/`template_id`/`variable_bindings` into `content_config`; do not
-   leave the copy in `description`. If `context_id` is stale, refresh
-   `get_ma_design_context` and re-plan. Do not rebuild or silently alter the
+   leave the copy in `description`. Follow `required_action`: reuse the plan
+   on `soft_stale` / `reuse_plan`; refresh `get_ma_design_context` and rebind
+   only the changed dependency on `rebind`; re-plan only on `replan` or
+   `context_missing`. Do not rebuild or silently alter the
    plan after validation. If `safe_to_save` is false, clarify or repair the
    plan before saving. Empty content can save a Draft but cannot launch.
 7. Before calling `save_ma_campaign`, present the complete 5W1H brief and the
@@ -99,6 +104,8 @@ with generic marketing advice or invented configuration.
 
 ## Non-negotiable boundaries
 
+- Never start MA discovery, planning, or writes before the user selects a
+  `project_id`.
 - Never invent event names, properties, metric definitions, cohort IDs,
   Campaign IDs, connection IDs, SMS signs/templates, Webhook bodies, or
   provider details.

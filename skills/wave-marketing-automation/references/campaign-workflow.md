@@ -9,7 +9,8 @@ have different side-effect boundaries.
 For a new Campaign or a copy/update that changes business behavior:
 
 ```text
-get_ma_design_context
+list_projects → confirm project_id
+→ get_ma_design_context
 → choose an existing connection
 → get_ma_connection_detail
 → get_ma_sms_assets (SMS only)
@@ -47,9 +48,11 @@ Write these fields instead of inferring them from an existing Campaign.
 - Empty `content_config` can `save` a Draft. `validate` reports
   `content_missing` as a launch blocker (`safe_to_launch=false`). Launch and
   test send require a real body.
-- `context_id` is a snapshot hash. On `context_stale`, call
-  `get_ma_design_context` and `plan_ma_campaign` again. Do not reuse the old
-  plan.
+- `context_id` is a catalog ETag. Runtime stats such as cohort size do not
+  rotate it. On `soft_stale` or `required_action=reuse_plan`, reuse the
+  current plan. On `stale` / `dep_stale` / `required_action=rebind`, refresh
+  `get_ma_design_context` and rebind only the changed dependency. Re-plan
+  only when `required_action=replan` or `context_id` is missing.
 
 When no suitable connection exists, pause Campaign planning at the Where
 decision. If the user explicitly requests channel creation, run

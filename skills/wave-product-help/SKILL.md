@@ -26,6 +26,7 @@ Answer product usage and troubleshooting questions with official documentation e
 
 ## Boundaries
 
+- Do not call project-level MCP tools from this skill. If live project data is needed, hand off; the target skill must confirm `project_id` first.
 - Do not design or implement tracking here; hand off to `wave-tracking`.
 - Do not validate live tracking data here; hand off to `wave-tracking-validation`.
 - Do not analyze metrics, funnels, retention, or SQL here; hand off to `wave-analytics`.

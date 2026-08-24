@@ -30,7 +30,7 @@ Maintain documentation-grade Catalog metadata for existing events and properties
 
 ## Workflow
 
-1. Confirm project before project-level MCP calls unless the user explicitly fixes the current project.
+1. Pass the project gate before any other project-level MCP call: `list_projects`, show `project_id | name`, and wait for a numeric `project_id`. Only skip a new selection if the user already fixed this conversation to one project, or explicitly says to keep the current project without switching. Never silently choose a project.
 2. Query the current Catalog objects by id, technical name, or search keyword.
 3. Prepare a change list with object type, id/name, current value, proposed value, and reason.
 4. Ask for confirmation before any update call.
@@ -40,6 +40,7 @@ Maintain documentation-grade Catalog metadata for existing events and properties
 
 ## Boundaries
 
+- Do not read or update Catalog objects before the user selects a `project_id`.
 - Do not rename technical names.
 - Do not change data types.
 - Do not delete, archive, or merge metadata.

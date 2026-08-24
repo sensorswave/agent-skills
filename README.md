@@ -81,6 +81,8 @@ npx skills add sensorswave/agent-skills --skill wave-analytics
 
 使用前请先完成 **Wave MCP Server** 配置，否则工具只能看到 skill 说明，不能真正调用 Sensors Wave 的项目、Pipeline、Tracking Plan、Dashboard、Catalog 和分析能力。
 
+分析、看板、埋点、营销自动化和 Catalog 治理都是项目级操作：先 `list_projects`，再由用户明确选择 `project_id`，不能静默假定项目。只有用户已经固定当前会话项目、或明确说「使用当前项目，不切换」时才可以跳过重选。产品帮助只查文档，不需要先选项目。
+
 ## 更多说明
 
 - 安装、更新、移除见 [docs/README.install.md](docs/README.install.md)

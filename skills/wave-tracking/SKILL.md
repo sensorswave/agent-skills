@@ -38,7 +38,7 @@ Produce or execute a tracking rollout that a product/engineering team can use, w
 ## Workflow
 
 1. Classify the request as design-only or rollout. Treat Pipeline/SDK integration, code changes, and dashboard handoff as rollout stages downstream of the Tracking Plan.
-2. Confirm project before project-level MCP operations unless the user explicitly says the current project is fixed.
+2. Pass the project gate before any other project-level MCP call: `list_projects`, show `project_id | name`, and wait for a numeric `project_id`. Only skip a new selection if the user already fixed this conversation to one project, or explicitly says to keep the current project without switching. Never silently choose a project.
 3. Discover existing Catalog and Tracking Plans before inventing names or creating a new plan.
 4. For design work, produce a draft with events, trigger timing, platform/client/server ownership, properties, required flags, and identify/reset handling.
 5. For Tracking Plan writes, present the complete draft snapshot before calling `save_tracking_plan`; include a warning that omitted events/properties may be removed when replacing an existing draft.
@@ -50,6 +50,7 @@ Produce or execute a tracking rollout that a product/engineering team can use, w
 
 ## Boundaries
 
+- Do not call Catalog, Tracking Plan, Pipeline, or SDK tools before the user selects a `project_id`.
 - Do not run live tracking validation from this skill. Hand off to `wave-tracking-validation` only after the user confirms events are firing and asks to check.
 - Do not maintain existing Catalog documentation fields here. Hand off to `wave-catalog-governance`.
 - Do not perform deep data interpretation here. Hand off to `wave-analytics`.

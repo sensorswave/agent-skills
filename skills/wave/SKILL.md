@@ -51,4 +51,4 @@ Route the user to exactly one concrete Wave skill, then read that skill and foll
 
 ## Stop
 
-After choosing a route, stop using this file and follow the target skill. If no route is clear, ask one concise question: "你现在要做埋点落地、质检、数据分析、营销自动化、看板构建、产品帮助，还是 Catalog 元数据治理？"
+After choosing a route, stop using this file and follow the target skill. Project-scoped skills (`wave-tracking`, `wave-tracking-validation`, `wave-analytics`, `wave-marketing-automation`, `wave-dashboard-builder`, `wave-catalog-governance`) must confirm `project_id` via `list_projects` before any other project-level MCP call. If no route is clear, ask one concise question: "你现在要做埋点落地、质检、数据分析、营销自动化、看板构建、产品帮助，还是 Catalog 元数据治理？"
