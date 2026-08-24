@@ -1,6 +1,6 @@
 {
   "name": "wave-agent-skills",
-  "version": "1.4.0",
+  "version": "1.4.1",
   "description": "Sensors Wave 平台 AI Agent Skills：埋点落地、质检、分析、营销自动化、看板构建、产品帮助与 Catalog 治理",
   "repository": "sensorswave/agent-skills",
   "skills": [
