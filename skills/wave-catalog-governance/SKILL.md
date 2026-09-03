@@ -1,58 +1,67 @@
 ---
 name: wave-catalog-governance
 description: >-
-  Maintain low-risk Sensors Wave Catalog metadata for existing events, event
-  properties, and user properties. Use when updating display names,
-  descriptions, event trigger conditions, platform tags, or example values.
-  Do not use for renaming technical names, changing data types, deleting
-  metadata, merging duplicates, or designing new tracking plans.
+  维护已有事件、事件属性和用户属性的 Catalog 文档信息。用于更新显示名、描述、
+  事件触发时机、平台标签或示例值。不要用于改技术名、改数据类型、删除元数据、
+  合并重复项或设计新埋点方案。
 ---
 
-# Wave Catalog Governance
+# Wave 数据字典治理
 
-## Goal
+## 目标
 
-Maintain documentation-grade Catalog metadata for existing events and properties using the current MCP write tools.
+用当前 MCP 写入工具，维护已有事件和属性的文档类 Catalog 信息。
 
-## Tools
+## 工具
 
-- Discover current values: `list_projects`, `list_events`, `list_event_properties`, `list_user_properties`
-- Update events: `update_event_metadata`
-- Update event properties: `update_event_property_metadata`
-- Update user properties: `update_user_property_metadata`
-- Bulk context: read resource `wave://catalog/summary` when available
+- 项目：`list_projects`
+- 发现：`list_events`、`list_event_properties`、`list_user_properties`
+- 更新事件：`update_event_metadata`
+- 更新事件属性：`update_event_property_metadata`
+- 更新用户属性：`update_user_property_metadata`
+- 批量上下文：可用时阅读资源 `wave://catalog/summary`
 
-## Writable Fields
+## 可写字段
 
-- Event: `display_name`, `description`, `trigger_condition`, `platforms`
-- Event property: `display_name`, `description`, `example_value`
-- User property: `display_name`, `description`, `example_value`
+- 事件：`display_name`、`description`、`trigger_condition`、`platforms`
+- 事件属性：`display_name`、`description`、`example_value`
+- 用户属性：`display_name`、`description`、`example_value`
 
-## Workflow
+## 项目门禁
 
-1. Pass the project gate before any other project-level MCP call: `list_projects`, show `project_id | name`, and wait for a numeric `project_id`. Only skip a new selection if the user already fixed this conversation to one project, or explicitly says to keep the current project without switching. Never silently choose a project.
-2. Query the current Catalog objects by id, technical name, or search keyword.
-3. Prepare a change list with object type, id/name, current value, proposed value, and reason.
-4. Ask for confirmation before any update call.
-5. Include `expected_name` when updating by id or search-derived match to prevent wrong-object edits.
-6. Run the correct update tool.
-7. Re-query the changed object and report confirmed final values.
+在调用其他项目级 MCP 工具前：
 
-## Boundaries
+1. 调用 `list_projects`，展示 `project_id | name` 表格。
+2. 等待用户回复数字 `project_id`。
+3. 仅当本轮对话已经固定到一个项目，或用户明确说继续使用当前项目时，才跳过重新选择。
 
-- Do not read or update Catalog objects before the user selects a `project_id`.
-- Do not rename technical names.
-- Do not change data types.
-- Do not delete, archive, or merge metadata.
-- Do not create new events/properties or Tracking Plans.
-- Do not claim future governance operations are available until the MCP exposes corresponding tools.
+禁止静默挑选项目，也禁止在此步骤前调用元数据写入工具。
 
-If the user asks for a non-writable operation, explain the current tool boundary and, if appropriate, route to `wave-tracking` for redesign or to `wave-product-help` for product guidance.
+## 工作流
 
-## Output
+1. 先通过项目门禁，再按 id、技术名或关键词查出当前 Catalog 对象。
+2. 整理变更清单：对象类型、id/name、当前值、拟改值和原因。
+3. 任何更新调用前先请用户确认。
+4. 按 id 或搜索结果更新时带上 `expected_name`，避免改错对象。
+5. 调用对应的更新工具。
+6. 再查询一次已改对象，汇报确认后的最终值。
 
-Return:
-- Changes applied
-- Objects skipped and why
-- Any values that still need user confirmation
-- Suggested next step, if the requested governance cannot be completed with current MCP tools
+## 边界
+
+- 禁止在用户选择 `project_id` 之前查询或改写项目数据。
+- 不要改技术名。
+- 不要改数据类型。
+- 不要删除、归档或合并元数据。
+- 不要创建新事件、新属性或 Tracking Plan。
+- 在 MCP 尚未提供对应工具前，不要宣称后续治理能力已经可用。
+
+如果用户要求的是当前不可写的操作，说明现有工具边界；需要重做埋点时交给 `wave-tracking`，需要产品用法说明时交给 `wave-product-help`。
+
+## 输出
+
+返回：
+
+- 已应用的变更
+- 跳过的对象及原因
+- 仍需用户确认的值
+- 若当前 MCP 工具无法完成治理请求，给出下一步建议

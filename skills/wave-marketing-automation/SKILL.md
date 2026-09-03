@@ -5,7 +5,8 @@ description: >-
   Use for 5W1H Campaign briefs, reusable SMS/Webhook channel selection,
   audience planning, Campaign validation, Draft creation, testing, lifecycle
   operations, and Campaign performance review. For generic data analysis use
-  wave-analytics; for product usage questions use wave-product-help.
+  wave-analytics; for custom SQL use wave-sql-query; for product usage
+  questions use wave-product-help.
 ---
 
 # Wave Marketing Automation
@@ -132,8 +133,10 @@ with generic marketing advice or invented configuration.
 
 ## Handoffs
 
-- For metric, funnel, retention, user behavior, or SQL interpretation after
+- For metric, funnel, retention, or user-behavior interpretation after
   the Campaign context is established, hand off to `wave-analytics`.
+- For custom SQL or queries the analysis models cannot express, hand off
+  to `wave-sql-query`.
 - For saved charts or dashboards, hand off to `wave-dashboard-builder` with the
   validated metric/query shape.
 - For tracking implementation or tracking validation, use the corresponding

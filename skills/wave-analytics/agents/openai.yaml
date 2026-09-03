@@ -1,6 +1,6 @@
 interface:
   display_name: "Wave Analytics"
-  short_description: "事件、漏斗、留存、用户、SQL"
+  short_description: "事件、漏斗、留存、用户、分群"
   default_prompt: "$wave-analytics"
 policy:
   allow_implicit_invocation: false

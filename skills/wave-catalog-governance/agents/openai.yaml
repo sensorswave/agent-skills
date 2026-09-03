@@ -1,5 +1,5 @@
 interface:
-  display_name: "Wave Catalog Governance"
+  display_name: "Wave 数据字典治理"
   short_description: "Catalog 显示名、描述、触发时机、示例值"
   default_prompt: "$wave-catalog-governance"
 policy:

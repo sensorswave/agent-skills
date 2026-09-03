@@ -106,8 +106,9 @@ require a complete 5W1H brief, but do not invent missing facts.
 3. Combine sent, delivered, failed, goal conversion, frequency governance,
    operation logs, and tracking caveats. Distinguish delivery from conversion.
 
-For broad trend, funnel, retention, user behavior, or SQL interpretation,
+For broad trend, funnel, retention, or user-behavior interpretation,
 hand off to `wave-analytics` after preserving the Campaign context.
+For custom SQL, hand off to `wave-sql-query`.
 
 ## Stop conditions
 

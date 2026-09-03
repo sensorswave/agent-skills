@@ -1,76 +1,92 @@
 ---
 name: wave-analytics
 description: >-
-  Analyze user behavior data with Sensors Wave MCP tools: event analysis,
-  funnel analysis, retention analysis, user list queries, user event
-  sequences, and custom SQL on Doris. Use when
-  performing 数据分析, 用户行为分析, 漏斗分析, 留存分析, event metrics,
-  conversion analysis, or ad-hoc SQL queries on Wave data. For saved charts
-  or dashboards, hand off to wave-dashboard-builder.
+  Analyze user behavior with Sensors Wave MCP analysis models: event
+  analysis, funnel analysis, retention analysis, user lists, user event
+  sequences, and cohort management. Use when performing 数据分析, 用户行为分析,
+  漏斗分析, 留存分析, event metrics, or conversion analysis. For custom SQL
+  or Doris SELECT, hand off to wave-sql-query. For saved charts or
+  dashboards, hand off to wave-dashboard-builder.
 ---
 
-# Wave Analytics
+# Wave 分析模型
 
-## Goal
+## 目标
 
-Turn a user question into the right Wave analysis query, execute it with MCP tools, and explain the result as a business answer.
+把用户的业务问题转成正确的 Wave 分析查询，用 MCP 工具执行，并用业务语言解释结果。标准分析模型能表达的问题不要改写成 SQL。
 
-## Load When Needed
+## 按需加载
 
-- Read [references/analysis-models.md](references/analysis-models.md) when constructing query parameters, filters, custom SQL, or a dashboard-builder handoff.
+- 筛选与分组：[references/filters.md](references/filters.md)
+- 事件分析：[references/event-analysis.md](references/event-analysis.md)
+- 漏斗：[references/funnel.md](references/funnel.md)
+- 留存：[references/retention.md](references/retention.md)
+- 用户列表：[references/user-list.md](references/user-list.md)
 
-## Tools
+## 本轮工具
 
-- Project: `list_projects`
-- Metadata: `list_events`, `list_event_properties`, `list_user_properties`, `list_metrics`, `list_cohorts`
-- Analysis: `query_event_analysis`, `query_funnel`, `query_retention`, `query_user_list`, `query_user_sequence`, `get_user_profile`, `query_cohort_user_count`
-- Cohort lifecycle: `get_cohort_detail`, `validate_cohort_definition`, `sample_cohort_users`, `create_cohort`, `update_cohort`, `recalculate_cohort`, `get_cohort_run_status`, `prepare_delete_cohort`, `delete_cohort`
-- SQL: `get_sql_schema`, `query_custom_sql`
+以当前可见工具为准。SKILL 里列出的分析工具不一定都在本轮可用。
 
-## Project gate
+| 问题 | 工具 | 当前没有该工具时 |
+|---|---|---|
+| 指标、趋势、分组 | `query_event_analysis` | `switch_mode`，`task_type=metric_query` 或 `event_analysis` |
+| 步骤转化、流失 | `query_funnel` | `switch_mode`，`task_type=funnel` |
+| 首次行为后回访 | `query_retention` | `switch_mode`，`task_type=retention` |
+| 找人、分群 | `query_user_list` / `search_users` | `switch_mode`，`task_type=user_query` |
 
-Before any other project-level MCP call:
+发现工具：`list_events`、`list_event_properties`、`list_user_properties`、`list_metrics`、`list_cohorts`。需要时区或「今天 / 本周」时调用 `get_project_context`。
 
-1. Call `list_projects` and show a table of `project_id | name`.
-2. Wait for the user to reply with a numeric `project_id`.
-3. Only skip a new selection if the user already fixed this conversation to one project, or explicitly says to keep the current project without switching.
+## 项目门禁
 
-Never silently pick a project, and never start metadata, analysis, cohort, or SQL tools before this step.
+在调用其他项目级 MCP 工具前：
 
-## Workflow
+1. 调用 `list_projects`，展示 `project_id | name` 表格。
+2. 等待用户回复数字 `project_id`。
+3. 仅当本轮对话已经固定到一个项目，或用户明确说继续使用当前项目时，才跳过重新选择。
 
-1. Pass the project gate first. Then classify the request:
-   - Metric/trend/breakdown -> event analysis
-   - Step conversion/drop-off -> funnel
-   - Return behavior after first action -> retention
-   - Find users/cohort candidates -> user list or cohort count
-   - Explain one user's behavior -> user sequence or user profile
-   - Query not expressible by models -> custom SQL
-   - Save or present reusable assets -> hand off to `wave-dashboard-builder`
-2. Discover the data model before querying. Map business terms to actual event/property names.
-3. Choose sane defaults only when the user did not specify them: recent 30 days, time unit by range, limit 10 for breakdowns, limit 100 for user lists, 7-day ordered funnel window.
-4. Run the query tool. If it fails, fix concrete parameter issues first: event name, property name, operator, filter structure, or date range.
-5. Explain the result with conclusion first, then supporting numbers, trend/comparison, caveats, and suggested next analysis.
-6. If the user asks to save charts or build a dashboard, summarize the validated query shape and hand off to `wave-dashboard-builder`.
+禁止静默挑选项目，也禁止在此步骤前调用元数据、分析或分群工具。
 
-For cohort lifecycle requests, discover the saved cohort first, validate a complete rule definition before any create/update, use `cohort_id` for reusable audiences, and inspect deletion references before deleting. Behavior and sequence predicates belong in the cohort definition; MA should consume the resulting cohort ID.
+## 属性
 
-## Boundaries
+查询前用 `list_event_properties` / `list_user_properties` 确认 `name` 和 `data_type`。查询参数用 `name`，不用显示名。按 `data_type` 选择筛选操作符和分组字段，见 [filters.md](references/filters.md)。
 
-- Do not query or mutate project data before the user selects a `project_id`.
-- Do not design or implement new tracking here; hand off to `wave-tracking`.
-- Do not run Tracking Plan validation here; hand off to `wave-tracking-validation`.
-- Do not modify Catalog metadata here; hand off to `wave-catalog-governance`.
-- Do not create saved charts or dashboards here; hand off to `wave-dashboard-builder`.
-- For custom SQL, only use read-only SELECT queries and include a limit unless the user explicitly asks for an aggregate-only query.
+SQL 只用于多表关联、跨事件对齐同一元素、行为条件找人、分群交集、临时探查，或用户明确要 SQL。
 
-## Output
+## 工作流
 
-Return:
-- Short answer or verdict
-- Key numbers in a compact table when useful
-- Interpretation in business language
-- Caveats about data scope, filters, or tracking quality
-- One or two recommended follow-up queries
+1. 先通过项目门禁，再判断请求类型：
+   - 指标、趋势、分组对比 → 事件分析
+   - 步骤转化、流失 → 漏斗分析
+   - 首次行为后的回访 → 留存分析
+   - 找人、分群候选 → 用户列表或分群人数
+   - 解释单个用户的行为 → 用户序列或用户档案
+   - 模型表达不了，或用户明确要 SQL → 交给 `wave-sql-query`
+   - 保存可复用资产 → 交给 `wave-dashboard-builder`
+2. 查询前先发现数据模型，把业务词映射成真实的事件名和属性名。需要解释日期切分、今天/本周或当前时间时，先调用 `get_project_context`；用 `now_project` 和 `week_starts_on`（周一），结构化分析默认按 `project_timezone` 切日。
+3. 用户没指定时使用合理默认值：最近 30 天、按时间范围选择粒度、分组 Top 10、用户列表 100 条、有序漏斗窗口 7 天。
+4. 执行对应查询工具。失败时先修正事件名、属性名、操作符、筛选结构或时间范围。筛选或分组失败后，不要改用未筛选的全站结果当作原问题的答案；做不到时直接说明原因。
+5. 先给结论，再给数字、趋势或对比、限制条件，以及一到两个后续分析建议。
+6. 用户要保存图表或做 Dashboard 时，汇总已验证的查询结构，交给 `wave-dashboard-builder`。
 
-For dashboard requests, return the query shape and recommended chart type before handing off.
+分群生命周期请求：先发现已保存分群；创建或更新前先校验完整规则；复用受众时用 `cohort_id`；删除前先检查引用。
+
+## 边界
+
+- 禁止在用户选择 `project_id` 之前查询或改写项目数据。
+- 不要在这里设计或落地新埋点，交给 `wave-tracking`。
+- 不要在这里做 Tracking Plan 质检，交给 `wave-tracking-validation`。
+- 不要在这里改 Catalog 元数据，交给 `wave-catalog-governance`。
+- 不要在这里创建已保存图表或 Dashboard，交给 `wave-dashboard-builder`。
+- 不要把能用分析模型表达的问题改写成 SQL；需要 SQL 时交给 `wave-sql-query`。
+
+## 输出
+
+返回：
+
+- 简短结论
+- 关键数字；需要时用紧凑表格
+- 业务语言解读
+- 数据范围、筛选或埋点质量方面的限制
+- 一到两个后续查询建议
+
+看板请求先给出查询结构和推荐图表类型，再交接。

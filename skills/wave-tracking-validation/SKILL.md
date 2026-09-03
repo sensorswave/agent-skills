@@ -47,7 +47,7 @@ Validate actual event data against a published Tracking Plan and return an accep
 - Do not call quality-check or other project-level tools before the user selects a `project_id`.
 - Do not modify Tracking Plans, SDK code, Pipeline settings, or Catalog metadata from this skill.
 - Do not infer that missing data is fixed until a later validation run confirms it.
-- Do not run analytics interpretation here; hand off to `wave-analytics` for trend, funnel, retention, or SQL investigation.
+- Do not run analytics interpretation here; hand off to `wave-analytics` for trend, funnel, or retention investigation, and to `wave-sql-query` for SQL.
 
 ## Output
 

@@ -1,0 +1,6 @@
+interface:
+  display_name: "Wave SQL Query"
+  short_description: "自定义 SQL、Schema、分群交集、行为找人"
+  default_prompt: "$wave-sql-query"
+policy:
+  allow_implicit_invocation: false

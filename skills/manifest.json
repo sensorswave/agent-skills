@@ -1,15 +1,15 @@
 {
   "name": "wave-agent-skills",
-  "version": "1.4.1",
-  "description": "Sensors Wave 平台 AI Agent Skills：埋点落地、质检、分析、营销自动化、看板构建、产品帮助与 Catalog 治理",
+  "version": "1.6.0",
+  "description": "Sensors Wave 平台 AI Agent Skills：埋点落地、质检、分析模型、自定义 SQL、营销自动化、看板构建、产品帮助与 Catalog 治理",
   "repository": "sensorswave/agent-skills",
   "skills": [
     {
       "name": "wave",
       "dir": "wave",
       "skillFile": "SKILL.md",
-      "description": "总入口路由：根据用户意图分发到埋点落地、质检、数据分析、营销自动化、看板构建、产品帮助或 Catalog 治理",
-      "tags": ["router", "wave", "tracking", "analytics", "marketing", "dashboard", "catalog"],
+      "description": "总入口路由：根据用户意图分发到埋点落地、质检、数据分析、自定义 SQL、营销自动化、看板构建、产品帮助或 Catalog 治理",
+      "tags": ["router", "wave", "tracking", "analytics", "sql", "marketing", "dashboard", "catalog"],
       "type": "router",
       "visibility": "public",
       "install": true
@@ -59,13 +59,30 @@
       "name": "wave-analytics",
       "dir": "wave-analytics",
       "skillFile": "SKILL.md",
-      "description": "数据分析：事件分析、漏斗、留存、用户列表、行为序列、自定义 SQL",
-      "tags": ["analytics", "数据分析", "funnel", "retention", "sql"],
+      "description": "数据分析：事件分析、漏斗、留存、用户列表、行为序列、分群管理",
+      "tags": ["analytics", "数据分析", "funnel", "retention"],
       "type": "workflow",
       "visibility": "public",
       "install": true,
       "references": [
-        "references/analysis-models.md"
+        "references/filters.md",
+        "references/event-analysis.md",
+        "references/funnel.md",
+        "references/retention.md",
+        "references/user-list.md"
+      ]
+    },
+    {
+      "name": "wave-sql-query",
+      "dir": "wave-sql-query",
+      "skillFile": "SKILL.md",
+      "description": "自定义 SQL：在标准分析模型无法表达时，用只读 Doris SQL 查询 events/users/cohorts/query_log；覆盖多表关联、跨事件对齐、行为找人、分群交集",
+      "tags": ["sql", "自定义 SQL", "doris", "schema", "分群交集", "行为找人"],
+      "type": "workflow",
+      "visibility": "public",
+      "install": true,
+      "references": [
+        "references/sql-query.md"
       ]
     },
     {

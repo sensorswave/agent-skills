@@ -5,7 +5,7 @@ description: >-
   user asks to create, update, organize, or polish charts, KPI cards,
   dashboards, overview pages, dashboard layouts, or reusable analysis assets.
   Use Wave MCP chart and dashboard tools; for exploratory data interpretation,
-  route to wave-analytics first.
+  route to wave-analytics first. For custom SQL, route to wave-sql-query.
 ---
 
 # Wave Dashboard Builder
@@ -38,7 +38,7 @@ Never silently pick a project, and never list, create, update, or layout charts/
 
 1. Pass the project gate first. Then clarify the asset target: standalone chart, new dashboard, existing dashboard, or dashboard refresh.
 2. Discover existing dashboards/charts before creating duplicates when the user names an asset or asks to update. If the user asks what dashboards/charts exist, call `list_dashboards` / `list_charts` with no `search_key` and show every item (`total` plus pages). Do not search with type words like 看板, dashboard, 概览, or 图表.
-3. Confirm the metric/query shape. If the user has not specified metrics clearly, hand off to `wave-analytics` or run a lightweight validation query before creating assets.
+3. Confirm the metric/query shape. If the user has not specified metrics clearly, hand off to `wave-analytics` or `wave-sql-query`, or run a lightweight validation query before creating assets.
 4. Choose chart types deliberately:
    - KPI totals -> `Metric`
    - Time trends -> `Line`
@@ -69,7 +69,7 @@ Follow the Wave overview editor Speedy Layout. Every chart type uses the same he
 ## Boundaries
 
 - Do not discover or write project assets before the user selects a `project_id`.
-- Do not invent analysis meaning when the metric definition is unclear; validate with `wave-analytics`.
+- Do not invent analysis meaning when the metric definition is unclear; validate with `wave-analytics` or `wave-sql-query`.
 - Do not run Tracking Plan validation here; hand off to `wave-tracking-validation`.
 - Do not design new tracking events here; hand off to `wave-tracking`.
 - Do not delete charts or dashboards unless the user explicitly asks and confirms the exact asset name. Prefer create/update/layout operations.

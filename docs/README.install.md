@@ -13,7 +13,7 @@ npx skills add sensorswave/agent-skills --skill '*'
 说明：
 
 - 这条命令会使用 `skills` 官方 CLI，从 GitHub 仓库拉取 skill。
-- 当前仓库是 **多 skill workflow**，`wave` 路由、埋点落地、质检、分析、看板构建、产品帮助和 Catalog 治理会互相切换，所以推荐直接安装全部公开 skills。
+- 当前仓库是 **多 skill workflow**，`wave` 路由、埋点落地、质检、分析模型、自定义 SQL、看板构建、产品帮助和 Catalog 治理会互相切换，所以推荐直接安装全部公开 skills。
 - 默认会按 `skills` CLI 的规则让你选择安装范围；如果当前目录是项目，通常优先项目级安装。
 
 ## 常用安装方式
@@ -34,6 +34,7 @@ npx skills add sensorswave/agent-skills --skill '*' -g
 
 ```bash
 npx skills add sensorswave/agent-skills --skill wave-analytics
+npx skills add sensorswave/agent-skills --skill wave-sql-query
 npx skills add sensorswave/agent-skills --skill wave-marketing-automation
 npx skills add sensorswave/agent-skills --skill wave-dashboard-builder
 npx skills add sensorswave/agent-skills --skill wave-catalog-governance
@@ -45,10 +46,11 @@ npx skills add sensorswave/agent-skills --skill wave-catalog-governance
 
 | Skill | 功能 |
 |-------|------|
-| `wave` | 总入口路由：自动分发到埋点落地、质检、分析、看板构建、产品帮助或 Catalog 治理 |
+| `wave` | 总入口路由：自动分发到埋点落地、质检、分析模型、自定义 SQL、看板构建、产品帮助或 Catalog 治理 |
 | `wave-tracking` | 埋点方案、Tracking Plan、Pipeline/SDK 接入 |
 | `wave-tracking-validation` | Tracking Plan 质检、计划对照、上线验收 |
-| `wave-analytics` | 数据分析：事件、漏斗、留存、用户列表、SQL |
+| `wave-analytics` | 数据分析：事件、漏斗、留存、用户列表、分群 |
+| `wave-sql-query` | 自定义 SQL：Schema、只读 SELECT、多表关联、分群交集、行为找人 |
 | `wave-marketing-automation` | 5W1H Campaign、通道复用和管理、Campaign 校验与生命周期 |
 | `wave-dashboard-builder` | 图表、KPI 卡片、Dashboard 和布局 |
 | `wave-product-help` | 产品用法、配置步骤、FAQ、排障 |

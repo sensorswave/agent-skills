@@ -53,7 +53,7 @@ Produce or execute a tracking rollout that a product/engineering team can use, w
 - Do not call Catalog, Tracking Plan, Pipeline, or SDK tools before the user selects a `project_id`.
 - Do not run live tracking validation from this skill. Hand off to `wave-tracking-validation` only after the user confirms events are firing and asks to check.
 - Do not maintain existing Catalog documentation fields here. Hand off to `wave-catalog-governance`.
-- Do not perform deep data interpretation here. Hand off to `wave-analytics`.
+- Do not perform deep data interpretation here. Hand off to `wave-analytics` or `wave-sql-query`.
 - Do not create saved charts or dashboards here. Hand off to `wave-dashboard-builder`.
 - Do not restart, redeploy, rebuild, or operate the user's app/device/server. Tell the user what they must run manually.
 

@@ -46,13 +46,15 @@ npx skills add sensorswave/agent-skills --skill wave-analytics
 ## 这套 Skills 包含什么
 
 - `wave`
-  总入口。根据你当前阶段，把任务路由到埋点落地、质检、分析、看板构建、产品帮助或 Catalog 治理。
+  总入口。根据你当前阶段，把任务路由到埋点落地、质检、分析、自定义 SQL、看板构建、产品帮助或 Catalog 治理。
 - `wave-tracking`
   用于埋点方案设计、Tracking Plan 写入/发布、Pipeline/SDK 接入。
 - `wave-tracking-validation`
   用于对照已发布 Tracking Plan 做埋点质检、计划对照和上线验收。
 - `wave-analytics`
-  用于做事件、漏斗、留存、用户列表和 SQL 分析。
+  用于做事件、漏斗、留存、用户列表和分群分析。
+- `wave-sql-query`
+  用于在标准分析模型无法表达时，用只读 SQL 查询项目数据。
 - `wave-marketing-automation`
   用于 5W1H 营销简报、真实项目资产发现、已有通道复用、Campaign 规划与校验、Draft 创建、测试、启停和效果复盘。
 - `wave-dashboard-builder`
@@ -71,6 +73,7 @@ npx skills add sensorswave/agent-skills --skill wave-analytics
 - “我已经确认事件开始触发，帮我按计划做一轮质检”
 - “我要接 JavaScript SDK，给我初始化代码和 identify 方案”
 - “分析最近 30 天新用户的 7 日留存，并解释原因”
+- “用 SQL 查出同时属于两个分群、且最近 7 天完成过购买的用户”
 - “基于当前项目真实客群和已有通道，设计一个注册唤醒 Campaign，先给我 5W1H 简报并校验后保存 Draft”
 - “复盘 Campaign 251 的发送、送达和目标转化，不要直接启动活动”
 - “把这些核心指标做成一个增长看板”
