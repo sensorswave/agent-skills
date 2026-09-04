@@ -87,9 +87,9 @@ a confirmed fact.
 - How → frequency flags, silence/discard/defer policy, re-entry, and reporting
   interpretation.
 
-Before `save_ma_campaign`, all material `needs_confirmation` items must be
-resolved. Non-material assumptions can remain in `assumptions` and must be
-shown in the confirmation summary.
+Before `create_ma_campaign` or `update_ma_campaign`, all material
+`needs_confirmation` items must be resolved. Non-material assumptions can
+remain in `assumptions` and must be shown in the confirmation summary.
 
 ## Minimal clarification rule
 

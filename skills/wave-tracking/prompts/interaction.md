@@ -56,7 +56,7 @@
 
 ---
 
-## P-Plan·草案确认（调用 `save_tracking_plan` 之前）
+## P-Plan·草案确认（调用 `create_tracking_plan` 或 `update_tracking_plan` 之前）
 
 > 将把以下 **Tracking Plan 变更**写入平台（草稿或更新）：
 > **[事件与属性摘要表，或字段级说明]**

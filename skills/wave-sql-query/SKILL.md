@@ -50,7 +50,8 @@ description: >-
 
 - 禁止在用户选择 `project_id` 之前查询项目数据。
 - 只查询 `events`、`users`、`cohorts`、`query_log`。MCP 只接受单条只读 `SELECT` / CTE，禁止 `INSERT` / `UPDATE` / `DELETE` / DDL，也禁止 `SHOW`、`SET`、`EXPLAIN` 和库表限定名。
-- 不要为了「看起来更灵活」把事件分析、漏斗分析、留存分析改写成 SQL。这些模型与 `WINDOW_FUNNEL` / `RETENTION` 的计算结果不能直接对比。
+- 带时间趋势、属性分组或细分对比的事件/漏斗/留存，交给 `wave-analytics`，不要为了「看起来更灵活」改写成 SQL。
+- 用户明确要 SQL、且只算单个维度下的漏斗或留存时，用 `WINDOW_FUNNEL` / `RETENTION`。同一指标口径与分析模型基本一致；分析模型不用这两个函数，是因为它们一次只能算一个维度，覆盖不了「整体 + 分时间趋势 + 属性分组」。
 - 虚拟事件不会在 SQL 中自动展开；虚拟属性不会作为列出现在 Schema 中。
 - 普通查询最多返回 10,000 行，这个上限不会自动改写 SQL。需要更多明细时，让用户在产品里下载，并继续收紧时间范围。
 

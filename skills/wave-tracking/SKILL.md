@@ -32,7 +32,7 @@ Produce or execute a tracking rollout that a product/engineering team can use, w
 ## Tools
 
 - Project and discovery: `list_projects`, `list_events`, `list_event_properties`, `list_user_properties`
-- Tracking Plan: `list_tracking_plans`, `get_tracking_plan_detail`, `list_templates`, `get_template_detail`, `save_tracking_plan`, `publish_tracking_plan`
+- Tracking Plan: `list_tracking_plans`, `get_tracking_plan_detail`, `list_templates`, `get_template_detail`, `create_tracking_plan`, `update_tracking_plan`, `publish_tracking_plan`
 - Pipeline/SDK: `list_pipelines`, `get_pipeline_detail`, `create_pipeline`
 
 ## Workflow
@@ -41,8 +41,8 @@ Produce or execute a tracking rollout that a product/engineering team can use, w
 2. Pass the project gate before any other project-level MCP call: `list_projects`, show `project_id | name`, and wait for a numeric `project_id`. Only skip a new selection if the user already fixed this conversation to one project, or explicitly says to keep the current project without switching. Never silently choose a project.
 3. Discover existing Catalog and Tracking Plans before inventing names or creating a new plan.
 4. For design work, produce a draft with events, trigger timing, platform/client/server ownership, properties, required flags, and identify/reset handling.
-5. For Tracking Plan writes, present the complete draft snapshot before calling `save_tracking_plan`; include a warning that omitted events/properties may be removed when replacing an existing draft.
-6. Use a published Tracking Plan as a hard gate for every downstream rollout stage. If an existing published plan is selected unchanged, read its detail and use it as the baseline. If the selected plan is a draft, or this flow creates or updates a plan, save the complete draft, immediately request explicit publish confirmation, and publish it in this flow before proceeding.
+5. For Tracking Plan writes, present the complete draft snapshot before calling `create_tracking_plan` or `update_tracking_plan`. New drafts use `create_tracking_plan` without `plan_id`. Existing drafts use `update_tracking_plan` with `plan_id` and the full event/property snapshot; omitted events/properties may be removed.
+6. Use a published Tracking Plan as a hard gate for every downstream rollout stage. If an existing published plan is selected unchanged, read its detail and use it as the baseline. If the selected plan is a draft, or this flow creates or updates a plan, persist the complete draft, immediately request explicit publish confirmation, and publish it in this flow before proceeding.
 7. Never call Pipeline tools, provide project-specific SDK integration or tracking code, edit tracking code, or hand off to dashboard building while the baseline plan is unpublished. If the user declines or postpones publication, stop at the draft and explain that downstream work is blocked by the unpublished plan.
 8. Publish only after explicit user confirmation. Do not infer confirmation from a request to continue with implementation.
 9. For SDK/Pipeline work after publication, use MCP-returned `endpoint` and `source_token`; do not construct them manually.

@@ -74,7 +74,7 @@ npx skills add sensorswave/agent-skills --skill wave-analytics
 - “我要接 JavaScript SDK，给我初始化代码和 identify 方案”
 - “分析最近 30 天新用户的 7 日留存，并解释原因”
 - “用 SQL 查出同时属于两个分群、且最近 7 天完成过购买的用户”
-- “基于当前项目真实客群和已有通道，设计一个注册唤醒 Campaign，先给我 5W1H 简报并校验后保存 Draft”
+- “基于当前项目真实客群和已有通道，设计一个注册唤醒 Campaign，先给我 5W1H 简报并校验后创建 Draft”
 - “复盘 Campaign 251 的发送、送达和目标转化，不要直接启动活动”
 - “把这些核心指标做成一个增长看板”
 - “帮我把这些事件的中文名、描述和触发时机补完整”

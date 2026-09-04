@@ -26,7 +26,7 @@ with generic marketing advice or invented configuration.
 - Read [references/5w1h-brief.md](references/5w1h-brief.md) before designing,
   creating, copying with changes, or updating a Campaign.
 - Read [references/channel-reuse.md](references/channel-reuse.md) before
-  selecting a channel, configuring content, testing, or saving a Campaign.
+  selecting a channel, configuring content, testing, or creating/updating a Campaign.
 
 ## Tools
 
@@ -34,13 +34,13 @@ with generic marketing advice or invented configuration.
 - Existing assets: `list_cohorts`, `get_cohort_detail`, `list_ma_connections`,
   `get_ma_connection_detail`, `get_ma_sms_assets`, `list_ma_campaigns`,
   `get_ma_campaign_detail`, `get_ma_governance`
-- Channel management: `save_ma_connection`, `test_ma_connection`,
-  `delete_ma_connection`
+- Channel management: `create_ma_connection`, `update_ma_connection`,
+  `test_ma_connection`, `delete_ma_connection`
 - Audience checks: `validate_cohort_definition`, `query_cohort_user_count`,
   `sample_cohort_users`, `inspect_ma_audience`, `create_cohort`,
   `update_cohort`, `recalculate_cohort`, `get_cohort_run_status`
 - Campaign planning: `plan_ma_campaign`, `validate_ma_campaign`,
-  `save_ma_campaign`, `copy_ma_campaign`
+  `create_ma_campaign`, `update_ma_campaign`, `copy_ma_campaign`
 - Lifecycle and content: `test_ma_content`, `transition_ma_campaign`,
   `list_ma_campaign_operation_logs`
 - Review: `get_ma_campaign_dashboard`, `query_event_analysis`, `query_funnel`
@@ -70,7 +70,7 @@ with generic marketing advice or invented configuration.
 5. Prefer a matching existing connection. Select by `connection_id`, read its
    safe detail, and use the real channel/provider/test status. If no suitable
    connection exists, record `channel_strategy.mode=new`. Create one with
-   `save_ma_connection` only when the user explicitly requests it, has supplied
+   `create_ma_connection` only when the user explicitly requests it, has supplied
    the complete channel configuration and write-only credentials, and accepts
    the confirmation boundary. Test the saved connection with
    `test_ma_connection`, then read its detail again before resuming Campaign
@@ -83,12 +83,17 @@ with generic marketing advice or invented configuration.
    only the changed dependency on `rebind`; re-plan only on `replan` or
    `context_missing`. Do not rebuild or silently alter the
    plan after validation. If `safe_to_save` is false, clarify or repair the
-   plan before saving. Empty content can save a Draft but cannot launch.
-7. Before calling `save_ma_campaign`, present the complete 5W1H brief and the
-   validated plan and ask for explicit confirmation to persist the Draft. Save
-   only the exact validated plan. If the host or server supplies a separate
-   confirmation flow, honor it. A user request to design a Campaign is not
-   permission to persist it, send messages, or launch it.
+   plan before creating or updating. Empty content can persist a Draft but
+   cannot launch.
+7. Before calling `create_ma_campaign` or `update_ma_campaign`, present the
+   complete 5W1H brief and the validated plan and ask for explicit confirmation
+   to persist the Draft. New Drafts use `create_ma_campaign` with the validated
+   `plan` only. Existing Draft or paused Campaigns use `update_ma_campaign` with
+   the same plan plus `campaign_id` and `expected_version` from
+   `get_ma_campaign_detail`. Persist only the exact validated plan. If the host
+   or server supplies a separate confirmation flow, honor it. A user request to
+   design a Campaign is not permission to persist it, send messages, or launch
+   it.
 8. Call `test_ma_content`, `transition_ma_campaign` for launch/resume/pause, or
    other side-effecting operations only when the user explicitly requests that
    operation and the immediate confirmation boundary has been satisfied. If a
@@ -118,8 +123,9 @@ with generic marketing advice or invented configuration.
 - Never put Webhook URL/method/header/secret or SMS provider credentials into
   Campaign `content_config`. Use the selected connection and approved SMS
   assets.
-- Connection credentials are write-only inputs to `save_ma_connection`. Never
-  repeat them in summaries, tool output, examples, or follow-up messages.
+- Connection credentials are write-only inputs to `create_ma_connection` and
+  `update_ma_connection`. Never repeat them in summaries, tool output,
+  examples, or follow-up messages.
 - Keep `use_project_frequency` explicit. If enabled, read governance and
   explain the applicable project/channel rules in How.
 - A cohort is reusable audience state; an inline audience is acceptable for a
@@ -148,7 +154,7 @@ with generic marketing advice or invented configuration.
 
 - Planning: concise 5W1H brief, evidence status, selected/rejected channel
   candidates, assumptions, open questions, and the next gated operation.
-- Save: Campaign name/id/status, validation result, confirmation state, and
+- Create/update: Campaign name/id/status, validation result, confirmation state, and
   whether anything was actually sent or launched.
 - Lifecycle: operation, Campaign state before/after, side-effect summary, and
   server result.

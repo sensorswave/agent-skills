@@ -19,6 +19,6 @@
 
 已保存分群优先用 `cohort_id` 调 `query_cohort_user_count`。只要人数、不要名单时不要拉用户列表。
 
-定位具体用户：先 `search_users`，再 `get_user_profile` 或 `query_user_sequence`。
+定位具体用户：先 `search_users`，再 `get_user_profile` 或 `query_user_sequence`。`query_user_sequence` 缺省 `time_range.period=last_7_days`，也可传 `last_30_days` 或 `from_date`+`to_date`（YYYY-MM-DD）。
 
 创建或更新分群前，用 `validate_cohort_definition` 校验完整规则。删除前用 `prepare_delete_cohort` 检查引用。

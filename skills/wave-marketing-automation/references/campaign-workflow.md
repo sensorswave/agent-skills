@@ -1,10 +1,10 @@
 # Campaign operation workflow
 
 Use the smallest flow that matches the user's request. Read-only inspection,
-planning, saving a Draft, testing, lifecycle operations, and performance review
-have different side-effect boundaries.
+planning, creating or updating a Draft, testing, lifecycle operations, and
+performance review have different side-effect boundaries.
 
-## Planning and Draft creation
+## Planning and Draft create/update
 
 For a new Campaign or a copy/update that changes business behavior:
 
@@ -17,14 +17,19 @@ list_projects → confirm project_id
 → inspect/query the audience and validate any reusable cohort definition
 → plan_ma_campaign
 → validate_ma_campaign
-→ save_ma_campaign
+→ create_ma_campaign or update_ma_campaign
 ```
 
-The plan passed to `validate_ma_campaign` and `save_ma_campaign` must be the
-same complete plan. The brief is shown before the write; a model must not jump
-from a numeric ID lookup directly to Campaign creation. Before
-`save_ma_campaign`, ask the user to approve the complete validated Draft. A
-request to design a Campaign alone does not authorize persistence.
+The plan passed to `validate_ma_campaign` and `create_ma_campaign` /
+`update_ma_campaign` must be the same complete plan. The brief is shown before
+the write; a model must not jump from a numeric ID lookup directly to Campaign
+creation. Before `create_ma_campaign` or `update_ma_campaign`, ask the user to
+approve the complete validated Draft. A request to design a Campaign alone does
+not authorize persistence.
+
+Use `create_ma_campaign` for a new Draft (`plan` only). Use
+`update_ma_campaign` for an existing Draft or paused Campaign (`plan` +
+`campaign_id` + `expected_version`).
 
 `safe_to_save=false` blocks saving. `safe_to_launch=false` blocks launch or
 resume. Resolve the concrete validation issue instead of explaining it away in
@@ -45,7 +50,7 @@ Write these fields instead of inferring them from an existing Campaign.
   `values=[cohort_id]`.
 - `test_ma_content` variables: only `user.*`, `event.*`, `campaign.id`,
   `campaign.name`. Never `message.*` or `content.*`.
-- Empty `content_config` can `save` a Draft. `validate` reports
+- Empty `content_config` can persist a Draft. `validate` reports
   `content_missing` as a launch blocker (`safe_to_launch=false`). Launch and
   test send require a real body.
 - `context_id` is a catalog ETag. Runtime stats such as cohort size do not
@@ -56,7 +61,7 @@ Write these fields instead of inferring them from an existing Campaign.
 
 When no suitable connection exists, pause Campaign planning at the Where
 decision. If the user explicitly requests channel creation, run
-`save_ma_connection → test_ma_connection → get_ma_connection_detail`, then get
+`create_ma_connection → test_ma_connection → get_ma_connection_detail`, then get
 a fresh MA design context before planning/validation so the new connection is
 part of the evidence snapshot.
 
@@ -82,15 +87,15 @@ require a complete 5W1H brief, but do not invent missing facts.
 - `transition_ma_campaign` can launch, resume, pause, or stop a Campaign. Launch
   and resume can cause real customer delivery; require explicit user intent and
   the server confirmation flow.
-- If the user did not request launch/resume, leave a successful save in Draft.
+- If the user did not request launch/resume, leave a successful create/update in Draft.
 - Use `list_ma_campaign_operation_logs` to explain state changes or automatic
   pauses.
 
 ## Connection lifecycle
 
-- Create/update: read existing candidates first. Call `save_ma_connection` only
-  for an explicit channel-management request. Update uses the current
-  `expected_version`; omitted fields remain unchanged.
+- Create/update: read existing candidates first. Call `create_ma_connection` or
+  `update_ma_connection` only for an explicit channel-management request. Update
+  uses the current `expected_version`; omitted fields remain unchanged.
 - Test: call `test_ma_connection` only after explaining the real destination
   and side effect. A passing result updates the connection test status.
 - Delete: read the current safe detail, show ID/name/references, then call

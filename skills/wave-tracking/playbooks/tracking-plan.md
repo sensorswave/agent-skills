@@ -31,11 +31,10 @@
 4. 起草计划
    在写入前，先把计划参数、事件列表、属性列表整理给用户确认。
    除计划名称、目标平台等关键字段外，描述、排序等非关键参数优先按当前项目和场景自动补默认值。
-   使用 `save_tracking_plan` 写入完整草稿快照：
-   - 不传 `plan_id`：创建新草稿
-   - 传 `plan_id`：替换保存已有草稿
-   - 初次草稿写入不要设置 `publish=true`；草稿保存成功后按步骤 5 单独展示发布摘要并取得发布确认
-   - 更新已有草稿前先调用 `get_tracking_plan_detail`，本地合并后再提交完整事件/属性快照，避免遗漏项被移除
+   使用 `create_tracking_plan` 创建新草稿，或用 `update_tracking_plan` 替换已有草稿快照：
+   - 新建：调用 `create_tracking_plan`，不要传 `plan_id`
+   - 更新：先调用 `get_tracking_plan_detail`，本地合并后再调用 `update_tracking_plan` 并传 `plan_id` 与完整事件/属性快照，避免遗漏项被移除
+   - 初次草稿写入不要设置 `publish=true`；草稿创建或更新成功后按步骤 5 单独展示发布摘要并取得发布确认
 
 5. 发布前再确认一次
    若用户只是要方案草稿，到草稿态即可停止。

@@ -35,7 +35,7 @@ execution result.
 `channel_strategy.mode = "new"` can record that no existing connection matches,
 but it does not authorize creation. If the user explicitly asks to create the
 channel and supplies the complete configuration and credentials, call
-`save_ma_connection` after the confirmation boundary, then call
+`create_ma_connection` after the confirmation boundary, then call
 `test_ma_connection` after a separate explicit test request. Read the new
 connection detail again and use its real `connection_id`, version, and test
 status before returning to Campaign planning.
@@ -47,8 +47,8 @@ test the existing entity first.
 
 ## Connection management
 
-- `save_ma_connection` creates when `connection_id` is omitted and updates when
-  `connection_id + expected_version` are present. Read detail before update.
+- `create_ma_connection` creates a new connection. `update_ma_connection`
+  requires `connection_id + expected_version`. Read detail before update.
 - Treat every credential as write-only. Never echo it after the tool call.
 - `test_ma_connection` tests the saved URL/auth/provider configuration and
   updates `test_status`; it performs a real external request or SMS send.
@@ -69,7 +69,7 @@ test the existing entity first.
   of the Campaign.
 - If the required template variable cannot be sourced from real project
   attributes or a supported binding, mark What as `needs_confirmation` and
-  stop before validation/save.
+  stop before validation or create/update.
 
 ## Launch gate
 
