@@ -13,6 +13,7 @@
 - 做埋点验收、计划对照和上线质检
 - 生成 JavaScript、Android、iOS、服务端等 SDK 接入思路
 - 做事件分析、漏斗分析、留存分析和 SQL 查询
+- 给定业务目标，让 AI 挖掘值得运营的候选人群并落为规则分群
 - 补充 Catalog 中已有事件/属性的显示名、描述、触发时机和示例值
 - 查询 Wave 产品功能用法、配置步骤、FAQ 和常见排障
 
@@ -55,6 +56,8 @@ npx skills add sensorswave/agent-skills --skill wave-analytics
   用于做事件、漏斗、留存、用户列表和分群分析。
 - `wave-sql-query`
   用于在标准分析模型无法表达时，用只读 SQL 查询项目数据。
+- `wave-cohort-mining`
+  用于给定业务目标（转化、复购、召回、激活）时，按固定方法论挖掘候选人群，附人数、lift 与重叠证据，确认后落为 STATIC 规则分群。
 - `wave-marketing-automation`
   用于 5W1H 营销简报、真实项目资产发现、已有通道复用、Campaign 规划与校验、Draft 创建、测试、启停和效果复盘。
 - `wave-dashboard-builder`
@@ -74,6 +77,7 @@ npx skills add sensorswave/agent-skills --skill wave-analytics
 - “我要接 JavaScript SDK，给我初始化代码和 identify 方案”
 - “分析最近 30 天新用户的 7 日留存，并解释原因”
 - “用 SQL 查出同时属于两个分群、且最近 7 天完成过购买的用户”
+- “帮我挖一下能提升支付转化的人群，先出报告别保存”
 - “基于当前项目真实客群和已有通道，设计一个注册唤醒 Campaign，先给我 5W1H 简报并校验后创建 Draft”
 - “复盘 Campaign 251 的发送、送达和目标转化，不要直接启动活动”
 - “把这些核心指标做成一个增长看板”

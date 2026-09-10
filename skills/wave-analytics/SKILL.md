@@ -1,12 +1,10 @@
 ---
 name: wave-analytics
 description: >-
-  Analyze user behavior with Sensors Wave MCP analysis models: event
-  analysis, funnel analysis, retention analysis, user lists, user event
-  sequences, and cohort management. Use when performing 数据分析, 用户行为分析,
-  漏斗分析, 留存分析, event metrics, or conversion analysis. For custom SQL
-  or Doris SELECT, hand off to wave-sql-query. For saved charts or
-  dashboards, hand off to wave-dashboard-builder.
+  用 Sensors Wave MCP 的标准分析模型做用户行为分析：事件分析、漏斗分析、留存分析、
+  用户列表、用户行为序列和分群管理。适用于数据分析、指标问数、转化分析、
+  funnel / retention / event metrics 类问题。需要自定义 SQL 或 Doris SELECT 时交给
+  wave-sql-query；要保存图表或 Dashboard 时交给 wave-dashboard-builder。
 ---
 
 # Wave 分析模型
@@ -38,6 +36,7 @@ description: >-
 
 ## 项目门禁
 
+<!-- wave:project-gate -->
 在调用其他项目级 MCP 工具前：
 
 1. 调用 `list_projects`，展示 `project_id | name` 表格。
@@ -45,6 +44,7 @@ description: >-
 3. 仅当本轮对话已经固定到一个项目，或用户明确说继续使用当前项目时，才跳过重新选择。
 
 禁止静默挑选项目，也禁止在此步骤前调用元数据、分析或分群工具。
+<!-- /wave:project-gate -->
 
 ## 属性
 
@@ -72,7 +72,7 @@ SQL 只用于多表关联、跨事件对齐同一元素、行为条件找人、�
 
 ## 边界
 
-- 禁止在用户选择 `project_id` 之前查询或改写项目数据。
+- 项目门禁未通过前，禁止查询或改写项目数据。
 - 不要在这里设计或落地新埋点，交给 `wave-tracking`。
 - 不要在这里做 Tracking Plan 质检，交给 `wave-tracking-validation`。
 - 不要在这里改 Catalog 元数据，交给 `wave-catalog-governance`。

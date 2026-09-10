@@ -12,9 +12,9 @@
 
 ## 执行步骤
 
-1. 选择项目
-   使用 `list_projects`，让用户明确选择 `project_id`。
-   交互模板见 [../prompts/interaction.md](../prompts/interaction.md) 的 `P-项目`。
+1. 项目门禁
+   先按 SKILL.md 的「项目门禁」一节处理，通过后再继续。
+   需要确认措辞时见 [../prompts/interaction.md](../prompts/interaction.md) 的 `P-项目`。
 
 2. 盘点现有计划
    使用 `list_tracking_plans`。

@@ -1,10 +1,9 @@
 ---
 name: wave-sql-query
 description: >-
-  Query Sensors Wave project data with read-only Apache Doris SQL when
-  standard analysis models cannot express the question. Use for 自定义 SQL,
-  SQL 查询, schema 探查, 多表关联, 行为找人, 分群交集, and ad-hoc SELECT
-  on events/users/cohorts/query_log.
+  在标准分析模型无法表达时，用只读 Apache Doris SQL 查询 Sensors Wave 项目数据。
+  适用于自定义 SQL、SQL 查询、schema 探查、多表关联、行为找人、分群交集，以及对
+  events / users / cohorts / query_log 的临时 SELECT。
 ---
 
 # Wave SQL 查询
@@ -19,7 +18,6 @@ description: >-
 
 ## 工具
 
-- 项目：`list_projects`
 - 项目上下文：`get_project_context`
 - 表结构：`get_sql_schema`
 - 查询：`query_custom_sql`
@@ -27,6 +25,7 @@ description: >-
 
 ## 项目门禁
 
+<!-- wave:project-gate -->
 在调用其他项目级 MCP 工具前：
 
 1. 调用 `list_projects`，展示 `project_id | name` 表格。
@@ -34,6 +33,7 @@ description: >-
 3. 仅当本轮对话已经固定到一个项目，或用户明确说继续使用当前项目时，才跳过重新选择。
 
 禁止静默挑选项目，也禁止在此步骤前调用 schema、SQL 或元数据工具。
+<!-- /wave:project-gate -->
 
 ## 工作流
 
@@ -48,7 +48,7 @@ description: >-
 
 ## 边界
 
-- 禁止在用户选择 `project_id` 之前查询项目数据。
+- 项目门禁未通过前，禁止查询项目数据。
 - 只查询 `events`、`users`、`cohorts`、`query_log`。MCP 只接受单条只读 `SELECT` / CTE，禁止 `INSERT` / `UPDATE` / `DELETE` / DDL，也禁止 `SHOW`、`SET`、`EXPLAIN` 和库表限定名。
 - 带时间趋势、属性分组或细分对比的事件/漏斗/留存，交给 `wave-analytics`，不要为了「看起来更灵活」改写成 SQL。
 - 用户明确要 SQL、且只算单个维度下的漏斗或留存时，用 `WINDOW_FUNNEL` / `RETENTION`。同一指标口径与分析模型基本一致；分析模型不用这两个函数，是因为它们一次只能算一个维度，覆盖不了「整体 + 分时间趋势 + 属性分组」。

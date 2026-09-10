@@ -1,5 +1,5 @@
 interface:
-  display_name: "Wave Tracking Validation"
+  display_name: "Wave 埋点质检"
   short_description: "Tracking Plan 质检、计划对照、上线验收"
   default_prompt: "$wave-tracking-validation"
 policy:

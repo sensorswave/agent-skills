@@ -1,45 +1,44 @@
 ---
 name: wave-product-help
 description: >-
-  Answer Sensors Wave product usage, setup steps, concept explanations,
-  FAQs, and common troubleshooting questions. Prefer official docs evidence
-  through docs_search.
+  回答 Sensors Wave 的产品用法、配置步骤、概念解释、FAQ 和常见排障问题。
+  优先通过 docs_search 获取官方文档证据。
 ---
 
-# Wave Product Help
+# Wave 产品帮助
 
-## Goal
+## 目标
 
-Answer product usage and troubleshooting questions with official documentation evidence whenever available.
+尽可能基于官方文档证据，回答产品用法和排障问题。
 
-## Tools
+## 工具
 
-- Use `docs_search` before answering product behavior, setup, navigation, permission, FAQ, or troubleshooting questions.
+- 回答产品行为、配置、页面入口、权限、FAQ 或排障问题之前，先用 `docs_search`。
 
-## Workflow
+## 工作流
 
-1. Classify the question: usage, setup, concept, FAQ, permission, error, missing data, or navigation.
-2. Search docs with `docs_search`; use focused queries in the user's language first, then broaden if needed.
-3. Answer with scope, steps, caveats, and next action.
-4. For troubleshooting, ask for or infer the minimum needed context: environment, project, page/module, permission, error message, and reproduction path.
-5. If docs evidence is insufficient, state the limitation and avoid inventing product behavior.
+1. 给问题分类：用法、配置、概念、FAQ、权限、报错、数据缺失或页面入口。
+2. 用 `docs_search` 检索文档；先用用户语言的聚焦查询，需要时再放宽。
+3. 回答时给出适用范围、步骤、注意事项和下一步动作。
+4. 排障类问题，询问或推断最少必要的上下文：环境、项目、页面/模块、权限、错误信息和复现路径。
+5. 文档证据不足时，明确说明限制，不要编造产品行为。
 
-## Boundaries
+## 边界
 
-- Do not call project-level MCP tools from this skill. If live project data is needed, hand off; the target skill must confirm `project_id` first.
-- Do not design or implement tracking here; hand off to `wave-tracking`.
-- Do not validate live tracking data here; hand off to `wave-tracking-validation`.
-- Do not analyze metrics, funnels, or retention here; hand off to `wave-analytics`.
-- Do not run custom SQL here; hand off to `wave-sql-query`.
-- Do not create, update, or arrange saved charts/dashboards here; hand off to `wave-dashboard-builder`.
-- Do not modify Catalog metadata here; hand off to `wave-catalog-governance`.
+- 不要在这个 skill 里调用项目级 MCP 工具。需要项目实时数据时交接出去，由目标 skill 先通过项目门禁确认项目。
+- 不要在这里设计或落地埋点，交给 `wave-tracking`。
+- 不要在这里校验线上埋点数据，交给 `wave-tracking-validation`。
+- 不要在这里分析指标、漏斗或留存，交给 `wave-analytics`。
+- 不要在这里跑自定义 SQL，交给 `wave-sql-query`。
+- 不要在这里创建、更新或排布已保存图表/Dashboard，交给 `wave-dashboard-builder`。
+- 不要在这里修改 Catalog 元数据，交给 `wave-catalog-governance`。
 
-## Output
+## 输出
 
-Return a concise answer with:
-- Direct answer
-- Steps or explanation
-- Notes/limitations
-- Suggested next action
+简洁地返回：
+- 直接答案
+- 步骤或解释
+- 注意事项/限制
+- 建议的下一步
 
-When using docs evidence, include the relevant doc title or URL if the tool returns it.
+引用文档证据时，若工具返回了文档标题或 URL，一并给出。

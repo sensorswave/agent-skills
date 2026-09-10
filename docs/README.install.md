@@ -35,6 +35,7 @@ npx skills add sensorswave/agent-skills --skill '*' -g
 ```bash
 npx skills add sensorswave/agent-skills --skill wave-analytics
 npx skills add sensorswave/agent-skills --skill wave-sql-query
+npx skills add sensorswave/agent-skills --skill wave-cohort-mining
 npx skills add sensorswave/agent-skills --skill wave-marketing-automation
 npx skills add sensorswave/agent-skills --skill wave-dashboard-builder
 npx skills add sensorswave/agent-skills --skill wave-catalog-governance
@@ -51,6 +52,7 @@ npx skills add sensorswave/agent-skills --skill wave-catalog-governance
 | `wave-tracking-validation` | Tracking Plan 质检、计划对照、上线验收 |
 | `wave-analytics` | 数据分析：事件、漏斗、留存、用户列表、分群 |
 | `wave-sql-query` | 自定义 SQL：Schema、只读 SELECT、多表关联、分群交集、行为找人 |
+| `wave-cohort-mining` | 人群挖掘：按业务目标提出候选人群，附人数、lift、重叠证据，确认后落为 STATIC 规则分群 |
 | `wave-marketing-automation` | 5W1H Campaign、通道复用和管理、Campaign 校验与生命周期 |
 | `wave-dashboard-builder` | 图表、KPI 卡片、Dashboard 和布局 |
 | `wave-product-help` | 产品用法、配置步骤、FAQ、排障 |

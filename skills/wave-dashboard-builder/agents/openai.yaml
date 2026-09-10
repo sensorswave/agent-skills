@@ -1,5 +1,5 @@
 interface:
-  display_name: "Wave Dashboard Builder"
+  display_name: "Wave 看板构建"
   short_description: "图表、看板、KPI 卡片和布局"
   default_prompt: "$wave-dashboard-builder"
 policy:

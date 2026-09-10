@@ -1,122 +1,71 @@
-# Campaign operation workflow
+# Campaign 操作流程
 
-Use the smallest flow that matches the user's request. Read-only inspection,
-planning, creating or updating a Draft, testing, lifecycle operations, and
-performance review have different side-effect boundaries.
+用能匹配用户请求的最小流程。只读查看、规划、创建或更新 Draft、试发、生命周期操作和效果复盘，各有不同的副作用边界。
 
-## Planning and Draft create/update
+## 规划与 Draft 创建/更新
 
-For a new Campaign or a copy/update that changes business behavior:
+新建 Campaign，或复制/更新且改变业务行为时，在项目门禁通过后按以下顺序执行：
 
 ```text
-list_projects → confirm project_id
-→ get_ma_design_context
-→ choose an existing connection
+get_ma_design_context
+→ 选择一条已有通道
 → get_ma_connection_detail
-→ get_ma_sms_assets (SMS only)
-→ inspect/query the audience and validate any reusable cohort definition
+→ get_ma_sms_assets（仅 SMS）
+→ 查看/查询受众，并校验任何要复用的分群定义
 → plan_ma_campaign
 → validate_ma_campaign
-→ create_ma_campaign or update_ma_campaign
+→ create_ma_campaign 或 update_ma_campaign
 ```
 
-The plan passed to `validate_ma_campaign` and `create_ma_campaign` /
-`update_ma_campaign` must be the same complete plan. The brief is shown before
-the write; a model must not jump from a numeric ID lookup directly to Campaign
-creation. Before `create_ma_campaign` or `update_ma_campaign`, ask the user to
-approve the complete validated Draft. A request to design a Campaign alone does
-not authorize persistence.
+传给 `validate_ma_campaign` 和 `create_ma_campaign` / `update_ma_campaign` 的必须是同一份完整方案。简报在写入之前展示；模型不能从查到一个数字 ID 直接跳到创建 Campaign。调用 `create_ma_campaign` 或 `update_ma_campaign` 之前，请用户确认完整的已校验 Draft。仅要求设计 Campaign 不构成保存授权。
 
-Use `create_ma_campaign` for a new Draft (`plan` only). Use
-`update_ma_campaign` for an existing Draft or paused Campaign (`plan` +
-`campaign_id` + `expected_version`).
+新 Draft 用 `create_ma_campaign`（只传 `plan`）。已有 Draft 或已暂停的 Campaign 用 `update_ma_campaign`（`plan` + `campaign_id` + `expected_version`）。
 
-`safe_to_save=false` blocks saving. `safe_to_launch=false` blocks launch or
-resume. Resolve the concrete validation issue instead of explaining it away in
-text.
+`safe_to_save=false` 阻止保存。`safe_to_launch=false` 阻止启动或恢复。解决具体的校验问题，而不是用文字把它解释掉。
 
-## Config contracts
+## 配置契约
 
-Write these fields instead of inferring them from an existing Campaign.
+这些字段要显式写出，不要从已有 Campaign 推断。
 
-- `content_config` (Webhook): `{"body":"{\"ssid\":\"{{user.ssid}}\"}","variable_defaults":{"user.city":"unknown"}}`.
-  Do not put the copy in `description`. WeCom/push JSON belongs in `body`.
-- `content_config` (SMS): `{"sign_name":"...","template_id":"...","variable_bindings":{"name":{"mapping":"{{user.name}}","default":"用户"}}}`.
-- `trigger_config`: `time_once` uses `fire_date`; `time_recurring` uses
-  `granularity`/`n`/`start_date`/`fire_time`/`tz`; `action_done` uses
-  `trigger_event` + `active_duration`; `action_done_not_done` also needs
-  `delay` and `cancel_event`. Do not send `frequency` or `time`.
-- `in_cohort`: `field.name=id`, `table_type=cohort`, `operator=in`,
-  `values=[cohort_id]`.
-- `test_ma_content` variables: only `user.*`, `event.*`, `campaign.id`,
-  `campaign.name`. Never `message.*` or `content.*`.
-- Empty `content_config` can persist a Draft. `validate` reports
-  `content_missing` as a launch blocker (`safe_to_launch=false`). Launch and
-  test send require a real body.
-- `context_id` is a catalog ETag. Runtime stats such as cohort size do not
-  rotate it. On `soft_stale` or `required_action=reuse_plan`, reuse the
-  current plan. On `stale` / `dep_stale` / `required_action=rebind`, refresh
-  `get_ma_design_context` and rebind only the changed dependency. Re-plan
-  only when `required_action=replan` or `context_id` is missing.
+- `content_config`（Webhook）：`{"body":"{\"ssid\":\"{{user.ssid}}\"}","variable_defaults":{"user.city":"unknown"}}`。不要把文案放在 `description`。企微/推送的 JSON 属于 `body`。
+- `content_config`（SMS）：`{"sign_name":"...","template_id":"...","variable_bindings":{"name":{"mapping":"{{user.name}}","default":"用户"}}}`。
+- `trigger_config`：`time_once` 用 `fire_date`；`time_recurring` 用 `granularity`/`n`/`start_date`/`fire_time`/`tz`；`action_done` 用 `trigger_event` + `active_duration`；`action_done_not_done` 还需要 `delay` 和 `cancel_event`。不要传 `frequency` 或 `time`。
+- `in_cohort`：`field.name=id`、`table_type=cohort`、`operator=in`、`values=[cohort_id]`。
+- `test_ma_content` 变量：只允许 `user.*`、`event.*`、`campaign.id`、`campaign.name`。绝不用 `message.*` 或 `content.*`。
+- 空的 `content_config` 可以保存 Draft。`validate` 会把 `content_missing` 报为启动阻塞项（`safe_to_launch=false`）。启动和试发都需要真实的 body。
+- `context_id` 是 catalog 的 ETag。分群人数等运行时统计不会让它变化。遇到 `soft_stale` 或 `required_action=reuse_plan` 时复用当前方案；遇到 `stale` / `dep_stale` / `required_action=rebind` 时刷新 `get_ma_design_context` 并只重绑变化的依赖；只有 `required_action=replan` 或 `context_id` 缺失时才重新规划。
 
-When no suitable connection exists, pause Campaign planning at the Where
-decision. If the user explicitly requests channel creation, run
-`create_ma_connection → test_ma_connection → get_ma_connection_detail`, then get
-a fresh MA design context before planning/validation so the new connection is
-part of the evidence snapshot.
+没有合适通道时，把 Campaign 规划停在 Where 这一步。用户明确要求创建通道时，执行 `create_ma_connection → test_ma_connection → get_ma_connection_detail`，然后重新获取 MA 设计上下文再做规划/校验，让新通道进入证据快照。
 
-## Exact copy
+## 精确复制
 
-For an exact copy explicitly requested by the user, `copy_ma_campaign` may be
-used after reading the source Campaign detail. If the user wants any behavior,
-audience, timing, content, channel, frequency, or goal changed, use the full
-planning flow and validate the resulting plan.
+用户明确要求精确复制时，可以在读取源 Campaign 详情之后使用 `copy_ma_campaign`。用户想改任何行为、受众、时机、内容、通道、频控或目标时，走完整规划流程并校验得到的方案。
 
-## Read-only inspection
+## 只读查看
 
-Use `list_ma_campaigns` before an unknown Campaign ID, then
-`get_ma_campaign_detail`. Use `list_ma_connections` before an unknown
-connection ID, then `get_ma_connection_detail`. Read-only inspection does not
-require a complete 5W1H brief, but do not invent missing facts.
+Campaign ID 未知时先 `list_ma_campaigns`，再 `get_ma_campaign_detail`。通道 ID 未知时先 `list_ma_connections`，再 `get_ma_connection_detail`。只读查看不要求完整的 5W1H 简报，但不要臆造缺失的事实。
 
-## Test and lifecycle
+## 试发与生命周期
 
-- `test_ma_content` invokes a real SMS/Webhook delivery path. Explain the
-  destination/side effect and require the user's explicit test request before
-  calling it.
-- `transition_ma_campaign` can launch, resume, pause, or stop a Campaign. Launch
-  and resume can cause real customer delivery; require explicit user intent and
-  the server confirmation flow.
-- If the user did not request launch/resume, leave a successful create/update in Draft.
-- Use `list_ma_campaign_operation_logs` to explain state changes or automatic
-  pauses.
+- `test_ma_content` 会走真实的 SMS/Webhook 发送路径。调用前说明目的地/副作用，并要求用户明确提出试发请求。
+- `transition_ma_campaign` 可以启动、恢复、暂停或停止 Campaign。启动和恢复会造成真实的客户触达；需要用户明确意图和服务端确认流程。
+- 用户没要求启动/恢复时，成功的创建/更新保持为 Draft。
+- 用 `list_ma_campaign_operation_logs` 解释状态变化或自动暂停。
 
-## Connection lifecycle
+## 通道生命周期
 
-- Create/update: read existing candidates first. Call `create_ma_connection` or
-  `update_ma_connection` only for an explicit channel-management request. Update
-  uses the current `expected_version`; omitted fields remain unchanged.
-- Test: call `test_ma_connection` only after explaining the real destination
-  and side effect. A passing result updates the connection test status.
-- Delete: read the current safe detail, show ID/name/references, then call
-  `delete_ma_connection` only after explicit deletion confirmation. Never infer
-  deletion permission from a request to design or clean up a Campaign.
+- 创建/更新：先读已有候选。只有明确的通道管理请求才调用 `create_ma_connection` 或 `update_ma_connection`。更新使用当前 `expected_version`；未传的字段保持不变。
+- 测试：说明真实目的地和副作用之后才调用 `test_ma_connection`。通过的结果会更新通道测试状态。
+- 删除：读当前安全详情，展示 ID/名称/引用关系，仅在用户明确确认删除后调用 `delete_ma_connection`。绝不从设计或清理 Campaign 的请求中推断出删除权限。
 
-## Performance review
+## 效果复盘
 
-1. Read `get_ma_campaign_dashboard` to obtain the attribution window and query
-   template.
-2. Use the returned query shape with `query_event_analysis` or `query_funnel`
-   when deeper conversion analysis is needed.
-3. Combine sent, delivered, failed, goal conversion, frequency governance,
-   operation logs, and tracking caveats. Distinguish delivery from conversion.
+1. 读 `get_ma_campaign_dashboard`，拿到归因窗口和查询模板。
+2. 需要更深的转化分析时，用返回的查询形态调 `query_event_analysis` 或 `query_funnel`。
+3. 综合发送、送达、失败、目标转化、频控治理、操作日志和埋点注意事项。区分送达和转化。
 
-For broad trend, funnel, retention, or user-behavior interpretation,
-hand off to `wave-analytics` after preserving the Campaign context.
-For custom SQL, hand off to `wave-sql-query`.
+更宽泛的趋势、漏斗、留存或用户行为解读，保留 Campaign 上下文后交给 `wave-analytics`。自定义 SQL 交给 `wave-sql-query`。
 
-## Stop conditions
+## 停止条件
 
-Stop for clarification when a material 5W1H section is unresolved, no matching
-tested connection exists, a required SMS asset cannot be bound, validation is
-unsafe, or the user has not authorized a side-effecting operation.
+出现以下情况时停下来澄清：关键 5W1H 部分未定；没有匹配的已测试通道；所需 SMS 资产无法绑定；校验不安全；用户尚未授权有副作用的操作。

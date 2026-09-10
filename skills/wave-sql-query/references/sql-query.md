@@ -129,7 +129,7 @@ Schema 展示的是父属性列的存储类型。比较、分组、聚合前按�
 | `OBJECT` | `VARIANT` | `col['child']` 后再 `CAST` |
 | `OBJECT_ARRAY` | `VARIANT` | 先转 `ARRAY<JSON>`，再提取元素 |
 
-`OBJECT` / `OBJECT_ARRAY` 的子属性不是独立表列。从父列的 `property.children` 读取子属性名和 `physical_data_type`，不要猜测嵌套路径。
+`OBJECT` / `OBJECT_ARRAY` 的子属性不是独立表列。从父列的 `property.children` 读取子属性名和 `physical_data_type`，不要猜测嵌套路径。子属性名保留上报大小写，查询键必须与 catalog 中的 `name` 完全一致。
 
 ## ARRAY
 

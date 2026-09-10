@@ -1,5 +1,5 @@
 interface:
-  display_name: "Wave Analytics"
+  display_name: "Wave 数据分析"
   short_description: "事件、漏斗、留存、用户、分群"
   default_prompt: "$wave-analytics"
 policy:

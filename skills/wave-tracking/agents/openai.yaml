@@ -1,5 +1,5 @@
 interface:
-  display_name: "Wave Tracking"
+  display_name: "Wave 埋点落地"
   short_description: "埋点方案、Tracking Plan、SDK 接入"
   default_prompt: "$wave-tracking"
 policy:

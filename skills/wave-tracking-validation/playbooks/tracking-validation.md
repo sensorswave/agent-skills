@@ -13,7 +13,7 @@
 ## 执行步骤
 
 1. 确认项目与计划
-   先拿到 `project_id`，再明确 `plan_id`。
+   先通过项目门禁，再明确 `plan_id`。
    如果用户没指定计划，先用 `list_tracking_plans`。
 
 2. 确认计划状态

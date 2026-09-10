@@ -184,3 +184,7 @@
 ```json
 { "name": "items.item_name", "table_type": "event" }
 ```
+
+## 分群 DSL
+
+`filter_by` / `filter_by_not` 只接受用户属性（`list_user_properties`，`table_type=user`）。事件属性（如 `platform_type`）写在 `user_did.metric_rule.filter`，`table_type=event`；取值用 `list_property_values`，不要猜。

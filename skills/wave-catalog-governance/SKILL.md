@@ -14,7 +14,6 @@ description: >-
 
 ## 工具
 
-- 项目：`list_projects`
 - 发现：`list_events`、`list_event_properties`、`list_user_properties`
 - 更新事件：`update_event_metadata`
 - 更新事件属性：`update_event_property_metadata`
@@ -29,26 +28,28 @@ description: >-
 
 ## 项目门禁
 
+<!-- wave:project-gate -->
 在调用其他项目级 MCP 工具前：
 
 1. 调用 `list_projects`，展示 `project_id | name` 表格。
 2. 等待用户回复数字 `project_id`。
 3. 仅当本轮对话已经固定到一个项目，或用户明确说继续使用当前项目时，才跳过重新选择。
 
-禁止静默挑选项目，也禁止在此步骤前调用元数据写入工具。
+禁止静默挑选项目，也禁止在此步骤前调用元数据查询或写入工具。
+<!-- /wave:project-gate -->
 
 ## 工作流
 
 1. 先通过项目门禁，再按 id、技术名或关键词查出当前 Catalog 对象。
 2. 整理变更清单：对象类型、id/name、当前值、拟改值和原因。
 3. 任何更新调用前先请用户确认。
-4. 按 id 或搜索结果更新时带上 `expected_name`，避免改错对象。
+4. 用查询返回的 ID 作为写入目标；技术名 `name` 只用于查找，不是写入字段。
 5. 调用对应的更新工具。
 6. 再查询一次已改对象，汇报确认后的最终值。
 
 ## 边界
 
-- 禁止在用户选择 `project_id` 之前查询或改写项目数据。
+- 项目门禁未通过前，禁止查询或改写项目数据。
 - 不要改技术名。
 - 不要改数据类型。
 - 不要删除、归档或合并元数据。

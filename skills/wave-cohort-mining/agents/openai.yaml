@@ -1,0 +1,6 @@
+interface:
+  display_name: "Wave 人群挖掘"
+  short_description: "按业务目标挖掘候选人群并落为规则分群"
+  default_prompt: "$wave-cohort-mining"
+policy:
+  allow_implicit_invocation: false

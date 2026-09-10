@@ -1,5 +1,5 @@
 interface:
-  display_name: "Wave Product Help"
+  display_name: "Wave 产品帮助"
   short_description: "产品用法、配置步骤、FAQ、排障"
   default_prompt: "$wave-product-help"
 policy:

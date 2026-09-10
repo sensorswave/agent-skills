@@ -1,84 +1,84 @@
 ---
 name: wave-dashboard-builder
 description: >-
-  Build and maintain Sensors Wave saved charts and dashboards. Use when the
-  user asks to create, update, organize, or polish charts, KPI cards,
-  dashboards, overview pages, dashboard layouts, or reusable analysis assets.
-  Use Wave MCP chart and dashboard tools; for exploratory data interpretation,
-  route to wave-analytics first. For custom SQL, route to wave-sql-query.
+  构建和维护 Sensors Wave 的已保存图表与 Dashboard。适用于用户要创建、更新、整理或
+  打磨图表、KPI 卡片、看板、概览页、看板布局或可复用分析资产。使用 Wave MCP 的
+  chart / dashboard 工具；探索性的数据解读先交给 wave-analytics，自定义 SQL 交给
+  wave-sql-query。
 ---
 
-# Wave Dashboard Builder
+# Wave 看板构建
 
-## Goal
+## 目标
 
-Create or update saved Wave analysis assets: charts, dashboards, and dashboard layouts.
+创建或更新 Wave 的已保存分析资产：图表、Dashboard 和 Dashboard 布局。
 
-## Tools
+## 工具
 
-- Project: `list_projects`
-- Discover assets: `list_charts`, `list_dashboards`, `get_chart_detail`, `get_dashboard_detail`
-- Create dashboards: `create_dashboard`
-- Create charts: `create_event_chart`, `create_event_charts`, `create_funnel_chart`, `create_retention_chart`, `create_custom_sql_chart`
-- Validate query shapes when needed: `query_event_analysis`, `query_funnel`, `query_retention`, `get_sql_schema`, `query_custom_sql`
-- Polish layout: `set_dashboard_chart_layouts`
-- Update existing assets: `update_dashboard`, `update_chart`
+- 发现资产：`list_charts`、`list_dashboards`、`get_chart_detail`、`get_dashboard_detail`
+- 创建 Dashboard：`create_dashboard`
+- 创建图表：`create_event_chart`、`create_event_charts`、`create_funnel_chart`、`create_retention_chart`、`create_custom_sql_chart`
+- 需要时验证查询形态：`query_event_analysis`、`query_funnel`、`query_retention`、`get_sql_schema`、`query_custom_sql`
+- 整理布局：`set_dashboard_chart_layouts`
+- 更新已有资产：`update_dashboard`、`update_chart`
 
-## Project gate
+## 项目门禁
 
-Before any other project-level MCP call:
+<!-- wave:project-gate -->
+在调用其他项目级 MCP 工具前：
 
-1. Call `list_projects` and show a table of `project_id | name`.
-2. Wait for the user to reply with a numeric `project_id`.
-3. Only skip a new selection if the user already fixed this conversation to one project, or explicitly says to keep the current project without switching.
+1. 调用 `list_projects`，展示 `project_id | name` 表格。
+2. 等待用户回复数字 `project_id`。
+3. 仅当本轮对话已经固定到一个项目，或用户明确说继续使用当前项目时，才跳过重新选择。
 
-Never silently pick a project, and never list, create, update, or layout charts/dashboards before this step.
+禁止静默挑选项目，也禁止在此步骤前列出、创建、更新或排布图表/Dashboard。
+<!-- /wave:project-gate -->
 
-## Workflow
+## 工作流
 
-1. Pass the project gate first. Then clarify the asset target: standalone chart, new dashboard, existing dashboard, or dashboard refresh.
-2. Discover existing dashboards/charts before creating duplicates when the user names an asset or asks to update. If the user asks what dashboards/charts exist, call `list_dashboards` / `list_charts` with no `search_key` and show every item (`total` plus pages). Do not search with type words like 看板, dashboard, 概览, or 图表.
-3. Confirm the metric/query shape. If the user has not specified metrics clearly, hand off to `wave-analytics` or `wave-sql-query`, or run a lightweight validation query before creating assets.
-4. Choose chart types deliberately:
-   - KPI totals -> `Metric`
-   - Time trends -> `Line`
-   - Category comparison -> `Column` or `Bar`
-   - Composition -> `StackedLine`, `StackedColumn`, or `Pie`
-   - Funnel conversion -> `FunnelColumn`
-   - Retention curve -> `Line`
-   - SQL/detail table -> `Table`
-5. For a dashboard, prefer one batch call when creating multiple event charts with `create_event_charts`.
-6. Use `new_dashboards` when creating a dashboard together with charts; use `dashboard_ids` when attaching to an existing dashboard.
-7. After charts exist on a dashboard, call `get_dashboard_detail` before any layout change. `list_dashboards` / `get_resource(dashboard)` / `list_charts` do not include coordinates.
+1. 先通过项目门禁，再明确资产目标：独立图表、新 Dashboard、已有 Dashboard，还是刷新 Dashboard。
+2. 用户点名某个资产或要求更新时，先发现已有 Dashboard/图表，避免重复创建。用户问「有哪些看板/图表」时，调用 `list_dashboards` / `list_charts` 且不传 `search_key`，展示全部条目（`total` 加分页）。不要用「看板」「dashboard」「概览」「图表」这类类型词去搜索。
+3. 确认指标/查询形态。用户没有明确指标时，交给 `wave-analytics` 或 `wave-sql-query`，或者在创建资产前先跑一次轻量验证查询。
+4. 有意识地选择图表类型：
+   - KPI 汇总值 → `Metric`
+   - 时间趋势 → `Line`
+   - 分类对比 → `Column` 或 `Bar`
+   - 构成占比 → `StackedLine`、`StackedColumn` 或 `Pie`
+   - 漏斗转化 → `FunnelColumn`
+   - 留存曲线 → `Line`
+   - SQL/明细表 → `Table`
+5. 为 Dashboard 一次创建多个事件图表时，优先用 `create_event_charts` 批量调用。
+6. 图表和 Dashboard 一起创建时用 `new_dashboards`；挂到已有 Dashboard 时用 `dashboard_ids`。
+7. Dashboard 上已有图表之后，任何布局改动前先调用 `get_dashboard_detail`。`list_dashboards` / `get_resource(dashboard)` / `list_charts` 不含坐标。
 
-## Layout Defaults
+## 布局默认值
 
-Follow the Wave overview editor Speedy Layout. Every chart type uses the same height, including Metric/KPI cards.
+遵循 Wave 概览编辑器的快捷布局（Speedy Layout）。所有图表类型高度一致，包括 Metric/KPI 卡片。
 
-- 12-column grid. Always `h=7`. `min_w=3`, `min_h=4`.
-- Speedy layout is the default polish (单列 / 双列 / 三列 / 整理布局). Prefer `set_dashboard_chart_layouts` with `speedy_columns` so the server sorts by visual order (`y` then `x`) and applies:
-  - 1 column: `w=12 h=7`
-  - 2 columns: `w=6 h=7`
-  - 3 columns: `w=4 h=7`
-- Do not give Metric/KPI a shorter height or a special top row. Treat them like any other chart.
-- New chart without layout: `w=12 h=7` at the bottom (`x=0`, `y=max(y+h)`).
-- Copy keeps the source `w/h` and appends at the bottom.
-- Custom `layouts` may change `x/w` if the user asks, but keep `h=7` unless they explicitly request another height.
-- `x+w` must fit the 12-column grid. Rectangles must not overlap each other or charts not listed in the call. On overlap, include every affected chart or use `speedy_columns`.
+- 12 列栅格。始终 `h=7`。`min_w=3`、`min_h=4`。
+- 快捷布局是默认的整理方式（单列 / 双列 / 三列 / 整理布局）。优先用 `set_dashboard_chart_layouts` 传 `speedy_columns`，由服务端按视觉顺序（先 `y` 再 `x`）排序并套用：
+  - 1 列：`w=12 h=7`
+  - 2 列：`w=6 h=7`
+  - 3 列：`w=4 h=7`
+- 不要给 Metric/KPI 更矮的高度或单独的顶部一行，把它们当普通图表处理。
+- 没有布局的新图表：`w=12 h=7`，放在最底部（`x=0`，`y=max(y+h)`）。
+- 复制沿用源图表的 `w/h`，追加到最底部。
+- 用户要求时，自定义 `layouts` 可以改 `x/w`，但除非用户明确要求其他高度，保持 `h=7`。
+- `x+w` 必须落在 12 列栅格内。矩形之间不能重叠，也不能与本次调用未列出的图表重叠。出现重叠时，把受影响的图表全部带上，或改用 `speedy_columns`。
 
-## Boundaries
+## 边界
 
-- Do not discover or write project assets before the user selects a `project_id`.
-- Do not invent analysis meaning when the metric definition is unclear; validate with `wave-analytics` or `wave-sql-query`.
-- Do not run Tracking Plan validation here; hand off to `wave-tracking-validation`.
-- Do not design new tracking events here; hand off to `wave-tracking`.
-- Do not delete charts or dashboards unless the user explicitly asks and confirms the exact asset name. Prefer create/update/layout operations.
+- 项目门禁未通过前，不要发现或写入项目资产。
+- 指标定义不清楚时不要臆造分析含义；用 `wave-analytics` 或 `wave-sql-query` 验证。
+- 不要在这里做 Tracking Plan 质检，交给 `wave-tracking-validation`。
+- 不要在这里设计新埋点事件，交给 `wave-tracking`。
+- 除非用户明确要求并确认了准确的资产名称，不要删除图表或 Dashboard。优先创建/更新/布局操作。
 
-## Output
+## 输出
 
-Return:
-- Created or updated dashboard ids/names
-- Created or updated chart ids/names/types
-- Layout changes applied (`speedy_columns` or per-chart `x,y,w,h`)
-- Any chart requests skipped and why
-- Suggested follow-up if data validation or metric definition is still unclear
+返回：
+- 创建或更新的 Dashboard id/名称
+- 创建或更新的图表 id/名称/类型
+- 应用的布局改动（`speedy_columns` 或逐图表的 `x,y,w,h`）
+- 被跳过的图表请求及原因
+- 若数据验证或指标定义仍不清楚，给出后续建议
