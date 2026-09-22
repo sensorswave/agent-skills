@@ -1,10 +1,6 @@
 ---
 name: wave-marketing-automation
-description: >-
-  基于真实项目资产规划和操作 Sensors Wave 营销自动化。适用于 5W1H Campaign 简报、
-  复用已有 SMS/Webhook 通道、受众规划、Campaign 校验、Draft 创建、试发、生命周期操作
-  和 Campaign 效果复盘。通用数据分析交给 wave-analytics，自定义 SQL 交给 wave-sql-query，
-  产品用法问题交给 wave-product-help。
+description: 用项目真实资产做 5W1H Campaign：通道复用、校验、Draft、试发、生命周期与复盘。
 ---
 
 # Wave 营销自动化

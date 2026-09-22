@@ -1,8 +1,6 @@
 ---
 name: wave-product-help
-description: >-
-  回答 Sensors Wave 的产品用法、配置步骤、概念解释、FAQ 和常见排障问题。
-  优先通过 docs_search 获取官方文档证据。
+description: Sensors Wave 产品用法、配置步骤、概念、FAQ 与排障；优先 docs_search。
 ---
 
 # Wave 产品帮助

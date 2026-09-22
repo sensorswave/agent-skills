@@ -1,9 +1,6 @@
 ---
 name: wave-tracking-validation
-description: >-
-  在事件已经开始上报之后，对 Sensors Wave 埋点做质检。适用于把已发布的 Tracking Plan
-  与实际数据对照、排查缺失事件或属性、做上线验收。Tracking Plan 写入/发布、SDK 接入
-  或代码修复交给 wave-tracking。
+description: 事件已上报后对照 Tracking Plan 做质检、验收和缺失排查。方案与 SDK 走 wave-tracking。
 ---
 
 # Wave 埋点质检

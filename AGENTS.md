@@ -4,7 +4,7 @@
 
 ## 语言
 
-所有 `SKILL.md`、reference、`agents/openai.yaml` 的正文用中文。frontmatter 的 `name`、MCP 工具名、参数名（`project_id`、`source_token` 等）、产品术语（Tracking Plan、Pipeline、Campaign、Dashboard、Catalog、identify/reset、5W1H）和 skill 名保持英文。frontmatter `description` 以中文为主、保留英文关键词，方便中英文提问都能命中。
+所有 `SKILL.md`、reference、`agents/openai.yaml` 的正文用中文。frontmatter 的 `name`、MCP 工具名、参数名（`project_id`、`source_token` 等）、产品术语（Tracking Plan、Pipeline、Campaign、Dashboard、Catalog、identify/reset、5W1H）和 skill 名保持英文。frontmatter `description` 只写触发场景和易混边界，一两句即可，流程细节放正文。压缩时删流程步骤，不删触发词：产品名、英文关键词和用户真会说的口语说法都要留着，方便中英文提问都能命中。
 
 ## 项目门禁写法
 

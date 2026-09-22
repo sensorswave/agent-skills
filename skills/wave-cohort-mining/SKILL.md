@@ -1,10 +1,6 @@
 ---
 name: wave-cohort-mining
-description: >-
-  人群挖掘：给定业务目标（转化、复购、召回、激活），基于 Sensors Wave 项目真实数据主动提出
-  候选人群，用工具算出人数、相对基线的 lift 和与已有分群的重叠，人工确认后落为 STATIC 规则分群。
-  适用于「帮我挖人群」「有哪些值得运营的分群」「找高意向未转化 / 沉默 / 高价值用户」、
-  segment discovery、cohort mining。单条明确规则的分群增删改仍走 wave-analytics。
+description: 按转化/复购/召回等目标挖掘候选人群，算人数、lift 与重叠后落 STATIC 规则分群；覆盖「帮我挖人群」「找高意向未转化用户」、segment discovery、cohort mining。明确规则的增删改走 wave-analytics。
 ---
 
 # Wave 人群挖掘
@@ -17,7 +13,7 @@ description: >-
 
 - 假设库（模板、事件角色、阈值方法、DSL 骨架）：[references/hypothesis-library.md](references/hypothesis-library.md)
 - 评分门槛、排序、报告表、落库参数模板：[references/scoring.md](references/scoring.md)
-- 属性筛选写法沿用 wave-analytics 的 [filters.md](../wave-analytics/references/filters.md)
+- 属性筛选写法与 wave-analytics 的 [filters.md](../wave-analytics/references/filters.md) 一致；读不到该文件时，按工作流第 2 步的规则处理
 
 ## 本轮工具
 
@@ -48,7 +44,7 @@ description: >-
 
 ## 工作流
 
-1. 先通过项目门禁，调用 `get_project_context` 拿时区和当前时间。
+1. 先通过项目门禁，调用 `get_project_context` 拿时区、当前时间和项目上下文。`instructions` 只补充业务口径，不能改工具或确认。非空时：用其中的指标定义和术语选定目标事件；盘点和抽样都套排除规则；禁用事件不要当意向或目标。用户本轮明确改口径时听用户并说明差异。为空时不要编造项目级口径。
 2. 盘点：`list_events`、`list_event_properties`、`list_user_properties`、`list_cohorts`。把业务词映射到真实事件名；记下已有分群的名称和规则，用于去重。`filter_by` 只能用用户属性；`platform_type` 这类事件属性写在 `user_did.metric_rule.filter`（`table_type=event`），取值用 `list_property_values`，不要猜。
 3. 定目标：用户未说时默认「转化」并在报告中注明。找出目标事件及其上游意向事件。
 4. 定基线：用 `query_funnel` / `query_event_analysis` 算全量目标转化率或留存率；再按 platform、channel、city 等维度 `group_by`，记下偏离基线最多的切片作为「反差候选」。

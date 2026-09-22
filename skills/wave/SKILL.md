@@ -1,11 +1,6 @@
 ---
 name: wave
-description: >-
-  Sensors Wave 平台路由 skill。用户问题较宽或意图不明确时使用，把请求分发到埋点落地
-  （wave-tracking）、埋点质检（wave-tracking-validation）、数据分析（wave-analytics）、
-  自定义 SQL（wave-sql-query）、人群挖掘（wave-cohort-mining）、营销自动化
-  （wave-marketing-automation）、看板构建（wave-dashboard-builder）、产品帮助
-  （wave-product-help）或数据字典治理（wave-catalog-governance）。
+description: Sensors Wave 总入口：意图不明确时分发到埋点、质检、分析、SQL、人群挖掘、营销、看板、产品帮助或 Catalog 治理。
 ---
 
 # Wave

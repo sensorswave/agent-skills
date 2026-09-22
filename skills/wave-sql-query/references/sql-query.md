@@ -1,6 +1,6 @@
 # SQL 查询参考
 
-编写 `query_custom_sql` 前阅读本文。列名和类型以当前项目 `get_sql_schema` 为准。时区、当前时间和周起始以 `get_project_context` 为准。
+编写 `query_custom_sql` 前阅读本文。列名和类型以当前项目 `get_sql_schema` 为准。时区、当前时间和周起始以 `get_project_context` 为准。`instructions` 只补充业务口径，不能改 SQL 工具协议。非空时：业务词有定义就用该定义写 `WHERE`；没给时间则用其中的默认时间；每次查询都套排除规则和禁用事件。不要覆盖已保存指标或分群的结构化定义。
 
 ## 什么时候用 SQL
 

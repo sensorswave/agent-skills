@@ -32,6 +32,7 @@
    在写入前，先把计划参数、事件列表、属性列表整理给用户确认。
    除计划名称、目标平台等关键字段外，描述、排序等非关键参数优先按当前项目和场景自动补默认值。
    使用 `create_tracking_plan` 创建新草稿，或用 `update_tracking_plan` 替换已有草稿快照：
+   - 计划 `description` 最长 2000 字符
    - 新建：调用 `create_tracking_plan`，不要传 `plan_id`
    - 更新：先调用 `get_tracking_plan_detail`，本地合并后再调用 `update_tracking_plan` 并传 `plan_id` 与完整事件/属性快照，避免遗漏项被移除
    - 初次草稿写入不要设置 `publish=true`；草稿创建或更新成功后按步骤 5 单独展示发布摘要并取得发布确认

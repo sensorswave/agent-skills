@@ -34,7 +34,7 @@
 
 ## STRING
 
-操作符：`eq`、`ne`、`in`、`not_in`、`contains`、`not_contains`、`is_empty`、`is_not_empty`、`is_null`、`is_not_null`。
+操作符：`eq`、`ne`、`in`、`not_in`、`contains`、`not_contains`、`regex`、`not_regex`、`is_empty`、`is_not_empty`、`is_null`、`is_not_null`。
 
 筛选：
 
@@ -54,7 +54,7 @@
 
 ## NUMBER
 
-操作符：`eq`、`ne`、`gt`、`gte`、`lt`、`lte`、`between`、`in`、`not_in`、`is_null`、`is_not_null`。
+操作符：`eq`、`ne`、`gt`、`gte`、`lt`、`lte`、`between`、`not_between`、`in`、`not_in`、`is_null`、`is_not_null`。
 
 筛选：
 
@@ -74,7 +74,7 @@
 
 ## BOOLEAN
 
-操作符：`is_true`、`is_false`、`is_null`、`is_not_null`。
+操作符：`is_true`、`is_false`、`is_null`、`is_not_null`。也可用 `eq` / `ne` / `in` / `not_in`，`values` 为 `true`/`false` 或 `0`/`1`。
 
 筛选：
 
@@ -93,15 +93,30 @@
 
 ## DATETIME
 
-操作符：`eq`、`gt`、`gte`、`lt`、`lte`、`between`、`is_null`、`is_not_null`。日期值用 `YYYY-MM-DD` 或带时间的字符串。
+绝对时间操作符：`eq`、`ne`、`gt`、`gte`、`lt`、`lte`、`in`、`not_in`、`between`、`not_between`、`is_null`、`is_not_null`。日期值用 `YYYY-MM-DD` 或带时间的字符串。
 
-筛选：
+相对事件发生时间（当前行 `events.time`，不是「现在」）：`at_event_time` / `not_at_event_time`。只用于带 events 行的查询（事件/漏斗/留存的 metric 或 step filter），不要用在纯用户列表的 `filter_by`。`values` 二选一：
+
+- 单值 `current_day` / `current_week` / `current_month`：属性与 `e.time` 落在同一日历日/周/月（按查询 `time_zone` 截断）
+- 三值 `[past|future, N, minute|hour|day|week]`：`N` 为正整数，兼容 JSON 数字和数字字符串（`5` 与 `"5"`）。`past` 为 `trunc(prop) >= trunc(e.time)-N` 且 `prop <= e.time`（含当天，含事件发生时刻；同一天晚于事件不算 past）；`future` 为 `trunc(prop) <= trunc(e.time)+N` 且 `prop > e.time`（含当天，不含事件发生时刻）。窗口边界先按 unit 截断，截断前转到查询 `time_zone`；瞬时先后比较用原始时间戳。
+
+筛选（绝对区间）：
 
 ```json
 {
   "field": { "name": "paid_at", "table_type": "event" },
   "operator": "between",
   "values": ["2026-08-01", "2026-08-31"]
+}
+```
+
+筛选（相对事件时间，过去 5 天之内，含当天和事件发生时刻）：
+
+```json
+{
+  "field": { "name": "paid_at", "table_type": "event" },
+  "operator": "at_event_time",
+  "values": ["past", 5, "day"]
 }
 ```
 
@@ -113,7 +128,7 @@
 
 ## ARRAY
 
-筛选操作符与字符串/数值不同：用 `contains`、`not_contains`、`contains_all`、`set_eq`、`is_empty`、`is_not_empty`。不要用 `eq`。
+筛选操作符与字符串/数值不同：用 `contains`、`not_contains`、`contains_all`、`not_contains_all`、`set_eq`、`not_set_eq`、`is_empty`、`is_not_empty`。不要用 `eq`。
 
 筛选：
 
@@ -135,7 +150,7 @@
 
 ## OBJECT
 
-筛选和分组都写到子字段，字段名为 `parent.child`，操作符按子字段的 `data_type` 选择。
+父属性本身只支持 `is_null` / `is_not_null`。筛选和分组都写到子字段，字段名为 `parent.child`，操作符按子字段的 `data_type` 选择。
 
 筛选：
 
@@ -155,7 +170,7 @@
 
 ## OBJECT_ARRAY
 
-筛选写父属性，用 `array_match_any`（任一元素满足）或 `array_match_all`（全部元素满足），子字段条件放在 `obj_filter`。`obj_filter` 里的 `field.name` 只写子字段名，例如 `item_name`。不要用 `eq` / `contains` 筛父属性，也不要把 `items.item_name` 当作筛选字段。
+筛选写父属性，用 `array_match_any`（任一元素满足）或 `array_match_all`（全部元素满足），子字段条件放在 `obj_filter`。父属性也支持 `is_null` / `is_not_null`。`obj_filter` 里的 `field.name` 只写子字段名，例如 `item_name`。不要用 `eq` / `contains` 筛父属性，也不要把 `items.item_name` 当作筛选字段。
 
 筛选：
 

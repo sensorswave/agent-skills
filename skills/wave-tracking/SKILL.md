@@ -1,10 +1,6 @@
 ---
 name: wave-tracking
-description: >-
-  根据代码、PRD 或用户流程设计并落地 Sensors Wave 埋点。适用于设计事件与属性、
-  划分客户端/服务端职责、制定 identify/reset 策略、写入或发布 Tracking Plan、
-  创建/复用 Pipeline，以及生成 SDK 接入指引。线上埋点质检交给
-  wave-tracking-validation；保存图表或 Dashboard 交给 wave-dashboard-builder。
+description: 按代码/PRD 落地埋点：事件方案、identify/reset、Tracking Plan、Pipeline 与 SDK。质检走 wave-tracking-validation。
 ---
 
 # Wave 埋点落地

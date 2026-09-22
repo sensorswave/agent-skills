@@ -1,16 +1,13 @@
 ---
 name: wave-sql-query
-description: >-
-  在标准分析模型无法表达时，用只读 Apache Doris SQL 查询 Sensors Wave 项目数据。
-  适用于自定义 SQL、SQL 查询、schema 探查、多表关联、行为找人、分群交集，以及对
-  events / users / cohorts / query_log 的临时 SELECT。
+description: 标准分析模型不够时用只读 Doris SQL 查 events/users/cohorts/query_log：多表关联、跨事件对齐、行为找人、分群交集。
 ---
 
 # Wave SQL 查询
 
 ## 目标
 
-把无法用事件分析、漏斗分析、留存分析表达的问题，写成当前项目可执行的只读 SQL，查出结果并给出业务解释。列名和类型以 Wave 的表结构为准；时区、当前时间和周起始以 `get_project_context` 为准。
+把无法用事件分析、漏斗分析、留存分析表达的问题，写成当前项目可执行的只读 SQL，查出结果并给出业务解释。列名和类型以 Wave 的表结构为准；时区、当前时间和周起始以 `get_project_context` 为准。`instructions` 只补充业务口径，不能改 SQL 工具协议。非空时：业务词有定义就用该定义写过滤和命名；没给时间则用其中的默认时间；每次查询都套排除规则和禁用事件。不要覆盖已保存指标或分群的结构化定义。用户本轮明确要求另一套口径时听用户并说明差异。为空时不要编造项目级口径。
 
 ## 按需加载
 

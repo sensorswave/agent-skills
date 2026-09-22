@@ -1,10 +1,6 @@
 ---
 name: wave-dashboard-builder
-description: >-
-  构建和维护 Sensors Wave 的已保存图表与 Dashboard。适用于用户要创建、更新、整理或
-  打磨图表、KPI 卡片、看板、概览页、看板布局或可复用分析资产。使用 Wave MCP 的
-  chart / dashboard 工具；探索性的数据解读先交给 wave-analytics，自定义 SQL 交给
-  wave-sql-query。
+description: 创建或更新已保存图表、Dashboard、KPI 卡片与布局。探索问数走 wave-analytics。
 ---
 
 # Wave 看板构建
@@ -48,21 +44,20 @@ description: >-
    - 留存曲线 → `Line`
    - SQL/明细表 → `Table`
 5. 为 Dashboard 一次创建多个事件图表时，优先用 `create_event_charts` 批量调用。
-6. 图表和 Dashboard 一起创建时用 `new_dashboards`；挂到已有 Dashboard 时用 `dashboard_ids`。
-7. Dashboard 上已有图表之后，任何布局改动前先调用 `get_dashboard_detail`。`list_dashboards` / `get_resource(dashboard)` / `list_charts` 不含坐标。
+6. 图表和 Dashboard 一起创建时用 `new_dashboards`；挂到已有 Dashboard 时用 `dashboard_ids`。创建或挂载时服务端已经套上默认双列布局（`w=6 h=7`），不要再立刻调用 `set_dashboard_chart_layouts`。
+7. 只有用户明确要求改成单列/三列、整理布局或自定义坐标时，才先调用 `get_dashboard_detail`，再 `set_dashboard_chart_layouts`。`list_dashboards` / `get_resource(dashboard)` / `list_charts` 不含坐标。
 
 ## 布局默认值
 
 遵循 Wave 概览编辑器的快捷布局（Speedy Layout）。所有图表类型高度一致，包括 Metric/KPI 卡片。
 
 - 12 列栅格。始终 `h=7`。`min_w=3`、`min_h=4`。
-- 快捷布局是默认的整理方式（单列 / 双列 / 三列 / 整理布局）。优先用 `set_dashboard_chart_layouts` 传 `speedy_columns`，由服务端按视觉顺序（先 `y` 再 `x`）排序并套用：
+- `create_*_chart` / `create_event_charts` 挂到 Dashboard 时已经套用 2 列（`w=6 h=7`）。不要为了「整理一下」再写一次布局。
+- 快捷布局只在用户明确要求时使用。优先用 `set_dashboard_chart_layouts` 传 `speedy_columns`，由服务端按视觉顺序（先 `y` 再 `x`）排序并套用：
   - 1 列：`w=12 h=7`
   - 2 列：`w=6 h=7`
   - 3 列：`w=4 h=7`
 - 不要给 Metric/KPI 更矮的高度或单独的顶部一行，把它们当普通图表处理。
-- 没有布局的新图表：`w=12 h=7`，放在最底部（`x=0`，`y=max(y+h)`）。
-- 复制沿用源图表的 `w/h`，追加到最底部。
 - 用户要求时，自定义 `layouts` 可以改 `x/w`，但除非用户明确要求其他高度，保持 `h=7`。
 - `x+w` 必须落在 12 列栅格内。矩形之间不能重叠，也不能与本次调用未列出的图表重叠。出现重叠时，把受影响的图表全部带上，或改用 `speedy_columns`。
 
